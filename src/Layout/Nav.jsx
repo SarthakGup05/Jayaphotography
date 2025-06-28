@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Facebook, Twitter, Instagram, Linkedin, ChevronDown, Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -81,27 +82,27 @@ const Nav = () => {
                     : "opacity-0 -translate-y-2 scale-95 pointer-events-none"
                 }`}>
                   {link.dropdown.map((item, itemIdx) => (
-                    <a
+                    <Link
                       key={item.name}
-                      href={item.href}
+                      to={item.href}
                       className="block px-4 py-3 text-slate-700 hover:bg-gradient-to-r hover:from-rose-50 hover:to-pink-50 hover:text-rose-600 transition-all duration-200 relative group/item"
                       style={{ animationDelay: `${itemIdx * 50}ms` }}
                     >
                       <span className="relative z-10">{item.name}</span>
                       <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-rose-400 to-pink-400 transform scale-y-0 group-hover/item:scale-y-100 transition-transform duration-300 origin-top"></div>
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
             ) : (
-              <a
+              <Link
                 key={link.name}
-                href={link.href}
+                to={link.href}
                 className="text-slate-700 hover:text-rose-600 font-medium transition-all duration-300 px-4 py-2 rounded-full hover:bg-rose-100/70 relative group overflow-hidden"
               >
                 <span className="relative z-10">{link.name}</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-rose-400 to-pink-400 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-full"></div>
-              </a>
+              </Link>
             )
           )}
         </div>
@@ -179,29 +180,29 @@ const Nav = () => {
                 }`}>
                   <div className="pl-6 border-l-2 border-gradient-to-b from-rose-300 to-pink-300 mt-2 space-y-1">
                     {link.dropdown.map((item, itemIdx) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
                         className="block px-4 py-2 text-slate-600 hover:text-rose-600 transition-all duration-200 rounded-lg hover:bg-rose-50/50 transform hover:translate-x-1"
                         style={{ transitionDelay: `${itemIdx * 50}ms` }}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
               </div>
             ) : (
-              <a
+              <Link
                 key={link.name}
-                href={link.href}
+                to={link.href}
                 className={`block text-slate-700 hover:text-rose-600 font-medium px-4 py-3 rounded-xl hover:bg-rose-100/50 transition-all duration-300 transform ${
                   mobileOpen ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
                 }`}
                 style={{ transitionDelay: `${idx * 100}ms` }}
               >
                 {link.name}
-              </a>
+              </Link>
             )
           )}
           
