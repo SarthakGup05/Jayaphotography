@@ -45,15 +45,18 @@ const Nav = () => {
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
         <div className="text-2xl font-bold text-slate-800 flex items-center gap-2 group">
-          <div className="relative overflow-hidden rounded-lg">
-            <img
-              src="/logo.png"
-              alt="Logo"
-              className="w-32 h-14 object-cover transition-transform duration-700 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-          </div>
+          <Link to="/" className="flex items-center">
+            <div className="relative overflow-hidden rounded-lg">
+              <img
+                src="/logo.png"
+                alt="Logo"
+                className="w-32 h-14 object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+            </div>
+          </Link>
         </div>
+        
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex gap-1 items-center">
