@@ -152,7 +152,7 @@ const Testimonial = () => {
         </div>
 
         {/* All Testimonials Grid */}
-        <div className="mt-20">
+        {/* <div className="mt-20">
           <h3 className="text-2xl font-light text-gray-900 text-center mb-12">
             More Happy Clients
           </h3>
@@ -183,7 +183,7 @@ const Testimonial = () => {
               </Card>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

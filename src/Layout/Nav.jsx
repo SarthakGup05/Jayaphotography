@@ -1,32 +1,78 @@
 import React, { useState, useEffect } from "react";
-import { Facebook, Twitter, Instagram, Linkedin, ChevronDown, Menu, X } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin, ChevronDown, Menu, X, Camera, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
-
-const navLinks = [
-  { name: "Home", href: "/" },
-  {
-    name: "About",
-    dropdown: [
-      // { name: "About Company", href: "/about-company" },
-      { name: "About Jaya Agnihotri", href: "/about-jaya" },
-    ],
-  },
-  {
-    name: "Photography",
-    dropdown: [
-      { name: "Baby Photography", href: "/baby-photography" },
-      { name: "Maternity Photography", href: "/maternity-photography" },
-      { name: "Fashion Photography", href: "/fashion-photography" },
-    ],
-  },
-  { name: "Packages", href: "/packages" },
-  { name: "Contact Us", href: "/contact" },
-];
+import axiosInstance from "../lib/axiosinstance"; // Your axios instance
 
 const Nav = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [photographyServices, setPhotographyServices] = useState([]);
+  const [servicesLoading, setServicesLoading] = useState(true);
+
+  // Static nav links (excluding photography which will be dynamic)
+  const staticNavLinks = [
+    { name: "Home", href: "/" },
+    {
+      name: "About",
+      dropdown: [
+        { name: "About Jaya Agnihotri", href: "/about-jaya" },
+      ],
+    },
+
+    { name: "Gallery", href: "/gallery" },
+  ];
+
+  
+
+  // Fetch photography services on component mount
+  useEffect(() => {
+    const fetchPhotographyServices = async () => {
+      try {
+        setServicesLoading(true);
+        const response = await axiosInstance.get("/services/get-services", {
+          params: {
+            isActive: 'true', // Only fetch active services
+            sortBy: 'sortOrder',
+            sortOrder: 'asc'
+          }
+        });
+        
+        // Transform API data to nav format
+        const serviceItems = response.data.map(service => ({
+          name: service.title,
+          href: `/services/${service.slug}`,
+          featured: service.isFeatured,
+        }));
+        
+        setPhotographyServices(serviceItems);
+      } catch (error) {
+        console.error("Error fetching photography services:", error);
+        // Fallback to static services if API fails
+        setPhotographyServices([
+          { name: "Baby Photography", href: "/services/baby-photography" },
+          { name: "Maternity Photography", href: "/services/maternity-photography" },
+          { name: "Fashion Photography", href: "/services/fashion-photography" },
+        ]);
+      } finally {
+        setServicesLoading(false);
+      }
+    };
+
+    fetchPhotographyServices();
+  }, []);
+
+  // Combine static links with dynamic photography services
+  const navLinks = [
+    ...staticNavLinks,
+    {
+      name: "Photography",
+      dropdown: photographyServices,
+      loading: servicesLoading
+    },
+    { name: "Packages", href: "/packages" },
+    { name: "Contact Us", href: "/contact" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,6 +81,42 @@ const Nav = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Enhanced dropdown rendering with loading states and featured indicators
+  const renderDropdownItems = (dropdown, loading = false) => {
+    if (loading) {
+      return (
+        <div className="px-4 py-3 flex items-center justify-center">
+          <Loader2 className="w-4 h-4 animate-spin text-rose-400" />
+          <span className="ml-2 text-sm text-slate-600">Loading services...</span>
+        </div>
+      );
+    }
+
+    return dropdown.map((item, itemIdx) => (
+      <Link
+        key={item.name}
+        to={item.href}
+        className="block px-4 py-3 text-slate-700 hover:bg-gradient-to-r hover:from-rose-50 hover:to-pink-50 hover:text-rose-600 transition-all duration-200 relative group/item"
+        style={{ animationDelay: `${itemIdx * 50}ms` }}
+      >
+        <div className="flex items-center justify-between">
+          <span className="relative z-10 flex items-center gap-2">
+            {item.featured && (
+              <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+            )}
+            {item.name}
+          </span>
+          {item.duration && (
+            <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-full">
+              {item.duration}
+            </span>
+          )}
+        </div>
+        <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-rose-400 to-pink-400 transform scale-y-0 group-hover/item:scale-y-100 transition-transform duration-300 origin-top"></div>
+      </Link>
+    ));
+  };
 
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${
@@ -56,7 +138,6 @@ const Nav = () => {
             </div>
           </Link>
         </div>
-        
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex gap-1 items-center">
@@ -69,7 +150,10 @@ const Nav = () => {
                 onMouseLeave={() => setOpenDropdown(null)}
               >
                 <button className="flex items-center gap-1 text-slate-700 hover:text-rose-600 font-medium transition-all duration-300 px-4 py-2 rounded-full hover:bg-rose-100/70 focus:outline-none group relative overflow-hidden">
-                  <span className="relative z-10">{link.name}</span>
+                  <span className="relative z-10 flex items-center gap-2">
+                    {link.name === "Photography" && <Camera size={16} />}
+                    {link.name}
+                  </span>
                   <ChevronDown 
                     size={16} 
                     className={`relative z-10 transition-transform duration-300 ${
@@ -79,22 +163,29 @@ const Nav = () => {
                   <div className="absolute inset-0 bg-gradient-to-r from-rose-400 to-pink-400 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-full"></div>
                 </button>
                 
-                <div className={`absolute left-0 mt-2 min-w-[200px] bg-white/95 backdrop-blur-sm border border-rose-200 rounded-2xl shadow-2xl py-2 transition-all duration-300 transform ${
+                <div className={`absolute left-0 mt-2 min-w-[250px] bg-white/95 backdrop-blur-sm border border-rose-200 rounded-2xl shadow-2xl py-2 transition-all duration-300 transform ${
                   openDropdown === idx 
                     ? "opacity-100 translate-y-0 scale-100" 
                     : "opacity-0 -translate-y-2 scale-95 pointer-events-none"
                 }`}>
-                  {link.dropdown.map((item, itemIdx) => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className="block px-4 py-3 text-slate-700 hover:bg-gradient-to-r hover:from-rose-50 hover:to-pink-50 hover:text-rose-600 transition-all duration-200 relative group/item"
-                      style={{ animationDelay: `${itemIdx * 50}ms` }}
-                    >
-                      <span className="relative z-10">{item.name}</span>
-                      <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-rose-400 to-pink-400 transform scale-y-0 group-hover/item:scale-y-100 transition-transform duration-300 origin-top"></div>
-                    </Link>
-                  ))}
+                  {/* Services count indicator */}
+                  {link.name === "Photography" && !link.loading && link.dropdown.length > 0 && (
+                    <div className="px-4 py-2 border-b border-rose-100">
+                      <span className="text-xs text-slate-500 flex items-center gap-2">
+                        <Camera size={12} />
+                        {link.dropdown.length} Professional Services
+                      </span>
+                    </div>
+                  )}
+                  
+                  {renderDropdownItems(link.dropdown, link.loading)}
+                  
+                  {/* View all services link */}
+                  {link.name === "Photography" && !link.loading && (
+                    <div className="border-t border-rose-100 mt-2 pt-2">
+                   
+                    </div>
+                  )}
                 </div>
               </div>
             ) : (
@@ -169,7 +260,11 @@ const Nav = () => {
                   className="flex items-center w-full justify-between text-slate-700 hover:text-rose-600 font-medium px-4 py-3 rounded-xl hover:bg-rose-100/50 focus:outline-none transition-all duration-300 group"
                   onClick={() => setOpenDropdown(openDropdown === idx ? null : idx)}
                 >
-                  <span>{link.name}</span>
+                  <span className="flex items-center gap-2">
+                    {link.name === "Photography" && <Camera size={16} />}
+                    {link.name}
+                    {link.loading && <Loader2 className="w-4 h-4 animate-spin" />}
+                  </span>
                   <ChevronDown
                     size={16}
                     className={`transition-transform duration-300 ${
@@ -179,19 +274,48 @@ const Nav = () => {
                 </button>
                 
                 <div className={`overflow-hidden transition-all duration-300 ${
-                  openDropdown === idx ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'
+                  openDropdown === idx ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                 }`}>
                   <div className="pl-6 border-l-2 border-gradient-to-b from-rose-300 to-pink-300 mt-2 space-y-1">
-                    {link.dropdown.map((item, itemIdx) => (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className="block px-4 py-2 text-slate-600 hover:text-rose-600 transition-all duration-200 rounded-lg hover:bg-rose-50/50 transform hover:translate-x-1"
-                        style={{ transitionDelay: `${itemIdx * 50}ms` }}
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
+                    {link.loading ? (
+                      <div className="px-4 py-2 flex items-center">
+                        <Loader2 className="w-4 h-4 animate-spin text-rose-400 mr-2" />
+                        <span className="text-sm text-slate-600">Loading...</span>
+                      </div>
+                    ) : (
+                      <>
+                        {link.dropdown.map((item, itemIdx) => (
+                          <Link
+                            key={item.name}
+                            to={item.href}
+                            className="block px-4 py-2 text-slate-600 hover:text-rose-600 transition-all duration-200 rounded-lg hover:bg-rose-50/50 transform hover:translate-x-1"
+                            style={{ transitionDelay: `${itemIdx * 50}ms` }}
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className="flex items-center gap-2">
+                                {item.featured && (
+                                  <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                                )}
+                                {item.name}
+                              </span>
+                              {item.duration && (
+                                <span className="text-xs text-slate-500">
+                                  {item.duration}
+                                </span>
+                              )}
+                            </div>
+                          </Link>
+                        ))}
+                        {link.name === "Photography" && (
+                          <Link
+                            to="/services"
+                            className="block px-4 py-2 text-rose-600 hover:bg-rose-50/50 transition-all duration-200 rounded-lg text-sm font-medium"
+                          >
+                            View All Services →
+                          </Link>
+                        )}
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

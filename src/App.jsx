@@ -14,6 +14,9 @@ import MaternityPhotography from './pages/MaternityPhotography'
 import FashionPhotography from './pages/FashionPhotography'
 import { Package } from 'lucide-react'
 import Packages from './pages/Packages'
+import DynamicServicePage from './pages/Servicepage'
+import ServicePage from './pages/Servicepage'
+import Gallery from './pages/Gallery'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -43,6 +46,8 @@ function App() {
             <Route path="/maternity-photography" element={<MaternityPhotography />} />
             <Route path="/fashion-photography" element={<FashionPhotography />} />
             <Route path="/packages" element={<Packages />} />
+            <Route path="/services/:slug" element={<ServicePage />} />
+            <Route path="/gallery" element={<Gallery />} />
           </Route>
         </Routes>
       )}
