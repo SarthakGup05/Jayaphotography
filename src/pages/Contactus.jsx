@@ -12,8 +12,11 @@ import {
   Instagram,
   Facebook,
   Twitter,
-  Youtube
+  Youtube,
+  Loader2
 } from 'lucide-react';
+import { toast } from "react-hot-toast";
+import axiosInstance from "../lib/axiosinstance";
 
 const ContactUsPage = () => {
   const [formData, setFormData] = useState({
@@ -24,6 +27,84 @@ const ContactUsPage = () => {
     message: ''
   });
 
+  const [services, setServices] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
+  const [loadingServices, setLoadingServices] = useState(true);
+
+  // Fetch services on component mount
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+  // API Functions
+  const fetchServices = async () => {
+    try {
+      setLoadingServices(true);
+      const response = await axiosInstance.get("/services/get-services");
+      setServices(response.data);
+    } catch (error) {
+      console.error("Error fetching services:", error);
+      toast.error("Failed to load services");
+      // Fallback to static services if API fails
+      setServices([
+        { id: 1, title: "Maternity Photography", slug: "maternity" },
+        { id: 2, title: "Baby Photography", slug: "baby" },
+        { id: 3, title: "Fashion Photography", slug: "fashion" },
+        { id: 4, title: "Other", slug: "other" }
+      ]);
+    } finally {
+      setLoadingServices(false);
+    }
+  };
+
+  const submitContactForm = async (contactData) => {
+    try {
+      setSubmitting(true);
+      toast.loading("Sending your message...", { id: 'contact-form' });
+
+      // Prepare the data according to your API structure
+      const submissionData = {
+        name: contactData.name,
+        email: contactData.email,
+        phone: contactData.phone,
+        serviceType: contactData.serviceType,
+        message: contactData.message,
+        source: 'contact_form', // To identify the source
+        submittedAt: new Date().toISOString()
+      };
+
+      const response = await axiosInstance.post("/enquiries/create-enquiry", submissionData);
+      
+      toast.success("Thank you! We'll get back to you within 24 hours.", { 
+        id: 'contact-form',
+        icon: '🎉',
+        duration: 5000
+      });
+
+      // Reset form on success
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        serviceType: '',
+        message: ''
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      const errorMessage = error.response?.data?.message || "Failed to send message. Please try again.";
+      toast.error(errorMessage, { 
+        id: 'contact-form',
+        icon: '❌',
+        duration: 6000
+      });
+      throw error;
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -32,18 +113,50 @@ const ContactUsPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! We\'ll get back to you within 24 hours.');
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      serviceType: '',
-      message: ''
-    });
+    
+    // Prevent double submission
+    if (submitting) {
+      toast.error("Please wait, submitting your message...", { icon: '⏳' });
+      return;
+    }
+
+    // Validation
+    if (!formData.name.trim()) {
+      toast.error("Please enter your name", { icon: '⚠️' });
+      return;
+    }
+    if (!formData.email.trim()) {
+      toast.error("Please enter your email address", { icon: '⚠️' });
+      return;
+    }
+    if (!formData.phone.trim()) {
+      toast.error("Please enter your phone number", { icon: '⚠️' });
+      return;
+    }
+    if (!formData.serviceType) {
+      toast.error("Please select a service type", { icon: '⚠️' });
+      return;
+    }
+    if (!formData.message.trim()) {
+      toast.error("Please enter your message", { icon: '⚠️' });
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Please enter a valid email address", { icon: '⚠️' });
+      return;
+    }
+
+    try {
+      await submitContactForm(formData);
+    } catch (error) {
+      // Error is already handled in submitContactForm
+      console.error("Form submission failed:", error);
+    }
   };
 
   const contactInfo = [
@@ -74,10 +187,10 @@ const ContactUsPage = () => {
   ];
 
   const socialLinks = [
-    { icon: <Instagram className="w-6 h-6" />, name: "Instagram", color: "hover:text-pink-500" },
-    { icon: <Facebook className="w-6 h-6" />, name: "Facebook", color: "hover:text-blue-500" },
-    { icon: <Twitter className="w-6 h-6" />, name: "Twitter", color: "hover:text-sky-500" },
-    { icon: <Youtube className="w-6 h-6" />, name: "YouTube", color: "hover:text-red-500" }
+    { icon: <Instagram className="w-6 h-6" />, name: "Instagram", color: "hover:text-pink-500", url: "https://instagram.com/yourstudio" },
+    { icon: <Facebook className="w-6 h-6" />, name: "Facebook", color: "hover:text-blue-500", url: "https://facebook.com/yourstudio" },
+    { icon: <Twitter className="w-6 h-6" />, name: "Twitter", color: "hover:text-sky-500", url: "https://twitter.com/yourstudio" },
+    { icon: <Youtube className="w-6 h-6" />, name: "YouTube", color: "hover:text-red-500", url: "https://youtube.com/yourstudio" }
   ];
 
   // Animation refs
@@ -124,7 +237,7 @@ const ContactUsPage = () => {
                 <p className="text-gray-600">Fill out the form below and we'll get back to you as soon as possible.</p>
               </div>
 
-              <div className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="relative">
                     <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -134,7 +247,8 @@ const ContactUsPage = () => {
                       placeholder="Your Full Name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all placeholder-gray-500"
+                      disabled={submitting}
+                      className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all placeholder-gray-500 disabled:opacity-50"
                       required
                     />
                   </div>
@@ -146,7 +260,8 @@ const ContactUsPage = () => {
                       placeholder="Email Address"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all placeholder-gray-500"
+                      disabled={submitting}
+                      className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all placeholder-gray-500 disabled:opacity-50"
                       required
                     />
                   </div>
@@ -161,7 +276,8 @@ const ContactUsPage = () => {
                       placeholder="Phone Number"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all placeholder-gray-500"
+                      disabled={submitting}
+                      className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all placeholder-gray-500 disabled:opacity-50"
                       required
                     />
                   </div>
@@ -171,22 +287,28 @@ const ContactUsPage = () => {
                       name="serviceType"
                       value={formData.serviceType}
                       onChange={handleInputChange}
-                      className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all text-gray-700 appearance-none cursor-pointer"
+                      disabled={submitting || loadingServices}
+                      className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all text-gray-700 appearance-none cursor-pointer disabled:opacity-50"
                       required
                     >
-                      <option value="">Select Service Type</option>
-                      <option value="maternity">Maternity Photography</option>
-                      <option value="baby">Baby Photography</option>
-                      <option value="fashion">Fashion Photography</option>
-                      {/* <option value="family">Family Photography</option>
-                      <option value="wedding">Wedding Photography</option>
-                      <option value="corporate">Corporate Photography</option> */}
+                      <option value="">
+                        {loadingServices ? "Loading services..." : "Select Service Type"}
+                      </option>
+                      {services.map((service) => (
+                        <option key={service.id} value={service.slug || service.title.toLowerCase().replace(/\s+/g, '-')}>
+                          {service.title}
+                        </option>
+                      ))}
                       <option value="other">Other</option>
                     </select>
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                      <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
+                      {loadingServices ? (
+                        <Loader2 className="w-5 h-5 text-gray-400 animate-spin" />
+                      ) : (
+                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -198,22 +320,33 @@ const ContactUsPage = () => {
                     placeholder="Tell us about your project, preferred dates, location, and any special requirements..."
                     value={formData.message}
                     onChange={handleInputChange}
+                    disabled={submitting}
                     rows={6}
-                    className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all placeholder-gray-500 resize-none"
+                    className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all placeholder-gray-500 resize-none disabled:opacity-50"
                     required
                   ></textarea>
                 </div>
 
                 <button
-                  onClick={handleSubmit}
-                  className="w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white font-semibold py-4 px-8 rounded-xl hover:from-rose-600 hover:to-pink-600 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl"
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white font-semibold py-4 px-8 rounded-xl hover:from-rose-600 hover:to-pink-600 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
                   <span className="flex items-center justify-center gap-2">
-                    <Send className="w-5 h-5" />
-                    <span>Send Message</span>
+                    {submitting ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <span>Sending Message...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-5 h-5" />
+                        <span>Send Message</span>
+                      </>
+                    )}
                   </span>
                 </button>
-              </div>
+              </form>
             </div>
           </div>
 
@@ -246,13 +379,16 @@ const ContactUsPage = () => {
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Follow Us</h3>
               <div className="flex gap-4">
                 {socialLinks.map((social, index) => (
-                  <button
+                  <a
                     key={index}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={`p-3 bg-gray-100 rounded-xl text-gray-600 ${social.color} transform hover:scale-110 transition-all duration-300 shadow-md hover:shadow-lg`}
                     title={social.name}
                   >
                     {social.icon}
-                  </button>
+                  </a>
                 ))}
               </div>
             </div>

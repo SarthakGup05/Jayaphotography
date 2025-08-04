@@ -66,9 +66,9 @@ const Home = () => {
       <div ref={testimonialRef}>
         <Testimonial />
       </div>
-      <div ref={featuredRef}>
+      {/* <div ref={featuredRef}>
         <FeaturedStories />
-      </div>
+      </div> */}
       {/* <div><GalleryShowcase/></div> */}
       <div ref={ctaRef}>
         <CTASection />
