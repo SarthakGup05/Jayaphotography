@@ -1,38 +1,66 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/pagination";
-
-const slides = [
-  {
-    image:
-      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1470&q=80",
-    title: "Elegant Fashion Moments",
-    subtitle: "Capturing style with every frame.",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1727889490958-be651ef08d1d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8TWF0ZXJuaXR5JTIwc2hvb3RzfGVufDB8fDB8fHww",
-    title: "Maternity Magic",
-    subtitle: "Preserve the beauty of motherhood.",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1545296593-4f1259273322?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGZhc2hpb24lMjBwaG90b2dyYXBoeXxlbnwwfHwwfHx8MA%3D%3D",
-    title: "Bold & Beautiful",
-    subtitle: "Fashion that speaks for itself.",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=1470&q=80",
-    title: "Grace in Bloom",
-    subtitle: "Celebrating the journey of motherhood.",
-  },
-];
+import axios from "axios";
+import axiosInstance from "@/lib/axiosinstance";
 
 const Hero = () => {
+  const [slides, setSlides] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // ─── Fetch slides from your backend ───
+  const fetchSlides = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const { data } = await axiosInstance.get("/slider/get-sliders");
+      // Your slides are in data.data
+      setSlides(data.data);
+    } catch (err) {
+      setError("Failed to load slides. Please refresh the page.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ─── Load slides on mount ───
+  useEffect(() => {
+    fetchSlides();
+  }, []);
+
+  // ─── Loading state ───
+  if (loading) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-pulse text-xl text-gray-600">Loading...</div>
+      </div>
+    );
+  }
+
+  // ─── Error state ───
+  if (error) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-red-600 text-lg">{error}</div>
+      </div>
+    );
+  }
+
+  // ─── No slides fallback ───
+  if (slides.length === 0) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-gray-600 text-lg">No slides available.</div>
+      </div>
+    );
+  }
+
+  // ─── Render slider with your animation and overlay ───
   return (
     <div className="w-full h-screen relative">
       <Swiper
@@ -43,11 +71,11 @@ const Hero = () => {
         loop
         className="h-full"
       >
-        {slides.map((slide, idx) => (
-          <SwiperSlide key={idx}>
+        {slides.map((slide) => (
+          <SwiperSlide key={slide.id}>
             <div className="w-full h-screen relative">
               <img
-                src={slide.image}
+                src={slide.mediaUrl} // ⚠️ This is your API's image URL
                 alt={slide.title}
                 className="w-full h-full object-cover"
               />
@@ -64,6 +92,7 @@ const Hero = () => {
         ))}
       </Swiper>
 
+      {/* ─── Keep your animation styles ─── */}
       <style>{`
         .swiper-pagination-bullet {
           background: white;

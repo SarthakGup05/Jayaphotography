@@ -127,7 +127,7 @@ const PhotographyPortfolio = () => {
           <h1 className="text-4xl md:text-5xl font-light text-gray-900 mb-6 leading-tight">
             We're Gleam a small and enthusiastic
             <br />
-            photography studio based in New York
+            photography studio based in Lucknow
           </h1>
           <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed text-lg">
             We specialize in capturing life's most precious moments - from the

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Camera, ChevronRight, Heart, Star, Loader2, AlertCircle } from "lucide-react";
-import axiosInstance from "../lib/axiosinstance"; // Your axios instance
+import axiosInstance from "../lib/axiosinstance";
 import { toast } from "react-hot-toast";
 import PhotographyPortfolio from "@/components/PhotographyPortfolio";
+import Modal from "../Layout/modal";           // ← Import Modal
+import ContactForm from "../components/form"; // ← Import ContactForm
 
 const ServicePage = () => {
-  const { slug } = useParams(); // Get service slug from URL params
+  const { slug } = useParams();
   const navigate = useNavigate();
   
   // State management
@@ -21,14 +23,11 @@ const ServicePage = () => {
         setLoading(true);
         setError(null);
         
-        // Fetch service by slug from your API
         const response = await axiosInstance.get(`/services/slug/${slug}`);
         setServiceData(response.data);
         
-        // Update document title with service name
         document.title = `${response.data.title} - ${response.data.subtitle}`;
         
-        // Update meta description if available
         if (response.data.metaDescription) {
           const metaDesc = document.querySelector('meta[name="description"]');
           if (metaDesc) {
@@ -42,7 +41,6 @@ const ServicePage = () => {
         
         if (error.response?.status === 404) {
           toast.error("Service not found");
-          // Redirect to services page after 3 seconds
           setTimeout(() => navigate('/services'), 3000);
         } else {
           toast.error("Failed to load service details");
@@ -56,6 +54,32 @@ const ServicePage = () => {
       fetchServiceData();
     }
   }, [slug, navigate]);
+
+  /* ─────────────────────────────────────────────────────────
+     Custom booking handler for the service
+  ───────────────────────────────────────────────────────── */
+  const handleBookingSubmit = async (formData) => {
+    try {
+      const bookingData = {
+        ...formData,
+        serviceId: serviceData.id,
+        serviceTitle: serviceData.title,
+        serviceSlug: serviceData.slug,
+        bookingType: "service_booking"
+      };
+
+      const response = await axiosInstance.post("/enquiries/create-enquiry", bookingData);
+      
+      toast.success(`Booking request for "${serviceData.title}" sent successfully! We'll contact you soon.`);
+      
+      console.log("Service booking response:", response.data);
+      
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Failed to submit booking. Please try again.";
+      toast.error(errorMessage);
+      console.error("Service booking error:", error);
+    }
+  };
 
   // Loading state
   if (loading) {
@@ -88,22 +112,9 @@ const ServicePage = () => {
     );
   }
 
-  // If no service data, return null
   if (!serviceData) {
     return null;
   }
-
-  // Handle contact/booking action
-  const handleBookSession = () => {
-    // You can integrate with your booking system or contact form
-    // For now, we'll navigate to a contact page or show a modal
-    navigate('/contact', { 
-      state: { 
-        service: serviceData.title,
-        prefilledMessage: `I'm interested in booking a ${serviceData.title} session.`
-      }
-    });
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-pink-50 to-blue-50">
@@ -197,16 +208,40 @@ const ServicePage = () => {
               </div>
             )}
 
-            {/* CTA Button */}
-            <button 
-              onClick={handleBookSession}
-              className="group bg-gradient-to-r from-pink-500 to-rose-500 text-white font-light px-8 py-4 rounded-xl hover:from-pink-600 hover:to-rose-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+            {/* CTA Button with Modal - Updated */}
+            <Modal
+              trigger={
+                <button className="group bg-gradient-to-r from-pink-500 to-rose-500 text-white font-light px-8 py-4 rounded-xl hover:from-pink-600 hover:to-rose-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+                  <span className="flex items-center gap-2">
+                    <span>Book This Session</span>
+                    <Camera className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                  </span>
+                </button>
+              }
+              title={
+                <div className="flex items-center space-x-3">
+                  <span className="text-2xl">📸</span>
+                  <div>
+                    <span className="text-xl font-semibold">Book "{serviceData.title}"</span>
+                    <div className="text-sm text-muted-foreground font-normal">
+                      {serviceData.subtitle}
+                    </div>
+                  </div>
+                </div>
+              }
+              description={`Ready to capture beautiful moments? Fill in your details below and we'll create something amazing together with our ${serviceData.title} service.`}
+              className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto"
             >
-              <span className="flex items-center gap-2">
-                <span>Book This Session</span>
-                <Camera className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-              </span>
-            </button>
+              <ContactForm
+                initialData={{
+                  serviceType: serviceData.slug || serviceData.title?.toLowerCase().replace(/\s+/g, "-"),
+                  message: `Hi! I'm interested in booking a "${serviceData.title}" session. ${serviceData.duration ? `I understand the session duration is ${serviceData.duration}.` : ''} Please let me know about availability and next steps.`
+                }}
+                submitButtonText={`Book ${serviceData.title}`}
+                onSubmit={handleBookingSubmit}
+                className="max-w-none"
+              />
+            </Modal>
           </div>
 
           {/* Right Side - Image */}
@@ -218,11 +253,9 @@ const ServicePage = () => {
                   alt={serviceData.title}
                   className="w-full h-96 md:h-[500px] object-cover"
                   onError={(e) => {
-                    // Fallback to cover image if main image fails
                     if (serviceData.coverImage && e.target.src !== serviceData.coverImage) {
                       e.target.src = serviceData.coverImage;
                     } else {
-                      // Fallback to placeholder
                       e.target.src = "/api/placeholder/600/400";
                     }
                   }}
@@ -241,7 +274,6 @@ const ServicePage = () => {
                   <Camera className="w-16 h-16 text-pink-300" />
                 </div>
               )}
-              {/* Overlay for better contrast */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
             </div>
             
@@ -251,8 +283,10 @@ const ServicePage = () => {
           </div>
         </div>
       </section>
+      
       <PhotographyPortfolio />
-      {/* Bottom CTA Section */}
+      
+      {/* Bottom CTA Section with Modal - Updated */}
       <section className="max-w-4xl mx-auto px-4 py-16">
         <div className="text-center py-12 bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl">
           <h3
@@ -265,12 +299,44 @@ const ServicePage = () => {
             Book your {serviceData.title.toLowerCase()} session today and create memories that will last a lifetime. 
             Our professional team is ready to make your special day unforgettable.
           </p>
-          <button 
-            onClick={handleBookSession}
-            className="bg-gradient-to-r from-pink-500 to-rose-500 text-white font-light px-10 py-4 rounded-xl hover:from-pink-600 hover:to-rose-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+          
+          {/* Bottom CTA Button with Modal */}
+          <Modal
+            trigger={
+              <button className="bg-gradient-to-r from-pink-500 to-rose-500 text-white font-light px-10 py-4 rounded-xl hover:from-pink-600 hover:to-rose-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+                Schedule Your Session
+              </button>
+            }
+            title={
+              <div className="flex items-center space-x-3">
+                <span className="text-2xl">🎯</span>
+                <div>
+                  <span className="text-xl font-semibold">Schedule Your {serviceData.title}</span>
+                  <div className="text-sm text-muted-foreground font-normal">
+                    Let's plan your perfect session
+                  </div>
+                </div>
+              </div>
+            }
+            description={`Ready to book your ${serviceData.title} session? Share your details and preferences with us, and we'll get back to you within 24 hours to confirm your booking.`}
+            className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto"
           >
-            Schedule Your Session
-          </button>
+             {({ close }) => (
+            <ContactForm
+              initialData={{
+                serviceType: serviceData.slug || serviceData.title?.toLowerCase().replace(/\s+/g, "-"),
+                message: `Hi! I'd like to schedule a "${serviceData.title}" session. Please let me know your availability and any preparation details I should be aware of.`
+              }}
+              submitButtonText={`Schedule ${serviceData.title} Session`}
+              onSubmit={async (formData) => {
+                await handleBookingSubmit(formData, pkg); // ➟ your API call
+                close();
+              }}
+              className="max-w-none"
+            />
+          )}
+          </Modal>
+          
         </div>
       </section>
     </div>

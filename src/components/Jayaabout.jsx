@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Facebook, Instagram } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const JayaAbout = () => {
   return (
@@ -65,11 +66,13 @@ const JayaAbout = () => {
             </div>
 
             {/* Call to Action */}
-            <div className="pt-8">
-              <button className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 text-sm tracking-wider transition-colors duration-300 rounded-sm">
-                BOOK A SESSION
-              </button>
-            </div>
+            <Link to="/about-jaya">
+              <div className="pt-8">
+                <button className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 text-sm tracking-wider transition-colors duration-300 rounded-sm">
+                  MORE ABOUT ME
+                </button>
+              </div>
+            </Link>
           </div>
         </div>
 
