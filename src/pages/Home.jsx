@@ -9,6 +9,7 @@ import Testimonial from "@/components/Testimonials";
 import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ReviewForm from "@/components/Reviewform";
 
 const Home = () => {
   const heroRef = useRef();
@@ -66,9 +67,9 @@ const Home = () => {
       <div ref={testimonialRef}>
         <Testimonial />
       </div>
-      {/* <div ref={featuredRef}>
-        <FeaturedStories />
-      </div> */}
+      <div ref={featuredRef}>
+        <ReviewForm />
+      </div>
       {/* <div><GalleryShowcase/></div> */}
       <div ref={ctaRef}>
         <CTASection />

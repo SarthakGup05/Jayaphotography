@@ -9,3 +9,73 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Playfair Display', serif;
 }
+
+/* Custom LightGallery Styles */
+.lg-custom-gallery .lg-outer {
+  background-color: rgba(0, 0, 0, 0.95);
+}
+
+.lg-custom-gallery .lg-toolbar {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
+}
+
+.lg-custom-gallery .lg-counter {
+  color: #fff;
+  font-family: inherit;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.lg-custom-gallery .lg-sub-html {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  padding: 40px 40px 20px;
+}
+
+.lg-custom-gallery .lg-sub-html h4 {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 300;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.lg-custom-gallery .lg-sub-html p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.lg-custom-gallery .featured-badge {
+  background: #fbbf24;
+  color: #92400e;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.lg-custom-gallery .lg-thumb-outer {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.lg-custom-gallery .lg-thumb-item.active {
+  border-color: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .lg-custom-gallery .lg-sub-html {
+    padding: 20px 20px 10px;
+  }
+  
+  .lg-custom-gallery .lg-sub-html h4 {
+    font-size: 18px;
+  }
+  
+  .lg-custom-gallery .lg-sub-html p {
+    font-size: 14px;
+  }
+}

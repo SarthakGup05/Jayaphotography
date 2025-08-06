@@ -252,9 +252,9 @@ const CTASection = () => {
             {/* Image placeholder */}
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-100 to-gray-200 aspect-[4/3] shadow-2xl">
               <img 
-                src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="/5I4A3854.jpg"
                 alt="Photography Session"
-                className="w-full h-full object-cover"
+                className="w-full h-[600px] object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
               <div className="absolute bottom-6 left-6 text-white">

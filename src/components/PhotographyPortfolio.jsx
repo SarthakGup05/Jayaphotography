@@ -5,6 +5,24 @@ import { toast } from "react-hot-toast";
 import axiosInstance from "../lib/axiosinstance";
 import { useNavigate } from "react-router-dom";
 
+// LightGallery imports
+import LightGallery from 'lightgallery/react';
+import lgThumbnail from 'lightgallery/plugins/thumbnail';
+import lgZoom from 'lightgallery/plugins/zoom';
+import lgAutoplay from 'lightgallery/plugins/autoplay';
+import lgFullscreen from 'lightgallery/plugins/fullscreen';
+import lgShare from 'lightgallery/plugins/share';
+import lgRotate from 'lightgallery/plugins/rotate';
+
+// LightGallery CSS
+import 'lightgallery/css/lightgallery.css';
+import 'lightgallery/css/lg-zoom.css';
+import 'lightgallery/css/lg-thumbnail.css';
+import 'lightgallery/css/lg-autoplay.css';
+import 'lightgallery/css/lg-fullscreen.css';
+import 'lightgallery/css/lg-share.css';
+import 'lightgallery/css/lg-rotate.css';
+
 const PhotographyPortfolio = () => {
   const [portfolioItems, setPortfolioItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -76,12 +94,14 @@ const PhotographyPortfolio = () => {
     return layouts[index % layouts.length];
   };
 
-  // Handle image click - could navigate to gallery or individual image
-  const handleImageClick = (item) => {
-    // You can implement navigation to full gallery or individual image view
-    console.log("Clicked item:", item);
-    // Example: navigate to gallery with category filter
-    // navigate(`/gallery?category=${item.category.toLowerCase()}`);
+  // LightGallery event handlers
+  const onInit = () => {
+    console.log('LightGallery has been initialized');
+  };
+
+  const onBeforeSlide = (detail) => {
+    const { index } = detail;
+    console.log('About to show slide:', index);
   };
 
   // Loading state
@@ -153,69 +173,103 @@ const PhotographyPortfolio = () => {
           </div>
         </div>
 
-        {/* Portfolio Grid */}
+        {/* Portfolio Grid with LightGallery */}
         {portfolioItems.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[200px]">
+          <LightGallery
+            onInit={onInit}
+            onBeforeSlide={onBeforeSlide}
+            speed={500}
+            plugins={[lgThumbnail, lgZoom, lgAutoplay, lgFullscreen, lgShare, lgRotate]}
+            mode="lg-fade"
+            thumbnail={true}
+            animateThumb={true}
+            showThumbByDefault={false}
+            thumbWidth={100}
+            thumbHeight="80px"
+            thumbMargin={5}
+            allowMediaOverlap={true}
+            toggleThumb={true}
+            enableDrag={true}
+            enableSwipe={true}
+            swipeThreshold={50}
+            enableTouch={true}
+            slideShowAutoplay={false}
+            progressBar={true}
+            counter={true}
+            addClass="lg-custom-gallery"
+            elementClassNames="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[200px]"
+          >
             {portfolioItems.map((item) => (
-              <Card
+              <div
                 key={item.id}
-                className={`${item.className} group cursor-pointer border-0 shadow-none overflow-hidden bg-white hover:shadow-lg transition-all duration-300`}
-                onClick={() => handleImageClick(item)}
+                className={`${item.className} group cursor-pointer`}
+                data-lg-size="1400-800"
+                data-src={item.fullImage}
+                data-sub-html={`
+                  <div class="lightGallery-captions">
+                    <h4>${item.title}</h4>
+                    <p>Category: ${item.category}</p>
+                    ${item.description ? `<p>${item.description}</p>` : ''}
+                    ${item.featured ? '<span class="featured-badge">⭐ Featured</span>' : ''}
+                  </div>
+                `}
               >
-                <CardContent className="p-0 h-full relative">
-                  {/* Featured Badge */}
-                  {item.featured && (
-                    <div className="absolute top-4 left-4 z-30">
-                      <span className="bg-yellow-400 text-yellow-900 text-xs px-2 py-1 rounded-full font-medium">
-                        ⭐ Featured
-                      </span>
-                    </div>
-                  )}
-
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-all duration-300 z-10" />
-
-                  {/* Image */}
-                  <img
-                    src={item.image}
-                    alt={item.alt || item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                    onError={(e) => {
-                      // Fallback to full image if thumb fails
-                      if (e.target.src !== item.fullImage) {
-                        e.target.src = item.fullImage;
-                      } else {
-                        // Final fallback to placeholder
-                        e.target.src =
-                          "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZSBub3QgZm91bmQ8L3RleHQ+PC9zdmc+";
-                      }
-                    }}
-                  />
-
-                  {/* Text Overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-20 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                    <h3 className="text-xl font-light mb-1">{item.title}</h3>
-                    <p className="text-sm tracking-wider opacity-80">
-                      {item.category}
-                    </p>
-                    {item.description && (
-                      <p className="text-xs opacity-60 mt-1 line-clamp-2">
-                        {item.description}
-                      </p>
+                <Card className="border-0 shadow-none overflow-hidden bg-white hover:shadow-lg transition-all duration-300 h-full">
+                  <CardContent className="p-0 h-full relative">
+                    {/* Featured Badge */}
+                    {item.featured && (
+                      <div className="absolute top-4 left-4 z-30">
+                        <span className="bg-yellow-400 text-yellow-900 text-xs px-2 py-1 rounded-full font-medium">
+                          ⭐ Featured
+                        </span>
+                      </div>
                     )}
-                  </div>
 
-                  {/* Hover indicator */}
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="bg-white/90 backdrop-blur-sm rounded-full p-3">
-                      <Camera className="w-6 h-6 text-gray-900" />
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-all duration-300 z-10" />
+
+                    {/* Image */}
+                    <img
+                      src={item.image}
+                      alt={item.alt || item.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                      onError={(e) => {
+                        // Fallback to full image if thumb fails
+                        if (e.target.src !== item.fullImage) {
+                          e.target.src = item.fullImage;
+                        } else {
+                          // Final fallback to placeholder
+                          e.target.src =
+                            "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZSBub3QgZm91bmQ8L3RleHQ+PC9zdmc+";
+                        }
+                      }}
+                    />
+
+                    {/* Text Overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-20 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      <h3 className="text-xl font-light mb-1">{item.title}</h3>
+                      <p className="text-sm tracking-wider opacity-80">
+                        {item.category}
+                      </p>
+                      {item.description && (
+                        <p className="text-xs opacity-60 mt-1 line-clamp-2">
+                          {item.description}
+                        </p>
+                      )}
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+
+                    {/* Hover indicator */}
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="bg-white/90 backdrop-blur-sm rounded-full p-3">
+                        <Camera className="w-6 h-6 text-gray-900" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             ))}
-          </div>
+          </LightGallery>
         ) : (
           <div className="text-center py-16">
             <Camera className="w-16 h-16 text-gray-400 mx-auto mb-4" />
@@ -233,7 +287,7 @@ const PhotographyPortfolio = () => {
           <button
             className="bg-gray-900 cursor-pointer hover:bg-gray-800 text-white px-8 py-3 text-sm tracking-wider transition-colors duration-300 mr-4"
             onClick={() => {
-              navigate("/gallery"); // Correct navigation
+              navigate("/gallery");
             }}
           >
             VIEW ALL WORK
@@ -241,14 +295,12 @@ const PhotographyPortfolio = () => {
           <button
             className="border border-gray-900 hover:bg-gray-900 cursor-pointer hover:text-white text-gray-900 px-8 py-3 text-sm tracking-wider transition-colors duration-300"
             onClick={() => {
-              navigate("/contact"); // Correct navigation
+              navigate("/contact");
             }}
           >
             BOOK A SESSION
           </button>
         </div>
-
-        {/* Category Breakdown */}
       </div>
     </div>
   );
