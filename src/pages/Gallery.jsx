@@ -163,10 +163,10 @@ const Gallery = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-white via-pink-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F2BAE4' }}>
         <div className="flex flex-col items-center gap-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500"></div>
-          <p className="text-gray-600 font-light">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black"></div>
+          <p className="text-black font-light">
             Loading beautiful memories...
           </p>
         </div>
@@ -176,16 +176,16 @@ const Gallery = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-white via-pink-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F2BAE4' }}>
         <div className="text-center">
-          <Camera className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h2 className="text-2xl font-light text-gray-800 mb-2">
+          <Camera className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+          <h2 className="text-2xl font-light text-black mb-2">
             Gallery Unavailable
           </h2>
-          <p className="text-gray-600 mb-4">{error}</p>
+          <p className="text-gray-700 mb-4">{error}</p>
           <button
             onClick={fetchGalleryImages}
-            className="bg-gradient-to-r from-pink-500 to-rose-500 text-white font-light px-6 py-3 rounded-xl hover:from-pink-600 hover:to-rose-600 transition-all duration-300"
+            className="bg-black text-white font-light px-6 py-3 rounded-xl hover:bg-gray-800 transition-all duration-300"
           >
             Try Again
           </button>
@@ -195,22 +195,22 @@ const Gallery = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-pink-50 to-blue-50">
+    <div className="min-h-screen" style={{ backgroundColor: '#ffe1f5' }}>
       {/* Hero Section */}
-      <section className="relative py-20 px-4 bg-gradient-to-r from-pink-100 via-rose-50 to-orange-50 overflow-hidden mt-16">
-        <div className="absolute inset-0 bg-white/40 pointer-events-none" />
+      <section className="relative py-20 px-4 overflow-hidden mt-16" style={{ backgroundColor: '#FAF0DC' }}>
+        <div className="absolute inset-0 bg-white/20 pointer-events-none" />
         <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <span className="inline-flex items-center gap-2 bg-white/70 px-4 py-2 rounded-full border border-pink-200/50 text-xs text-pink-600 font-light tracking-wide mb-6">
+          <span className="inline-flex items-center gap-2 bg-white/70 px-4 py-2 rounded-full border border-gray-300 text-xs text-black font-light tracking-wide mb-6">
             <Camera className="w-4 h-4" />
             Professional Portfolio
           </span>
           <h1
-            className="text-4xl md:text-6xl font-thin text-gray-800 tracking-tight mb-6"
-            style={{ fontFamily: "'Playfair Display', serif" }}
+            className="text-4xl md:text-6xl font-medium text-black tracking-tight mb-6"
+            style={{ fontFamily: "Raleway, sans-serif" }}
           >
-            Photography <span className="text-pink-500">Gallery</span>
+            Photography <span className="text-gray-800">Gallery</span>
           </h1>
-          <p className="text-lg md:text-xl font-light text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl font-light text-gray-800 max-w-2xl mx-auto">
             Discover our collection of captured moments, each telling a unique
             story of love, joy, and life's most precious memories.
           </p>
@@ -226,8 +226,8 @@ const Gallery = () => {
               onClick={() => handleCategoryChange("all")}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 activeCategory === "all"
-                  ? "bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg"
-                  : "bg-white/80 text-gray-700 hover:bg-pink-50 hover:text-pink-600 border border-gray-200"
+                  ? "bg-black text-white shadow-lg"
+                  : "bg-white/80 text-gray-700 hover:bg-white hover:text-black border border-gray-300"
               }`}
             >
               <span className="flex items-center gap-2">
@@ -245,8 +245,8 @@ const Gallery = () => {
                   onClick={() => handleCategoryChange(category)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 capitalize ${
                     activeCategory === category
-                      ? "bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg"
-                      : "bg-white/80 text-gray-700 hover:bg-pink-50 hover:text-pink-600 border border-gray-200"
+                      ? "bg-black text-white shadow-lg"
+                      : "bg-white/80 text-gray-700 hover:bg-white hover:text-black border border-gray-300"
                   }`}
                 >
                   {category} ({count})
@@ -258,11 +258,11 @@ const Gallery = () => {
           {/* View Controls */}
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <Filter className="w-4 h-4 text-gray-500" />
+              <Filter className="w-4 h-4 text-black" />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-white/80 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300"
+                className="bg-white/80 border border-gray-300 rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:ring-2 focus:ring-black"
               >
                 <option value="newest">Latest First</option>
                 <option value="title">Alphabetical</option>
@@ -270,13 +270,13 @@ const Gallery = () => {
               </select>
             </div>
 
-            <div className="flex bg-white/80 border border-gray-200 rounded-lg p-1">
+            <div className="flex bg-white/80 border border-gray-300 rounded-lg p-1">
               <button
                 onClick={() => setViewMode("masonry")}
                 className={`p-2 rounded transition-all duration-200 ${
                   viewMode === "masonry"
-                    ? "bg-pink-500 text-white shadow-sm"
-                    : "text-gray-600 hover:text-pink-600"
+                    ? "bg-black text-white shadow-sm"
+                    : "text-gray-600 hover:text-black"
                 }`}
                 title="Masonry Layout"
               >
@@ -286,8 +286,8 @@ const Gallery = () => {
                 onClick={() => setViewMode("grid")}
                 className={`p-2 rounded transition-all duration-200 ${
                   viewMode === "grid"
-                    ? "bg-pink-500 text-white shadow-sm"
-                    : "text-gray-600 hover:text-pink-600"
+                    ? "bg-black text-white shadow-sm"
+                    : "text-gray-600 hover:text-black"
                 }`}
                 title="Grid Layout"
               >
@@ -305,7 +305,7 @@ const Gallery = () => {
 
         {/* Results Info */}
         <div className="mt-6 text-center">
-          <p className="text-gray-600 font-light">
+          <p className="text-black font-light">
             Showing {filteredImages.length}{" "}
             {filteredImages.length === 1 ? "image" : "images"}
             {activeCategory !== "all" && (
@@ -326,11 +326,11 @@ const Gallery = () => {
       <section className="max-w-7xl mx-auto px-4 pb-16">
         {filteredImages.length === 0 ? (
           <div className="text-center py-16">
-            <Camera className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-light text-gray-600 mb-2">
+            <Camera className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+            <h3 className="text-xl font-light text-black mb-2">
               No images found
             </h3>
-            <p className="text-gray-500">
+            <p className="text-gray-700">
               {activeCategory !== "all"
                 ? `No images found in the ${activeCategory} category.`
                 : "No images available at the moment. Please check back later."}
@@ -408,7 +408,7 @@ const Gallery = () => {
                   <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 bg-white">
                     {image.featured && (
                       <div className="absolute top-4 left-4 z-10">
-                        <span className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs px-3 py-1 rounded-full font-medium shadow-lg">
+                        <span className="bg-yellow-400 text-black text-xs px-3 py-1 rounded-full font-medium shadow-lg">
                           ⭐ Featured
                         </span>
                       </div>
@@ -431,36 +431,36 @@ const Gallery = () => {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                      <div className="absolute inset-0 bg-pink-500/20 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
                         <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 transform scale-0 group-hover:scale-100 transition-transform duration-300">
-                          <Eye className="w-6 h-6 text-pink-600" />
+                          <Eye className="w-6 h-6 text-black" />
                         </div>
                       </div>
                     </div>
 
                     <div className="p-4">
                       <div className="flex items-start justify-between mb-2">
-                        <h3 className="text-lg font-medium text-gray-800 line-clamp-1 flex-1">
+                        <h3 className="text-lg font-medium text-black line-clamp-1 flex-1">
                           {image.title}
                         </h3>
-                        <span className="bg-pink-100 text-pink-600 text-xs px-2 py-1 rounded-full capitalize font-medium ml-2 flex-shrink-0">
+                        <span className="bg-gray-200 text-black text-xs px-2 py-1 rounded-full capitalize font-medium ml-2 flex-shrink-0">
                           {image.category}
                         </span>
                       </div>
 
                       {image.description && (
-                        <p className="text-gray-600 text-sm line-clamp-2 mb-3">
+                        <p className="text-gray-700 text-sm line-clamp-2 mb-3">
                           {image.description}
                         </p>
                       )}
 
-                      <div className="flex items-center justify-between text-xs text-gray-500">
+                      <div className="flex items-center justify-between text-xs text-gray-600">
                         <span className="flex items-center gap-1">
                           <Calendar className="w-3 h-3" />
                           {formatDate(image.date || image.createdAt)}
                         </span>
                         {image.service && (
-                          <span className="flex items-center gap-1 text-pink-600">
+                          <span className="flex items-center gap-1 text-black">
                             <Camera className="w-3 h-3" />
                             {image.service.title}
                           </span>
@@ -477,14 +477,14 @@ const Gallery = () => {
 
       {/* Call to Action with Modal - Updated */}
       <section className="max-w-4xl mx-auto px-4 pb-16">
-        <div className="text-center py-12 bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl">
+        <div className="text-center py-12 bg-white/50 rounded-2xl">
           <h3
-            className="text-2xl md:text-3xl font-thin text-gray-800 mb-4"
+            className="text-2xl md:text-3xl font-thin text-black mb-4"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             Love What You See?
           </h3>
-          <p className="text-base font-light text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-base font-light text-gray-800 mb-8 max-w-2xl mx-auto">
             Ready to create your own beautiful memories? Let's discuss your
             photography needs and create something amazing together.
           </p>
@@ -492,7 +492,7 @@ const Gallery = () => {
           {/* Modal with ContactForm */}
           <Modal
             trigger={
-              <Button className="rounded-full px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+              <Button className="rounded-full px-8 py-4 bg-black hover:bg-gray-800 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                 <span className="flex items-center gap-2">
                   <Camera className="w-5 h-5" />
                   Book Your Session

@@ -73,11 +73,11 @@ const Hero = () => {
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="w-full h-screen relative">
+            <div className="w-full h-[100vh] relative">
               <img
                 src={slide.mediaUrl} // ⚠️ This is your API's image URL
                 alt={slide.title}
-                className="w-full h-full object-cover"
+                className="w-full h-[680px] object-center object-cover"
               />
               <div className="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center text-white px-4">
                 <h2 className="text-4xl md:text-6xl font-bold mb-4 animate-fade-in-down">

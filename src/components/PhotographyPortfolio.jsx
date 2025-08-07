@@ -107,10 +107,10 @@ const PhotographyPortfolio = () => {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-16 px-4 flex items-center justify-center">
+      <div className="min-h-screen py-16 px-4 flex items-center justify-center" style={{ backgroundColor: '#FAF0DC' }}>
         <div className="text-center">
-          <Loader2 className="w-12 h-12 animate-spin text-gray-600 mx-auto mb-4" />
-          <p className="text-gray-600 font-light">
+          <Loader2 className="w-12 h-12 animate-spin text-black mx-auto mb-4" />
+          <p className="text-black font-light">
             Loading our beautiful portfolio...
           </p>
         </div>
@@ -121,16 +121,16 @@ const PhotographyPortfolio = () => {
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 py-16 px-4 flex items-center justify-center">
+      <div className="min-h-screen py-16 px-4 flex items-center justify-center" style={{ backgroundColor: '#FAF0DC' }}>
         <div className="text-center max-w-md">
-          <AlertCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h2 className="text-2xl font-light text-gray-800 mb-2">
+          <AlertCircle className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+          <h2 className="text-2xl font-light text-black mb-2">
             Portfolio Unavailable
           </h2>
-          <p className="text-gray-600 mb-6">{error}</p>
+          <p className="text-gray-700 mb-6">{error}</p>
           <button
             onClick={fetchPortfolioImages}
-            className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3 text-sm tracking-wider transition-colors duration-300"
+            className="bg-black hover:bg-gray-800 text-white px-8 py-3 text-sm tracking-wider transition-colors duration-300"
           >
             TRY AGAIN
           </button>
@@ -140,16 +140,16 @@ const PhotographyPortfolio = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-16 px-4">
+    <div className="min-h-screen py-16 px-4" style={{ backgroundColor: '#FAF0DC' }}>
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-light text-gray-900 mb-6 leading-tight">
+          <h1 className="text-4xl md:text-5xl font-light text-black mb-6 leading-tight">
             We're Gleam a small and enthusiastic
             <br />
             photography studio based in Lucknow
           </h1>
-          <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed text-lg">
+          <p className="text-gray-800 max-w-3xl mx-auto leading-relaxed text-lg">
             We specialize in capturing life's most precious moments - from the
             tender first days of a newborn's life to the radiant glow of
             expectant mothers, and the bold expressions of fashion. Every
@@ -157,9 +157,9 @@ const PhotographyPortfolio = () => {
           </p>
 
           {/* Portfolio Stats */}
-          <div className="flex items-center justify-center gap-8 mt-8 text-sm text-gray-500">
+          <div className="flex items-center justify-center gap-8 mt-8 text-sm text-gray-700">
             <span className="flex items-center gap-2">
-              <Camera className="w-4 h-4" />
+              <Camera className="w-4 h-4 text-black" />
               {portfolioItems.length} Featured Works
             </span>
             <span>
@@ -214,7 +214,7 @@ const PhotographyPortfolio = () => {
                   </div>
                 `}
               >
-                <Card className="border-0 shadow-none overflow-hidden bg-white hover:shadow-lg transition-all duration-300 h-full">
+                <Card className="border-0 shadow-none overflow-hidden bg-white/80 backdrop-blur-sm hover:shadow-lg transition-all duration-300 h-full">
                   <CardContent className="p-0 h-full relative">
                     {/* Featured Badge */}
                     {item.featured && (
@@ -249,11 +249,11 @@ const PhotographyPortfolio = () => {
                     {/* Text Overlay */}
                     <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-20 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                       <h3 className="text-xl font-light mb-1">{item.title}</h3>
-                      <p className="text-sm tracking-wider opacity-80">
+                      <p className="text-sm tracking-wider opacity-90">
                         {item.category}
                       </p>
                       {item.description && (
-                        <p className="text-xs opacity-60 mt-1 line-clamp-2">
+                        <p className="text-xs opacity-80 mt-1 line-clamp-2">
                           {item.description}
                         </p>
                       )}
@@ -262,7 +262,7 @@ const PhotographyPortfolio = () => {
                     {/* Hover indicator */}
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <div className="bg-white/90 backdrop-blur-sm rounded-full p-3">
-                        <Camera className="w-6 h-6 text-gray-900" />
+                        <Camera className="w-6 h-6 text-black" />
                       </div>
                     </div>
                   </CardContent>
@@ -272,11 +272,11 @@ const PhotographyPortfolio = () => {
           </LightGallery>
         ) : (
           <div className="text-center py-16">
-            <Camera className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-light text-gray-600 mb-2">
+            <Camera className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+            <h3 className="text-xl font-light text-black mb-2">
               No Portfolio Items
             </h3>
-            <p className="text-gray-500">
+            <p className="text-gray-700">
               Portfolio images will appear here once uploaded.
             </p>
           </div>
@@ -285,7 +285,7 @@ const PhotographyPortfolio = () => {
         {/* Call to Action */}
         <div className="text-center mt-16 cursor-pointer">
           <button
-            className="bg-gray-900 cursor-pointer hover:bg-gray-800 text-white px-8 py-3 text-sm tracking-wider transition-colors duration-300 mr-4"
+            className="bg-black cursor-pointer hover:bg-gray-800 text-white px-8 py-3 text-sm tracking-wider transition-colors duration-300 mr-4"
             onClick={() => {
               navigate("/gallery");
             }}
@@ -293,7 +293,7 @@ const PhotographyPortfolio = () => {
             VIEW ALL WORK
           </button>
           <button
-            className="border border-gray-900 hover:bg-gray-900 cursor-pointer hover:text-white text-gray-900 px-8 py-3 text-sm tracking-wider transition-colors duration-300"
+            className="border border-black hover:bg-black cursor-pointer hover:text-white text-black px-8 py-3 text-sm tracking-wider transition-colors duration-300"
             onClick={() => {
               navigate("/contact");
             }}

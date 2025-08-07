@@ -164,25 +164,25 @@ const ContactUsPage = () => {
       icon: <Phone className="w-6 h-6" />,
       title: "Phone",
       details: ["+1 (555) 123-4567", "+1 (555) 987-6543"],
-      color: "from-blue-500 to-cyan-500"
+      color: "from-purple-500 to-indigo-500"
     },
     {
       icon: <Mail className="w-6 h-6" />,
       title: "Email",
       details: ["hello@photographystudio.com", "bookings@photographystudio.com"],
-      color: "from-rose-500 to-pink-500"
+      color: "from-violet-500 to-purple-500"
     },
     {
       icon: <MapPin className="w-6 h-6" />,
       title: "Location",
       details: ["123 Photography Lane", "Creative District, NY 10001"],
-      color: "from-green-500 to-emerald-500"
+      color: "from-pink-400 to-violet-400"
     },
     {
       icon: <Clock className="w-6 h-6" />,
       title: "Working Hours",
       details: ["Mon - Fri: 9:00 AM - 7:00 PM", "Sat - Sun: 10:00 AM - 6:00 PM"],
-      color: "from-purple-500 to-indigo-500"
+      color: "from-indigo-500 to-purple-500"
     }
   ];
 
@@ -209,19 +209,19 @@ const ContactUsPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-rose-50">
+    <div className="min-h-screen" style={{ backgroundColor: '#FFE1F5' }}>
       {/* Header Section */}
-      <div ref={headerRef} className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-20 mt-16">
+      <div ref={headerRef} className="text-black py-20 mt-16" style={{ background: '#FAF0DC' }}>
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 mb-6">
-            <Camera className="w-5 h-5 text-rose-400" />
-            <span className="text-rose-300 font-medium">Get In Touch</span>
+          <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-black/20 mb-6">
+            <Camera className="w-5 h-5 text-purple-600" />
+            <span className="text-black font-medium">Get In Touch</span>
           </div>
-          <h1 className="text-5xl lg:text-6xl font-bold mb-6">
+          <h1 className="text-5xl lg:text-6xl font-bold mb-6" style={{ color: 'black', fontFamily: 'Raleway, sans-serif' }}>
             Contact 
-            <span className="bg-gradient-to-r from-rose-400 to-pink-400 bg-clip-text text-transparent"> Us</span>
+            <span className="text-gray-800"> Us</span>
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-800 max-w-3xl mx-auto leading-relaxed">
             Ready to capture your special moments? Let's discuss your vision and create something beautiful together.
           </p>
         </div>
@@ -231,16 +231,16 @@ const ContactUsPage = () => {
         <div className="grid lg:grid-cols-3 gap-12">
           {/* Left Column - Contact Form */}
           <div ref={formRef} className="lg:col-span-2">
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 p-8">
+            <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 p-8">
               <div className="mb-8">
-                <h2 className="text-3xl font-bold text-gray-900 mb-3">Send us a Message</h2>
-                <p className="text-gray-600">Fill out the form below and we'll get back to you as soon as possible.</p>
+                <h2 className="text-3xl font-bold text-black mb-3">Send us a Message</h2>
+                <p className="text-gray-800">Fill out the form below and we'll get back to you as soon as possible.</p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="relative">
-                    <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600 w-5 h-5" />
                     <input
                       type="text"
                       name="name"
@@ -248,12 +248,12 @@ const ContactUsPage = () => {
                       value={formData.name}
                       onChange={handleInputChange}
                       disabled={submitting}
-                      className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all placeholder-gray-500 disabled:opacity-50"
+                      className="w-full pl-12 pr-4 py-4 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all placeholder-gray-500 disabled:opacity-50 text-black"
                       required
                     />
                   </div>
                   <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600 w-5 h-5" />
                     <input
                       type="email"
                       name="email"
@@ -261,7 +261,7 @@ const ContactUsPage = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       disabled={submitting}
-                      className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all placeholder-gray-500 disabled:opacity-50"
+                      className="w-full pl-12 pr-4 py-4 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all placeholder-gray-500 disabled:opacity-50 text-black"
                       required
                     />
                   </div>
@@ -269,7 +269,7 @@ const ContactUsPage = () => {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="relative">
-                    <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600 w-5 h-5" />
                     <input
                       type="tel"
                       name="phone"
@@ -277,18 +277,18 @@ const ContactUsPage = () => {
                       value={formData.phone}
                       onChange={handleInputChange}
                       disabled={submitting}
-                      className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all placeholder-gray-500 disabled:opacity-50"
+                      className="w-full pl-12 pr-4 py-4 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all placeholder-gray-500 disabled:opacity-50 text-black"
                       required
                     />
                   </div>
                   <div className="relative">
-                    <Camera className="absolute left-4 top-6 text-gray-400 w-5 h-5" />
+                    <Camera className="absolute left-4 top-6 text-gray-600 w-5 h-5" />
                     <select
                       name="serviceType"
                       value={formData.serviceType}
                       onChange={handleInputChange}
                       disabled={submitting || loadingServices}
-                      className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all text-gray-700 appearance-none cursor-pointer disabled:opacity-50"
+                      className="w-full pl-12 pr-4 py-4 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-black appearance-none cursor-pointer disabled:opacity-50"
                       required
                     >
                       <option value="">
@@ -303,9 +303,9 @@ const ContactUsPage = () => {
                     </select>
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
                       {loadingServices ? (
-                        <Loader2 className="w-5 h-5 text-gray-400 animate-spin" />
+                        <Loader2 className="w-5 h-5 text-gray-600 animate-spin" />
                       ) : (
-                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       )}
@@ -314,7 +314,7 @@ const ContactUsPage = () => {
                 </div>
 
                 <div className="relative">
-                  <MessageCircle className="absolute left-4 top-6 text-gray-400 w-5 h-5" />
+                  <MessageCircle className="absolute left-4 top-6 text-gray-600 w-5 h-5" />
                   <textarea
                     name="message"
                     placeholder="Tell us about your project, preferred dates, location, and any special requirements..."
@@ -322,7 +322,7 @@ const ContactUsPage = () => {
                     onChange={handleInputChange}
                     disabled={submitting}
                     rows={6}
-                    className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all placeholder-gray-500 resize-none disabled:opacity-50"
+                    className="w-full pl-12 pr-4 py-4 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all placeholder-gray-500 resize-none disabled:opacity-50 text-black"
                     required
                   ></textarea>
                 </div>
@@ -330,7 +330,13 @@ const ContactUsPage = () => {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white font-semibold py-4 px-8 rounded-xl hover:from-rose-600 hover:to-pink-600 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  className="w-full text-white font-semibold py-4 px-8 rounded-xl transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  style={{
+                    background: submitting 
+                      ? 'linear-gradient(to right, #D1C4E9, #E1BEE7)' 
+                      : 'linear-gradient(to right, #9C27B0, #E91E63)',
+                    ':hover': { background: 'linear-gradient(to right, #7B1FA2, #C2185B)' }
+                  }}
                 >
                   <span className="flex items-center justify-center gap-2">
                     {submitting ? (
@@ -357,16 +363,16 @@ const ContactUsPage = () => {
               {contactInfo.map((item, index) => (
                 <div
                   key={index}
-                  className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   <div className="flex items-start gap-4">
                     <div className={`p-3 rounded-2xl bg-gradient-to-r ${item.color} text-white shadow-lg`}>
                       {item.icon}
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">{item.title}</h3>
+                      <h3 className="text-lg font-semibold text-black mb-2">{item.title}</h3>
                       {item.details.map((detail, idx) => (
-                        <p key={idx} className="text-gray-600 text-sm">{detail}</p>
+                        <p key={idx} className="text-gray-800 text-sm">{detail}</p>
                       ))}
                     </div>
                   </div>
@@ -375,8 +381,8 @@ const ContactUsPage = () => {
             </div>
 
             {/* Social Media Links */}
-            <div ref={socialsRef} className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Follow Us</h3>
+            <div ref={socialsRef} className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg">
+              <h3 className="text-lg font-semibold text-black mb-4">Follow Us</h3>
               <div className="flex gap-4">
                 {socialLinks.map((social, index) => (
                   <a
@@ -384,7 +390,7 @@ const ContactUsPage = () => {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`p-3 bg-gray-100 rounded-xl text-gray-600 ${social.color} transform hover:scale-110 transition-all duration-300 shadow-md hover:shadow-lg`}
+                    className={`p-3 bg-gray-100 rounded-xl text-gray-700 ${social.color} transform hover:scale-110 transition-all duration-300 shadow-md hover:shadow-lg`}
                     title={social.name}
                   >
                     {social.icon}
@@ -397,10 +403,10 @@ const ContactUsPage = () => {
 
         {/* Google Maps Section */}
         <div ref={mapRef} className="mt-16">
-          <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 p-8">
+          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 p-8">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-3">Visit Our Studio</h2>
-              <p className="text-gray-600">Located in the heart of the creative district, our studio is easily accessible and equipped with state-of-the-art facilities.</p>
+              <h2 className="text-3xl font-bold text-black mb-3">Visit Our Studio</h2>
+              <p className="text-gray-800">Located in the heart of the creative district, our studio is easily accessible and equipped with state-of-the-art facilities.</p>
             </div>
             
             <div className="relative overflow-hidden rounded-2xl shadow-2xl">
@@ -415,8 +421,8 @@ const ContactUsPage = () => {
                 className="w-full"
               ></iframe>
               <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-xl p-3 shadow-lg">
-                <div className="flex items-center gap-2 text-gray-700">
-                  <MapPin className="w-5 h-5 text-rose-500" />
+                <div className="flex items-center gap-2 text-black">
+                  <MapPin className="w-5 h-5 text-purple-500" />
                   <span className="font-semibold">Our Studio Location</span>
                 </div>
               </div>

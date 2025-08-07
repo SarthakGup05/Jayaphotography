@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const JayaAbout = () => {
   return (
-    <div className="min-h-screen bg-white py-16 px-4">
+    <div className="min-h-screen bg-[#FAF0DC] py-16 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Image Section */}

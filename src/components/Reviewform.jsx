@@ -48,6 +48,9 @@ const ReviewForm = () => {
   const mediaRecorderRef = useRef(null);
   const streamRef = useRef(null);
 
+  // Custom RGB beige color
+  const beigeColor = 'rgb(118, 79, 57)';
+
   // Fetch services from API
   const fetchServices = async () => {
     try {
@@ -390,32 +393,36 @@ const ReviewForm = () => {
   }, [videoPreview]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 py-16 px-4">
+    <div className="min-h-screen bg-white py-16 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-gray-900 text-white px-6 py-2 rounded-full text-sm mb-6">
+          <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full text-sm mb-6" style={{ backgroundColor: 'rgb(118, 79, 57)', color: 'white' }}>
             <Star className="w-4 h-4 fill-current" />
             <span>Share Your Experience</span>
           </div>
-          <h2 className="text-4xl md:text-6xl font-light text-gray-900 mb-6 leading-tight">
+          <h2 className="text-4xl md:text-6xl font-light mb-6 leading-tight" style={{ color: beigeColor }}>
             Leave a Review
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
+          <p className="max-w-2xl mx-auto text-lg leading-relaxed" style={{ color: beigeColor }}>
             Help other families by sharing your experience with our photography services
           </p>
         </div>
 
         {/* Review Type Selector */}
         <div className="flex justify-center mb-12">
-          <div className="bg-white rounded-full p-2 shadow-lg">
+          <div className="bg-amber-50 rounded-full p-2 shadow-lg">
             <button
               onClick={() => setReviewType('text')}
               className={`px-6 py-3 rounded-full transition-all duration-300 flex items-center gap-2 ${
                 reviewType === 'text'
-                  ? 'bg-gray-900 text-white'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'text-white'
+                  : 'hover:opacity-80'
               }`}
+              style={{
+                backgroundColor: reviewType === 'text' ? beigeColor : 'transparent',
+                color: reviewType === 'text' ? 'white' : beigeColor
+              }}
             >
               <MessageSquare className="w-4 h-4" />
               Written Review
@@ -424,9 +431,13 @@ const ReviewForm = () => {
               onClick={() => setReviewType('video')}
               className={`px-6 py-3 rounded-full transition-all duration-300 flex items-center gap-2 ml-2 ${
                 reviewType === 'video'
-                  ? 'bg-gray-900 text-white'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'text-white'
+                  : 'hover:opacity-80'
               }`}
+              style={{
+                backgroundColor: reviewType === 'video' ? beigeColor : 'transparent',
+                color: reviewType === 'video' ? 'white' : beigeColor
+              }}
             >
               <VideoIcon className="w-4 h-4" />
               Video Review
@@ -442,7 +453,7 @@ const ReviewForm = () => {
               {/* Personal Information */}
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <label className="block text-sm font-medium mb-2 flex items-center gap-2" style={{ color: beigeColor }}>
                     <User className="w-4 h-4" />
                     Full Name *
                   </label>
@@ -451,9 +462,13 @@ const ReviewForm = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-300 ${
-                      errors.name ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-300 ${
+                      errors.name ? 'border-red-500' : 'border-amber-200'
                     }`}
+                    style={{
+                      color: beigeColor,
+                      focusRingColor: beigeColor
+                    }}
                     placeholder="Enter your full name"
                     disabled={isSubmitting}
                   />
@@ -466,7 +481,7 @@ const ReviewForm = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <label className="block text-sm font-medium mb-2 flex items-center gap-2" style={{ color: beigeColor }}>
                     <MapPin className="w-4 h-4" />
                     Location *
                   </label>
@@ -475,9 +490,10 @@ const ReviewForm = () => {
                     name="location"
                     value={formData.location}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-300 ${
-                      errors.location ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-300 ${
+                      errors.location ? 'border-red-500' : 'border-amber-200'
                     }`}
+                    style={{ color: beigeColor }}
                     placeholder="City, State"
                     disabled={isSubmitting}
                   />
@@ -493,7 +509,7 @@ const ReviewForm = () => {
               {/* Contact Information */}
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium mb-2" style={{ color: beigeColor }}>
                     Email Address *
                   </label>
                   <input
@@ -501,9 +517,10 @@ const ReviewForm = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-300 ${
-                      errors.email ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-300 ${
+                      errors.email ? 'border-red-500' : 'border-amber-200'
                     }`}
+                    style={{ color: beigeColor }}
                     placeholder="your@email.com"
                     disabled={isSubmitting}
                   />
@@ -516,7 +533,7 @@ const ReviewForm = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium mb-2" style={{ color: beigeColor }}>
                     Phone Number (Optional)
                   </label>
                   <input
@@ -524,27 +541,29 @@ const ReviewForm = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-300"
+                    className="w-full px-4 py-3 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-300"
+                    style={{ color: beigeColor }}
                     placeholder="+91 98765 43210"
                     disabled={isSubmitting}
                   />
                 </div>
               </div>
 
-              {/* Service Selection - Updated with API Integration */}
+              {/* Service Selection */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                <label className="block text-sm font-medium mb-2 flex items-center gap-2" style={{ color: beigeColor }}>
                   <Briefcase className="w-4 h-4" />
                   Photography Service *
-                  {servicesLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {servicesLoading && <Loader2 className="w-4 h-4 animate-spin" style={{ color: beigeColor }} />}
                 </label>
                 <select
                   name="service"
                   value={formData.service}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-300 ${
-                    errors.service ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-300 ${
+                    errors.service ? 'border-red-500' : 'border-amber-200'
                   }`}
+                  style={{ color: beigeColor }}
                   disabled={isSubmitting || servicesLoading}
                 >
                   <option value="">
@@ -572,7 +591,7 @@ const ReviewForm = () => {
 
               {/* Rating */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-4">
+                <label className="block text-sm font-medium mb-4" style={{ color: beigeColor }}>
                   Overall Rating *
                 </label>
                 <div className="flex space-x-2">
@@ -585,7 +604,7 @@ const ReviewForm = () => {
                       className={`p-2 transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-50 ${
                         star <= formData.rating 
                           ? 'text-yellow-400' 
-                          : 'text-gray-300 hover:text-yellow-400'
+                          : 'text-amber-200 hover:text-yellow-400'
                       }`}
                     >
                       <Star className={`w-8 h-8 ${
@@ -593,7 +612,7 @@ const ReviewForm = () => {
                       }`} />
                     </button>
                   ))}
-                  <span className="ml-4 text-sm text-gray-600 self-center">
+                  <span className="ml-4 text-sm self-center" style={{ color: beigeColor }}>
                     {formData.rating > 0 ? `${formData.rating}/5` : 'Click to rate'}
                   </span>
                 </div>
@@ -609,7 +628,7 @@ const ReviewForm = () => {
               {reviewType === 'text' ? (
                 // Text Review
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium mb-2" style={{ color: beigeColor }}>
                     Your Review *
                   </label>
                   <textarea
@@ -618,14 +637,15 @@ const ReviewForm = () => {
                     onChange={handleInputChange}
                     rows={6}
                     maxLength={500}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-300 resize-none ${
-                      errors.text ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-300 resize-none ${
+                      errors.text ? 'border-red-500' : 'border-amber-200'
                     }`}
+                    style={{ color: beigeColor }}
                     placeholder="Share your experience with our photography services..."
                     disabled={isSubmitting}
                   />
                   <div className="flex justify-between items-center mt-2">
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm" style={{ color: beigeColor }}>
                       {formData.text.length}/500 characters
                     </span>
                     {errors.text && (
@@ -639,7 +659,7 @@ const ReviewForm = () => {
               ) : (
                 // Video Review
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-4">
+                  <label className="block text-sm font-medium mb-4" style={{ color: beigeColor }}>
                     Video Review * (9:16 aspect ratio recommended, max 10MB)
                   </label>
                   
@@ -650,15 +670,15 @@ const ReviewForm = () => {
                         {/* File Upload */}
                         <div
                           onClick={isSubmitting ? undefined : () => fileInputRef.current?.click()}
-                          className={`border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition-colors ${
+                          className={`border-2 border-dashed border-amber-300 rounded-lg p-8 text-center transition-colors ${
                             isSubmitting 
                               ? 'opacity-50 cursor-not-allowed' 
-                              : 'hover:border-gray-400 cursor-pointer'
+                              : 'hover:border-amber-400 cursor-pointer'
                           }`}
                         >
-                          <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                          <p className="text-gray-600 font-medium mb-2">Upload Video</p>
-                          <p className="text-sm text-gray-500">
+                          <Upload className="w-12 h-12 mx-auto mb-4" style={{ color: beigeColor }} />
+                          <p className="font-medium mb-2" style={{ color: beigeColor }}>Upload Video</p>
+                          <p className="text-sm" style={{ color: beigeColor }}>
                             MP4, WebM up to 10MB
                           </p>
                         </div>
@@ -671,18 +691,18 @@ const ReviewForm = () => {
                               ? 'opacity-50 cursor-not-allowed' 
                               : isRecording 
                                 ? 'border-red-300 bg-red-50' 
-                                : 'border-gray-300 hover:border-gray-400'
+                                : 'border-amber-300 hover:border-amber-400'
                           }`}
                         >
                           <Camera className={`w-12 h-12 mx-auto mb-4 ${
-                            isRecording ? 'text-red-500' : 'text-gray-400'
-                          }`} />
+                            isRecording ? 'text-red-500' : ''
+                          }`} style={!isRecording ? { color: beigeColor } : {}} />
                           <p className={`font-medium mb-2 ${
-                            isRecording ? 'text-red-600' : 'text-gray-600'
-                          }`}>
+                            isRecording ? 'text-red-600' : ''
+                          }`} style={!isRecording ? { color: beigeColor } : {}}>
                             {isRecording ? 'Stop Recording' : 'Record Video'}
                           </p>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm" style={{ color: isRecording ? '#dc2626' : beigeColor }}>
                             {isRecording ? 'Recording in progress...' : 'Use your camera'}
                           </p>
                         </div>
@@ -749,7 +769,8 @@ const ReviewForm = () => {
                           type="button"
                           onClick={removeVideo}
                           disabled={isSubmitting}
-                          className="text-sm text-gray-500 hover:text-gray-700 mt-2 disabled:opacity-50"
+                          className="text-sm mt-2 disabled:opacity-50 hover:opacity-80 transition-opacity"
+                          style={{ color: beigeColor }}
                         >
                           Replace video
                         </button>
@@ -766,7 +787,7 @@ const ReviewForm = () => {
                   
                   {/* Optional text for video reviews */}
                   <div className="mt-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium mb-2" style={{ color: beigeColor }}>
                       Additional Comments (Optional)
                     </label>
                     <textarea
@@ -775,7 +796,8 @@ const ReviewForm = () => {
                       onChange={handleInputChange}
                       rows={3}
                       maxLength={500}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-300 resize-none"
+                      className="w-full px-4 py-3 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-300 resize-none"
+                      style={{ color: beigeColor }}
                       placeholder="Any additional comments about your experience..."
                       disabled={isSubmitting}
                     />
@@ -788,11 +810,12 @@ const ReviewForm = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting || servicesLoading}
-                  className={`px-12 py-4 rounded-lg font-medium transition-all duration-300 flex items-center gap-3 ${
+                  className={`px-12 py-4 rounded-lg font-medium transition-all duration-300 flex items-center gap-3 text-white ${
                     isSubmitting || servicesLoading
-                      ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-gray-900 hover:bg-gray-800 transform hover:scale-105'
-                  } text-white`}
+                      ? 'opacity-50 cursor-not-allowed'
+                      : 'transform hover:scale-105 hover:opacity-90'
+                  }`}
+                  style={{ backgroundColor: beigeColor }}
                 >
                   {isSubmitting ? (
                     <>
@@ -812,7 +835,7 @@ const ReviewForm = () => {
         </Card>
 
         {/* Footer Note */}
-        <div className="text-center mt-12 text-gray-500 text-sm">
+        <div className="text-center mt-12 text-sm" style={{ color: beigeColor }}>
           <p>Your review will be reviewed before being published on our website.</p>
           <p>Thank you for helping us improve our services!</p>
         </div>

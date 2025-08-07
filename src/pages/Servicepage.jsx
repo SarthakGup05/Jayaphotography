@@ -84,10 +84,10 @@ const ServicePage = () => {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-white via-pink-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F2BAE4' }}>
         <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-8 h-8 animate-spin text-pink-500" />
-          <p className="text-gray-600 font-light">Loading service details...</p>
+          <Loader2 className="w-8 h-8 animate-spin text-black" />
+          <p className="text-black font-light">Loading service details...</p>
         </div>
       </div>
     );
@@ -96,14 +96,14 @@ const ServicePage = () => {
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-white via-pink-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F2BAE4' }}>
         <div className="flex flex-col items-center gap-4 text-center max-w-md">
           <AlertCircle className="w-12 h-12 text-red-500" />
-          <h2 className="text-2xl font-light text-gray-800">Service Not Found</h2>
-          <p className="text-gray-600 font-light">{error}</p>
+          <h2 className="text-2xl font-light text-black">Service Not Found</h2>
+          <p className="text-gray-700 font-light">{error}</p>
           <button
             onClick={() => navigate('/services')}
-            className="bg-gradient-to-r from-pink-500 to-rose-500 text-white font-light px-6 py-3 rounded-xl hover:from-pink-600 hover:to-rose-600 transition-all duration-300"
+            className="bg-black text-white font-light px-6 py-3 rounded-xl hover:bg-gray-800 transition-all duration-300"
           >
             Back to Services
           </button>
@@ -117,41 +117,41 @@ const ServicePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-pink-50 to-blue-50">
+    <div className="min-h-screen" style={{ backgroundColor: '#ffe1f5' }}>
       {/* Hero Section */}
-      <section className="relative flex flex-col items-center justify-center py-16 px-4 bg-gradient-to-r from-pink-100 via-rose-50 to-orange-50 overflow-hidden mt-16">
-        <div className="absolute inset-0 bg-white/40 pointer-events-none" />
+      <section className="relative flex flex-col items-center justify-center py-16 px-4 overflow-hidden mt-16" style={{ backgroundColor: '#FAF0DC' }}>
+        <div className="absolute inset-0 bg-white/30 pointer-events-none" />
         <div className="relative z-10 flex flex-col items-center gap-4">
-          <span className="inline-flex items-center gap-2 bg-white/70 px-4 py-2 rounded-full border border-pink-200/50 text-xs text-pink-600 font-light tracking-wide">
+          <span className="inline-flex items-center gap-2 bg-white/70 px-4 py-2 rounded-full border border-gray-300 text-xs text-black font-light tracking-wide">
             {serviceData.featured ? "Featured Service" : "Professional Service"}
           </span>
           <h1
-            className="text-4xl md:text-5xl font-thin text-gray-800 tracking-tight text-center"
-            style={{ fontFamily: "'Playfair Display', serif" }}
+            className="text-4xl md:text-5xl font-thin text-black tracking-tight text-center"
+            style={{ fontFamily: "Raleway, sans-serif" }}
           >
             {serviceData.title.split(" ")[0]}{" "}
-            <span className="font-thin text-pink-500">
+            <span className="font-thin text-gray-800">
               {serviceData.title.split(" ").slice(1).join(" ")}
             </span>
           </h1>
-          <p className="text-base md:text-lg font-light text-gray-600 max-w-2xl text-center">
+          <p className="text-base md:text-lg font-light text-gray-800 max-w-2xl text-center">
             {serviceData.subtitle}
           </p>
           
           {/* Trust Indicators */}
           <div className="flex flex-wrap gap-2 justify-center mt-2">
-            <span className="flex items-center gap-2 bg-white/60 px-3 py-1.5 rounded-full text-xs text-gray-500">
-              <Heart className="w-3 h-3 text-pink-400" />
+            <span className="flex items-center gap-2 bg-white/60 px-3 py-1.5 rounded-full text-xs text-gray-700">
+              <Heart className="w-3 h-3 text-red-400" />
               Professional Service
             </span>
             {serviceData.featured && (
-              <span className="flex items-center gap-2 bg-white/60 px-3 py-1.5 rounded-full text-xs text-gray-500">
+              <span className="flex items-center gap-2 bg-white/60 px-3 py-1.5 rounded-full text-xs text-gray-700">
                 <Star className="w-3 h-3 text-yellow-400" />
                 Featured Service
               </span>
             )}
-            <span className="flex items-center gap-2 bg-white/60 px-3 py-1.5 rounded-full text-xs text-gray-500">
-              <Camera className="w-3 h-3 text-blue-400" />
+            <span className="flex items-center gap-2 bg-white/60 px-3 py-1.5 rounded-full text-xs text-gray-700">
+              <Camera className="w-3 h-3 text-gray-600" />
               {serviceData.duration || "Professional Studio"}
             </span>
           </div>
@@ -164,24 +164,24 @@ const ServicePage = () => {
           {/* Left Side - Description */}
           <div className="space-y-6">
             <div className="space-y-4">
-              <span className="inline-block px-4 py-2 bg-gradient-to-r from-pink-100 to-rose-100 rounded-full text-xs text-gray-700 font-light">
+              <span className="inline-block px-4 py-2 bg-white/60 rounded-full text-xs text-black font-light">
                 {serviceData.subtitle}
               </span>
               
               <h2
-                className="text-3xl md:text-4xl font-thin text-gray-800"
+                className="text-3xl md:text-4xl font-thin text-black"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
                 {serviceData.title}
               </h2>
               
-              <p className="text-base md:text-lg font-light text-gray-600 leading-relaxed">
+              <p className="text-base md:text-lg font-light text-gray-800 leading-relaxed">
                 {serviceData.description}
               </p>
 
               {/* Duration Display */}
               {serviceData.duration && (
-                <div className="flex items-center gap-2 text-sm text-gray-500">
+                <div className="flex items-center gap-2 text-sm text-gray-700">
                   <Camera className="w-4 h-4" />
                   <span>Session Duration: {serviceData.duration}</span>
                 </div>
@@ -191,16 +191,16 @@ const ServicePage = () => {
             {/* Features List */}
             {serviceData.features && serviceData.features.length > 0 && (
               <div>
-                <h3 className="text-xl font-light text-gray-800 mb-4">
+                <h3 className="text-xl font-light text-black mb-4">
                   What's Included
                 </h3>
                 <ul className="space-y-3">
                   {serviceData.features.map((feature, idx) => (
                     <li
                       key={idx}
-                      className="flex items-center gap-3 text-gray-600 font-light"
+                      className="flex items-center gap-3 text-gray-800 font-light"
                     >
-                      <ChevronRight className="w-4 h-4 text-pink-400 flex-shrink-0" />
+                      <ChevronRight className="w-4 h-4 text-gray-600 flex-shrink-0" />
                       <span>{feature}</span>
                     </li>
                   ))}
@@ -211,7 +211,7 @@ const ServicePage = () => {
             {/* CTA Button with Modal - Updated */}
             <Modal
               trigger={
-                <button className="group bg-gradient-to-r from-pink-500 to-rose-500 text-white font-light px-8 py-4 rounded-xl hover:from-pink-600 hover:to-rose-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+                <button className="group bg-black text-white font-light px-8 py-4 rounded-xl hover:bg-gray-800 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
                   <span className="flex items-center gap-2">
                     <span>Book This Session</span>
                     <Camera className="w-5 h-5 group-hover:rotate-12 transition-transform" />
@@ -270,16 +270,16 @@ const ServicePage = () => {
                   }}
                 />
               ) : (
-                <div className="w-full h-96 md:h-[500px] bg-gradient-to-br from-pink-100 to-rose-100 flex items-center justify-center">
-                  <Camera className="w-16 h-16 text-pink-300" />
+                <div className="w-full h-96 md:h-[500px] bg-white/50 flex items-center justify-center">
+                  <Camera className="w-16 h-16 text-gray-400" />
                 </div>
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
             </div>
             
             {/* Floating accent elements */}
-            <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-pink-200 rounded-full opacity-60" />
-            <div className="absolute -top-4 -left-4 w-12 h-12 bg-rose-200 rounded-full opacity-40" />
+            <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-white/40 rounded-full opacity-60" />
+            <div className="absolute -top-4 -left-4 w-12 h-12 bg-white/30 rounded-full opacity-40" />
           </div>
         </div>
       </section>
@@ -288,14 +288,14 @@ const ServicePage = () => {
       
       {/* Bottom CTA Section with Modal - Updated */}
       <section className="max-w-4xl mx-auto px-4 py-16">
-        <div className="text-center py-12 bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl">
+        <div className="text-center py-12 bg-white/50 rounded-2xl">
           <h3
-            className="text-2xl md:text-3xl font-thin text-gray-800 mb-4"
+            className="text-2xl md:text-3xl font-thin text-black mb-4"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             Ready to Capture These Precious Moments?
           </h3>
-          <p className="text-base font-light text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-base font-light text-gray-800 mb-8 max-w-2xl mx-auto">
             Book your {serviceData.title.toLowerCase()} session today and create memories that will last a lifetime. 
             Our professional team is ready to make your special day unforgettable.
           </p>
@@ -303,7 +303,7 @@ const ServicePage = () => {
           {/* Bottom CTA Button with Modal */}
           <Modal
             trigger={
-              <button className="bg-gradient-to-r from-pink-500 to-rose-500 text-white font-light px-10 py-4 rounded-xl hover:from-pink-600 hover:to-rose-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+              <button className="bg-black text-white font-light px-10 py-4 rounded-xl hover:bg-gray-800 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
                 Schedule Your Session
               </button>
             }

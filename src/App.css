@@ -1,13 +1,13 @@
 /* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Yeseva+One&display=swap');
 
 /* Set global font families */
 body {
-  font-family: 'Lato', Arial, Helvetica, sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 /* Custom LightGallery Styles */
@@ -70,11 +70,11 @@ h1, h2, h3, h4, h5, h6 {
   .lg-custom-gallery .lg-sub-html {
     padding: 20px 20px 10px;
   }
-  
+
   .lg-custom-gallery .lg-sub-html h4 {
     font-size: 18px;
   }
-  
+
   .lg-custom-gallery .lg-sub-html p {
     font-size: 14px;
   }
