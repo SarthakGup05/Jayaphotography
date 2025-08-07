@@ -328,7 +328,7 @@ const Testimonial = () => {
         </div>
 
         {/* Stats Section */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 lg:p-12">
+        {/* <div className="bg-white rounded-2xl shadow-xl p-8 lg:p-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-3xl lg:text-4xl font-light text-black mb-2">500+</div>
@@ -349,7 +349,7 @@ const Testimonial = () => {
               <div className="text-gray-700 text-sm uppercase tracking-wider">Satisfaction Rate</div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
