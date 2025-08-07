@@ -43,13 +43,13 @@ const Loader = ({ onFinish }) => {
   return (
     <div
       ref={loaderRef}
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-pink-50 via-white to-blue-50 transition-opacity duration-500"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-purple-50 via-white to-purple-100 transition-opacity duration-500"
       style={{ pointerEvents: "none" }}
     >
       <div className="relative flex items-center justify-center">
         <span
           ref={ringRef}
-          className="absolute w-44 h-44 rounded-full border-8 border-pink-200 border-t-blue-400 border-b-transparent animate-spin-slow"
+          className="absolute w-44 h-44 rounded-full border-8 border-purple-200 border-t-purple-600 border-b-transparent animate-spin-slow"
           style={{ borderStyle: 'solid' }}
         ></span>
         <img

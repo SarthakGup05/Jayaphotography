@@ -134,10 +134,10 @@ const GalleryShowcase = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-light text-white mb-6">
             Gallery Showcase
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+          <p className="text-white max-w-2xl mx-auto text-lg">
             Explore our collection of captured moments, each telling its own unique story.
           </p>
         </div>
@@ -217,8 +217,8 @@ const GalleryShowcase = () => {
 
                   {/* Photo Info */}
                   <div className="p-3 text-center">
-                    <h4 className="font-medium text-gray-900 mb-1">{item.title}</h4>
-                    <p className="text-xs text-gray-600">{item.description}</p>
+                    <h4 className="font-medium text-white mb-1">{item.title}</h4>
+                    <p className="text-xs text-white">{item.description}</p>
                   </div>
                 </CardContent>
               </Card>

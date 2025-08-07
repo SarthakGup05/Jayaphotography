@@ -75,10 +75,7 @@ const Nav = () => {
         const serviceItems = response.data.map(service => ({
           name: service.title,
           href: `/services/${service.slug}`,
-          // description: service.description,
-          // featured: service.isFeatured,
-          // duration: service.duration,
-          // price: service.startingPrice,
+        
         }));
         
         setPhotographyServices(serviceItems);
@@ -259,7 +256,7 @@ const Nav = () => {
           : 'shadow-lg border-b border-gray-200'
       }`}
       style={{ 
-        backgroundColor: scrolled ? 'rgba(255, 225, 245, 0.95)' : '#FFE1F5',
+        backgroundColor: scrolled ? 'rgba(250, 240, 220, 0.95)' : '#FAF0DC',
         backdropFilter: scrolled ? 'blur(10px)' : 'none'
       }}
     >
@@ -271,7 +268,7 @@ const Nav = () => {
               <img
                 src="/logo.png"
                 alt="Photography Studio Logo"
-                className="w-32 h-14 object-cover transition-transform duration-700 group-hover:scale-110"
+                className="w-38 h-14 object-cover transition-transform duration-700 group-hover:scale-110"
                 onError={(e) => {
                   e.target.style.display = 'none';
                   e.target.nextSibling.style.display = 'flex';
@@ -289,7 +286,7 @@ const Nav = () => {
           </Link>
         </div>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation - Keeping original beige styling */}
         <div className="hidden md:flex gap-1 items-center">
           {navLinks.map((link, idx) =>
             link.dropdown ? (
@@ -357,7 +354,7 @@ const Nav = () => {
           )}
         </div>
 
-        {/* Social Icons */}
+        {/* Social Icons - Keeping original styling */}
         <div className="hidden md:flex gap-2 ml-6 items-center">
           {socialLinks.map(({ icon: Icon, href, color, bg }, idx) => (
             <a
@@ -374,7 +371,7 @@ const Nav = () => {
           ))}
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Button - Keeping original styling */}
         <button
           className="md:hidden p-2 rounded-full text-black hover:text-gray-800 hover:bg-white/60 transition-all duration-300 focus:outline-none transform hover:scale-110 relative overflow-hidden group"
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -399,13 +396,13 @@ const Nav = () => {
         </button>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation - Keeping original beige styling */}
       <div className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${
         mobileOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
       }`}>
         <div 
           className="backdrop-blur-sm border-t border-gray-300 px-4 pb-6 pt-4 space-y-2"
-          style={{ backgroundColor: 'rgba(255, 225, 245, 0.98)' }}
+          style={{ backgroundColor: 'rgba(250, 240, 220, 0.98)' }}
         >
           {navLinks.map((link, idx) =>
             link.dropdown ? (
@@ -498,7 +495,7 @@ const Nav = () => {
             )
           )}
           
-          {/* Mobile Social Icons */}
+          {/* Mobile Social Icons - Keeping original styling */}
           <div className={`flex gap-3 mt-6 px-4 justify-center transform transition-all duration-500 ${
             mobileOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
           }`} style={{ transitionDelay: '600ms' }}>

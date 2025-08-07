@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const JayaAbout = () => {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#FFE1F5' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#9575CD' }}>
       {/* Hero Section */}
       <div className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
@@ -15,13 +15,13 @@ const JayaAbout = () => {
           </div> */}
 
           {/* Main Heading */}
-          <h1 className="text-4xl lg:text-6xl font-light text-black leading-tight mb-6">
-            Meet <span className="text-gray-800 font-medium">Jaya Agnihotri</span>
+          <h1 className="text-4xl lg:text-6xl font-light text-white leading-tight mb-6">
+            Meet <span className="text-white font-medium">Jaya Agnihotri</span>
           </h1>
           
           <div className="w-24 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto mb-8"></div>
-          
-          <p className="text-xl text-gray-800 font-light max-w-3xl mx-auto leading-relaxed">
+
+          <p className="text-xl text-white font-light max-w-3xl mx-auto leading-relaxed">
             Masters in Photography • 10+ Years Experience • Baby & Maternity Specialist
           </p>
         </div>
@@ -169,7 +169,7 @@ const JayaAbout = () => {
         {/* Services Preview */}
         <div className="mt-20">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-light text-black mb-4">Why Choose Me?</h2>
+            <h2 className="text-3xl lg:text-4xl font-medium text-white mb-4">Why Choose Me?</h2>
             <div className="w-24 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto"></div>
           </div>
           

@@ -4,8 +4,8 @@ import { Camera, ChevronRight, Heart, Star, Loader2, AlertCircle } from "lucide-
 import axiosInstance from "../lib/axiosinstance";
 import { toast } from "react-hot-toast";
 import PhotographyPortfolio from "@/components/PhotographyPortfolio";
-import Modal from "../Layout/modal";           // ← Import Modal
-import ContactForm from "../components/form"; // ← Import ContactForm
+import Modal from "../Layout/modal";
+import ContactForm from "../components/form";
 
 const ServicePage = () => {
   const { slug } = useParams();
@@ -81,29 +81,29 @@ const ServicePage = () => {
     }
   };
 
-  // Loading state
+  // Loading state - Updated with purple background and white text
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F2BAE4' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#9575CD' }}>
         <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-8 h-8 animate-spin text-black" />
-          <p className="text-black font-light">Loading service details...</p>
+          <Loader2 className="w-8 h-8 animate-spin text-white" />
+          <p className="text-white font-light">Loading service details...</p>
         </div>
       </div>
     );
   }
 
-  // Error state
+  // Error state - Updated with purple background and white text
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F2BAE4' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#9575CD' }}>
         <div className="flex flex-col items-center gap-4 text-center max-w-md">
-          <AlertCircle className="w-12 h-12 text-red-500" />
-          <h2 className="text-2xl font-light text-black">Service Not Found</h2>
-          <p className="text-gray-700 font-light">{error}</p>
+          <AlertCircle className="w-12 h-12 text-red-300" />
+          <h2 className="text-2xl font-light text-white">Service Not Found</h2>
+          <p className="text-white/80 font-light">{error}</p>
           <button
             onClick={() => navigate('/services')}
-            className="bg-black text-white font-light px-6 py-3 rounded-xl hover:bg-gray-800 transition-all duration-300"
+            className="bg-white text-purple-700 font-medium px-6 py-3 rounded-xl hover:bg-gray-100 transition-all duration-300"
           >
             Back to Services
           </button>
@@ -117,8 +117,8 @@ const ServicePage = () => {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#ffe1f5' }}>
-      {/* Hero Section */}
+    <div className="min-h-screen" style={{ backgroundColor: '#9575CD' }}>
+      {/* Hero Section - Remains unchanged */}
       <section className="relative flex flex-col items-center justify-center py-16 px-4 overflow-hidden mt-16" style={{ backgroundColor: '#FAF0DC' }}>
         <div className="absolute inset-0 bg-white/30 pointer-events-none" />
         <div className="relative z-10 flex flex-col items-center gap-4">
@@ -158,30 +158,30 @@ const ServicePage = () => {
         </div>
       </section>
 
-      {/* Main Content Section */}
+      {/* Main Content Section - Updated with white text for contrast */}
       <section className="max-w-6xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left Side - Description */}
           <div className="space-y-6">
             <div className="space-y-4">
-              <span className="inline-block px-4 py-2 bg-white/60 rounded-full text-xs text-black font-light">
+              <span className="inline-block px-4 py-2 bg-white/20 rounded-full text-xs text-white font-light border border-white/30">
                 {serviceData.subtitle}
               </span>
               
               <h2
-                className="text-3xl md:text-4xl font-thin text-black"
+                className="text-3xl md:text-4xl font-thin text-white"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
                 {serviceData.title}
               </h2>
               
-              <p className="text-base md:text-lg font-light text-gray-800 leading-relaxed">
+              <p className="text-base md:text-lg font-light text-white/90 leading-relaxed">
                 {serviceData.description}
               </p>
 
               {/* Duration Display */}
               {serviceData.duration && (
-                <div className="flex items-center gap-2 text-sm text-gray-700">
+                <div className="flex items-center gap-2 text-sm text-white/80">
                   <Camera className="w-4 h-4" />
                   <span>Session Duration: {serviceData.duration}</span>
                 </div>
@@ -191,16 +191,16 @@ const ServicePage = () => {
             {/* Features List */}
             {serviceData.features && serviceData.features.length > 0 && (
               <div>
-                <h3 className="text-xl font-light text-black mb-4">
+                <h3 className="text-xl font-light text-white mb-4">
                   What's Included
                 </h3>
                 <ul className="space-y-3">
                   {serviceData.features.map((feature, idx) => (
                     <li
                       key={idx}
-                      className="flex items-center gap-3 text-gray-800 font-light"
+                      className="flex items-center gap-3 text-white/90 font-light"
                     >
-                      <ChevronRight className="w-4 h-4 text-gray-600 flex-shrink-0" />
+                      <ChevronRight className="w-4 h-4 text-white/70 flex-shrink-0" />
                       <span>{feature}</span>
                     </li>
                   ))}
@@ -208,10 +208,10 @@ const ServicePage = () => {
               </div>
             )}
 
-            {/* CTA Button with Modal - Updated */}
+            {/* CTA Button with Modal - Updated with white background */}
             <Modal
               trigger={
-                <button className="group bg-black text-white font-light px-8 py-4 rounded-xl hover:bg-gray-800 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+                <button className="group bg-white text-purple-700 font-medium px-8 py-4 rounded-xl hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
                   <span className="flex items-center gap-2">
                     <span>Book This Session</span>
                     <Camera className="w-5 h-5 group-hover:rotate-12 transition-transform" />
@@ -232,15 +232,20 @@ const ServicePage = () => {
               description={`Ready to capture beautiful moments? Fill in your details below and we'll create something amazing together with our ${serviceData.title} service.`}
               className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto"
             >
-              <ContactForm
-                initialData={{
-                  serviceType: serviceData.slug || serviceData.title?.toLowerCase().replace(/\s+/g, "-"),
-                  message: `Hi! I'm interested in booking a "${serviceData.title}" session. ${serviceData.duration ? `I understand the session duration is ${serviceData.duration}.` : ''} Please let me know about availability and next steps.`
-                }}
-                submitButtonText={`Book ${serviceData.title}`}
-                onSubmit={handleBookingSubmit}
-                className="max-w-none"
-              />
+              {({ close }) => (
+                <ContactForm
+                  initialData={{
+                    serviceType: serviceData.slug || serviceData.title?.toLowerCase().replace(/\s+/g, "-"),
+                    message: `Hi! I'm interested in booking a "${serviceData.title}" session. ${serviceData.duration ? `I understand the session duration is ${serviceData.duration}.` : ''} Please let me know about availability and next steps.`
+                  }}
+                  submitButtonText={`Book ${serviceData.title}`}
+                  onSubmit={async (formData) => {
+                    await handleBookingSubmit(formData);
+                    close();
+                  }}
+                  className="max-w-none"
+                />
+              )}
             </Modal>
           </div>
 
@@ -277,33 +282,33 @@ const ServicePage = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
             </div>
             
-            {/* Floating accent elements */}
-            <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-white/40 rounded-full opacity-60" />
-            <div className="absolute -top-4 -left-4 w-12 h-12 bg-white/30 rounded-full opacity-40" />
+            {/* Floating accent elements - Updated with white/transparent colors */}
+            <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-white/20 rounded-full opacity-60" />
+            <div className="absolute -top-4 -left-4 w-12 h-12 bg-white/10 rounded-full opacity-40" />
           </div>
         </div>
       </section>
       
       <PhotographyPortfolio />
       
-      {/* Bottom CTA Section with Modal - Updated */}
+      {/* Bottom CTA Section with Modal - Updated with semi-transparent background and white text */}
       <section className="max-w-4xl mx-auto px-4 py-16">
-        <div className="text-center py-12 bg-white/50 rounded-2xl">
+        <div className="text-center py-12 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
           <h3
-            className="text-2xl md:text-3xl font-thin text-black mb-4"
+            className="text-2xl md:text-3xl font-thin text-white mb-4"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             Ready to Capture These Precious Moments?
           </h3>
-          <p className="text-base font-light text-gray-800 mb-8 max-w-2xl mx-auto">
+          <p className="text-base font-light text-white/90 mb-8 max-w-2xl mx-auto">
             Book your {serviceData.title.toLowerCase()} session today and create memories that will last a lifetime. 
             Our professional team is ready to make your special day unforgettable.
           </p>
           
-          {/* Bottom CTA Button with Modal */}
+          {/* Bottom CTA Button with Modal - Updated with white background */}
           <Modal
             trigger={
-              <button className="bg-black text-white font-light px-10 py-4 rounded-xl hover:bg-gray-800 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+              <button className="bg-white text-purple-700 font-medium px-10 py-4 rounded-xl hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
                 Schedule Your Session
               </button>
             }
@@ -321,22 +326,21 @@ const ServicePage = () => {
             description={`Ready to book your ${serviceData.title} session? Share your details and preferences with us, and we'll get back to you within 24 hours to confirm your booking.`}
             className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto"
           >
-             {({ close }) => (
-            <ContactForm
-              initialData={{
-                serviceType: serviceData.slug || serviceData.title?.toLowerCase().replace(/\s+/g, "-"),
-                message: `Hi! I'd like to schedule a "${serviceData.title}" session. Please let me know your availability and any preparation details I should be aware of.`
-              }}
-              submitButtonText={`Schedule ${serviceData.title} Session`}
-              onSubmit={async (formData) => {
-                await handleBookingSubmit(formData, pkg); // ➟ your API call
-                close();
-              }}
-              className="max-w-none"
-            />
-          )}
+            {({ close }) => (
+              <ContactForm
+                initialData={{
+                  serviceType: serviceData.slug || serviceData.title?.toLowerCase().replace(/\s+/g, "-"),
+                  message: `Hi! I'd like to schedule a "${serviceData.title}" session. Please let me know your availability and any preparation details I should be aware of.`
+                }}
+                submitButtonText={`Schedule ${serviceData.title} Session`}
+                onSubmit={async (formData) => {
+                  await handleBookingSubmit(formData);
+                  close();
+                }}
+                className="max-w-none"
+              />
+            )}
           </Modal>
-          
         </div>
       </section>
     </div>
