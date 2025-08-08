@@ -43,23 +43,26 @@ const PhotographyPortfolio = () => {
           isActive: "true",
           sortBy: "sortOrder",
           sortOrder: "asc",
-          limit: 8, // Reduced for minimal design
+          limit: 8,
         },
       });
 
       const imagesData = response.data.images || response.data;
 
       if (imagesData && imagesData.length > 0) {
-        const transformedItems = imagesData.map((image) => ({
-          id: image.id,
-          title: image.title,
-          category: image.category,
-          image: image.thumb || image.src,
-          fullImage: image.src,
-          alt: image.alt,
-          description: image.description,
-          featured: image.featured,
-        }));
+        // Filter out items without valid image sources
+        const transformedItems = imagesData
+          .map((image) => ({
+            id: image.id,
+            title: image.title || 'Untitled',
+            category: image.category || 'Photography',
+            image: image.thumb || image.src,
+            fullImage: image.src,
+            alt: image.alt || image.title || 'Portfolio image',
+            description: image.description || '',
+            featured: image.featured,
+          }))
+          .filter(item => item.fullImage && item.image); // Only include items with valid images
 
         setPortfolioItems(transformedItems);
       } else {
@@ -135,13 +138,14 @@ const PhotographyPortfolio = () => {
             showThumbByDefault={false}
             counter={true}
             addClass="lg-minimal-gallery"
+            selector=".gallery-item" // Add explicit selector
           >
             <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-2">
-              {portfolioItems.map((item) => (
+              {portfolioItems.map((item, index) => (
                 <div
-                  key={item.id}
-                  className="aspect-square group cursor-pointer overflow-hidden relative"
-                  data-src={item.fullImage}
+                  key={item.id || index}
+                  className="gallery-item aspect-square group cursor-pointer overflow-hidden relative"
+                  data-src={item.fullImage || item.image} // Fallback to thumbnail if fullImage is missing
                   data-sub-html={`
                     <div class="text-center">
                       <h4 class="text-lg font-light mb-2">${item.title}</h4>
@@ -162,12 +166,16 @@ const PhotographyPortfolio = () => {
                   {/* Image */}
                   <img
                     src={item.image}
-                    alt={item.alt || item.title}
+                    alt={item.alt}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                     onError={(e) => {
-                      if (e.target.src !== item.fullImage) {
+                      // Fallback to fullImage if thumbnail fails
+                      if (e.target.src !== item.fullImage && item.fullImage) {
                         e.target.src = item.fullImage;
+                      } else {
+                        // Hide the item if both images fail
+                        e.target.closest('.gallery-item').style.display = 'none';
                       }
                     }}
                   />

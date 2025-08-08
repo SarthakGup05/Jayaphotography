@@ -13,7 +13,8 @@ import {
   Star,
   Home,
   Image,
-  Phone
+  Phone,
+  MessageCircle
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import axiosInstance from "../lib/axiosinstance";
@@ -236,12 +237,29 @@ const Nav = () => {
   };
 
   // Social media links
-  const socialLinks = [
-    { icon: Facebook, href: "https://facebook.com", color: "hover:text-blue-600", bg: "hover:bg-blue-100" },
-    { icon: Twitter, href: "https://twitter.com", color: "hover:text-sky-500", bg: "hover:bg-sky-100" },
-    { icon: Instagram, href: "https://instagram.com", color: "hover:text-pink-600", bg: "hover:bg-pink-100" },
-    { icon: Linkedin, href: "https://linkedin.com", color: "hover:text-blue-700", bg: "hover:bg-blue-100" },
-  ];
+const socialLinks = [
+  { 
+    icon: Facebook, 
+    href: "https://www.facebook.com/jayaagnihotriphotography/", 
+    color: "hover:text-blue-600", 
+    bg: "hover:bg-blue-100",
+    label: "Facebook"
+  },
+  { 
+    icon: Instagram, 
+    href: "https://www.instagram.com/jayaagnihotriphotography/", 
+    color: "hover:text-pink-600", 
+    bg: "hover:bg-pink-100",
+    label: "Instagram" 
+  },
+  { 
+    icon: MessageCircle, 
+    href: "https://wa.me/919335391320", // Replace with your WhatsApp number
+    color: "hover:text-green-600", 
+    bg: "hover:bg-green-100",
+    label: "WhatsApp"
+  },
+]
 
   // Get current page indicator
   const isCurrentPage = (href) => {
@@ -279,7 +297,7 @@ const Nav = () => {
                 style={{ display: 'none' }}
               >
                 <Camera className="w-6 h-6 mr-2" />
-                STUDIO
+                Jaya Photography
               </div>
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
             </div>
