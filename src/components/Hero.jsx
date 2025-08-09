@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, EffectFade } from "swiper/modules";
+import { Autoplay, Pagination, Parallax } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/effect-fade";
 import "swiper/css/pagination";
-import axios from "axios";
+import "swiper/css/parallax";
 import axiosInstance from "@/lib/axiosinstance";
 
 const Hero = () => {
@@ -12,13 +11,11 @@ const Hero = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // ─── Fetch slides from your backend ───
   const fetchSlides = async () => {
     try {
       setLoading(true);
       setError(null);
       const { data } = await axiosInstance.get("/slider/get-sliders");
-      // Your slides are in data.data
       setSlides(data.data);
     } catch (err) {
       setError("Failed to load slides. Please refresh the page.");
@@ -28,12 +25,10 @@ const Hero = () => {
     }
   };
 
-  // ─── Load slides on mount ───
   useEffect(() => {
     fetchSlides();
   }, []);
 
-  // ─── Loading state ───
   if (loading) {
     return (
       <div className="w-full h-screen flex items-center justify-center bg-gray-50">
@@ -42,7 +37,6 @@ const Hero = () => {
     );
   }
 
-  // ─── Error state ───
   if (error) {
     return (
       <div className="w-full h-screen flex items-center justify-center bg-gray-50">
@@ -51,7 +45,6 @@ const Hero = () => {
     );
   }
 
-  // ─── No slides fallback ───
   if (slides.length === 0) {
     return (
       <div className="w-full h-screen flex items-center justify-center bg-gray-50">
@@ -60,30 +53,46 @@ const Hero = () => {
     );
   }
 
-  // ─── Render slider with your animation and overlay ───
   return (
     <div className="w-full h-screen relative">
       <Swiper
-        modules={[Autoplay, Pagination, EffectFade]}
-        effect="fade"
+        modules={[Autoplay, Pagination, Parallax]}
+        parallax={true}
+        speed={1200}
         autoplay={{ delay: 4000, disableOnInteraction: false }}
         pagination={{ clickable: true }}
         loop
         className="h-full"
       >
+        <div
+          slot="container-start"
+          className="absolute inset-0"
+          data-swiper-parallax="-20%"
+        ></div>
+
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="w-full h-[100vh] relative">
-              <img
-                src={slide.mediaUrl} // ⚠️ This is your API's image URL
-                alt={slide.title}
-                className="w-full h-[800px] object-center object-cover"
-              />
-              <div className="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center text-white px-4">
-                <h2 className="text-4xl md:text-6xl font-bold mb-4 animate-fade-in-down">
+            <div className="w-full h-[800px] relative">
+              <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${slide.mediaUrl})` }}
+                data-swiper-parallax="-40%"
+              ></div>
+
+              <div
+                className="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center text-white px-4"
+                data-swiper-parallax="-100"
+              >
+                <h2
+                  className="text-4xl md:text-6xl font-bold mb-4"
+                  data-swiper-parallax="-200"
+                >
                   {slide.title}
                 </h2>
-                <p className="text-lg md:text-2xl font-light animate-fade-in-up">
+                <p
+                  className="text-lg md:text-2xl font-light max-w-3xl"
+                  data-swiper-parallax="-300"
+                >
                   {slide.subtitle}
                 </p>
               </div>
@@ -92,25 +101,16 @@ const Hero = () => {
         ))}
       </Swiper>
 
-      {/* ─── Keep your animation styles ─── */}
       <style>{`
         .swiper-pagination-bullet {
           background: white;
-          opacity: 1;
+          opacity: 0.8;
+          transition: all 0.3s ease;
         }
-        .animate-fade-in-down {
-          animation: fadeInDown 1s ease both;
-        }
-        .animate-fade-in-up {
-          animation: fadeInUp 1s ease both;
-        }
-        @keyframes fadeInDown {
-          from { opacity: 0; transform: translateY(-20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
+        .swiper-pagination-bullet-active {
+          background: #f7b777;
+          width: 12px;
+          height: 12px;
         }
       `}</style>
     </div>

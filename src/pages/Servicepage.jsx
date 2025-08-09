@@ -117,7 +117,7 @@ const ServicePage = () => {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#9575CD' }}>
+    <div className="min-h-screen" style={{ backgroundImage: `url('/bg/lavender.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundColor: '' }}>
       {/* Hero Section - Remains unchanged */}
       <section className="relative flex flex-col items-center justify-center py-16 px-4 overflow-hidden mt-16" style={{ backgroundColor: '#FAF0DC' }}>
         <div className="absolute inset-0 bg-white/30 pointer-events-none" />

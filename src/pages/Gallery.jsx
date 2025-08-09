@@ -195,7 +195,7 @@ const Gallery = () => {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#9575CD' }}>
+    <div className="min-h-screen" style={{ backgroundImage: `url('/bg/lavender.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       {/* Hero Section - Remains the same */}
       <section className="relative py-20 px-4 overflow-hidden mt-16" style={{ backgroundColor: '#FAF0DC' }}>
         <div className="absolute inset-0 bg-white/20 pointer-events-none" />
