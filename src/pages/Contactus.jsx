@@ -41,16 +41,28 @@ const ContactUsPage = () => {
     try {
       setLoadingServices(true);
       const response = await axiosInstance.get("/services/get-services");
-      setServices(response.data);
+      
+      // Handle the response structure based on your API
+      let servicesData = [];
+      if (Array.isArray(response.data)) {
+        servicesData = response.data.filter(service => service.isActive);
+      } else if (response.data.services) {
+        servicesData = response.data.services.filter(service => service.isActive);
+      }
+      
+      setServices(servicesData);
     } catch (error) {
       console.error("Error fetching services:", error);
       toast.error("Failed to load services");
       // Fallback to static services if API fails
       setServices([
-        { id: 1, title: "Maternity Photography", slug: "maternity" },
-        { id: 2, title: "Baby Photography", slug: "baby" },
-        { id: 3, title: "Fashion Photography", slug: "fashion" },
-        { id: 4, title: "Other", slug: "other" }
+        { id: 1, name: "Maternity Photography", title: "Maternity Photography" },
+        { id: 2, name: "Newborn Photography", title: "Newborn Photography" },
+        { id: 3, name: "Baby Photography", title: "Baby Photography" },
+        { id: 4, name: "Fashion Photography", title: "Fashion Photography" },
+        { id: 5, name: "Family Photography", title: "Family Photography" },
+        { id: 6, name: "Theme Photography", title: "Theme Photography" },
+        { id: 7, name: "Other", title: "Other" }
       ]);
     } finally {
       setLoadingServices(false);
@@ -69,7 +81,7 @@ const ContactUsPage = () => {
         phone: contactData.phone,
         serviceType: contactData.serviceType,
         message: contactData.message,
-        source: 'contact_form', // To identify the source
+        source: 'contact_form',
         submittedAt: new Date().toISOString()
       };
 
@@ -163,34 +175,43 @@ const ContactUsPage = () => {
     {
       icon: <Phone className="w-6 h-6" />,
       title: "Phone",
-      details: ["+1 (555) 123-4567", "+1 (555) 987-6543"],
+      details: ["+91 9335391320"],
       color: "from-purple-500 to-indigo-500"
     },
     {
       icon: <Mail className="w-6 h-6" />,
       title: "Email",
-      details: ["hello@photographystudio.com", "bookings@photographystudio.com"],
+      details: ["jayaagnihotriphotography@gmail.com"],
       color: "from-violet-500 to-purple-500"
     },
     {
       icon: <MapPin className="w-6 h-6" />,
       title: "Location",
-      details: ["123 Photography Lane", "Creative District, NY 10001"],
+      details: ["Vishal Khand 2, Gomti Nagar", "Lucknow, Uttar Pradesh"],
       color: "from-pink-400 to-violet-400"
     },
     {
       icon: <Clock className="w-6 h-6" />,
       title: "Working Hours",
-      details: ["Mon - Fri: 9:00 AM - 7:00 PM", "Sat - Sun: 10:00 AM - 6:00 PM"],
+      details: ["Mon - Fri: 10:00 AM - 8:00 PM", "Sat - Sun: 10:00 AM - 6:00 PM"],
       color: "from-indigo-500 to-purple-500"
     }
   ];
 
   const socialLinks = [
-    { icon: <Instagram className="w-6 h-6" />, name: "Instagram", color: "hover:text-pink-500", url: "https://instagram.com/yourstudio" },
-    { icon: <Facebook className="w-6 h-6" />, name: "Facebook", color: "hover:text-blue-500", url: "https://facebook.com/yourstudio" },
-    { icon: <Twitter className="w-6 h-6" />, name: "Twitter", color: "hover:text-sky-500", url: "https://twitter.com/yourstudio" },
-    { icon: <Youtube className="w-6 h-6" />, name: "YouTube", color: "hover:text-red-500", url: "https://youtube.com/yourstudio" }
+    { 
+      icon: <Instagram className="w-6 h-6" />, 
+      name: "Instagram", 
+      color: "hover:text-pink-500", 
+      url: "https://www.instagram.com/jayaagnihotriphotography/" 
+    },
+    { 
+      icon: <Facebook className="w-6 h-6" />, 
+      name: "Facebook", 
+      color: "hover:text-blue-500", 
+      url: "https://facebook.com/jayaagnihotriphotography" 
+    },
+ 
   ];
 
   // Animation refs
@@ -295,11 +316,10 @@ const ContactUsPage = () => {
                         {loadingServices ? "Loading services..." : "Select Service Type"}
                       </option>
                       {services.map((service) => (
-                        <option key={service.id} value={service.slug || service.title.toLowerCase().replace(/\s+/g, '-')}>
-                          {service.title}
+                        <option key={service.id} value={service.name || service.title}>
+                          {service.name || service.title}
                         </option>
                       ))}
-                      <option value="other">Other</option>
                     </select>
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
                       {loadingServices ? (
@@ -335,7 +355,6 @@ const ContactUsPage = () => {
                     background: submitting 
                       ? 'linear-gradient(to right, #D1C4E9, #E1BEE7)' 
                       : 'linear-gradient(to right, #9C27B0, #E91E63)',
-                    ':hover': { background: 'linear-gradient(to right, #7B1FA2, #C2185B)' }
                   }}
                 >
                   <span className="flex items-center justify-center gap-2">
@@ -372,7 +391,7 @@ const ContactUsPage = () => {
                     <div className="flex-1">
                       <h3 className="text-lg font-semibold text-black mb-2">{item.title}</h3>
                       {item.details.map((detail, idx) => (
-                        <p key={idx} className="text-gray-800 text-sm">{detail}</p>
+                        <p key={idx} className="text-gray-800 text-sm mb-1">{detail}</p>
                       ))}
                     </div>
                   </div>
@@ -381,7 +400,7 @@ const ContactUsPage = () => {
             </div>
 
             {/* Social Media Links */}
-            <div ref={socialsRef} className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg">
+            <div ref={socialsRef} className="bg-white/90  backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg">
               <h3 className="text-lg font-semibold text-black mb-4">Follow Us</h3>
               <div className="flex gap-4">
                 {socialLinks.map((social, index) => (
@@ -406,12 +425,13 @@ const ContactUsPage = () => {
           <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 p-8">
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-black mb-3">Visit Our Studio</h2>
-              <p className="text-gray-800">Located in the heart of the creative district, our studio is easily accessible and equipped with state-of-the-art facilities.</p>
+              <p className="text-gray-800">Located in Vishal Khand 2, Gomti Nagar, Lucknow. Our studio is equipped with state-of-the-art facilities and is easily accessible.</p>
             </div>
             
             <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+              {/* Gomti Nagar, Lucknow Google Maps embed */}
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1422937950147!2d-73.98731968459391!3d40.75889797932681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes%20Square!5e0!3m2!1sen!2sus!4v1635959687750!5m2!1sen!2sus"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.2441234567!2d80.9862!3d26.8467!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399bfd991f32b16b%3A0x93ccba8909978be7!2sVishal%20Khand%202%2C%20Gomti%20Nagar%2C%20Lucknow%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                 width="100%"
                 height="400"
                 style={{ border: 0 }}
@@ -423,7 +443,10 @@ const ContactUsPage = () => {
               <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-xl p-3 shadow-lg">
                 <div className="flex items-center gap-2 text-black">
                   <MapPin className="w-5 h-5 text-purple-500" />
-                  <span className="font-semibold">Our Studio Location</span>
+                  <div>
+                    <span className="font-semibold block">Jaya Agnihotri Photography</span>
+                    <span className="text-sm text-gray-600">Vishal Khand 2, Gomti Nagar</span>
+                  </div>
                 </div>
               </div>
             </div>

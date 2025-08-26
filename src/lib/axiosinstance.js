@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const axiosInstance = axios.create({
-  baseURL: "https://oriera-admin.onrender.com/api/v1",
+  baseURL: "https://backend.jayaphotography.in/api/v1",
   withCredentials: true
 })
 

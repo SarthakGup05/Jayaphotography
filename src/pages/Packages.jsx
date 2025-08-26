@@ -93,8 +93,8 @@ const Packages = () => {
   ───────────────────────────────────────────────────────── */
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <span className="animate-pulse text-lg font-medium text-gray-500">
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 via-stone-50 to-yellow-50 flex items-center justify-center">
+        <span className="animate-pulse text-lg font-medium text-amber-700">
           Loading packages…
         </span>
       </div>
@@ -103,19 +103,19 @@ const Packages = () => {
 
   if (fetchError) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-red-600 text-center max-w-md">{fetchError}</p>
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 via-stone-50 to-yellow-50 flex items-center justify-center">
+        <p className="text-amber-800 text-center max-w-md">{fetchError}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-purple-50 py-16 px-2 md:px-8">
-      {/* Hover & focus styles */}
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-stone-50 to-yellow-50 py-16 px-2 md:px-8">
+      {/* Updated hover & focus styles with beige theme */}
       <style>{`
         .pkg-col:hover, .pkg-col:focus-within {
-          background: linear-gradient(90deg, #fce7f3 0%, #ede9fe 100%);
-          box-shadow: 0 4px 24px 0 rgba(236, 72, 153, 0.08);
+          background: linear-gradient(90deg, #fef3e2 0%, #f5f5dc 100%);
+          box-shadow: 0 4px 24px 0 rgba(180, 83, 9, 0.08);
           z-index: 1;
         }
         .pkg-col td, .pkg-col th { transition: background 0.3s, box-shadow 0.3s; }
@@ -123,12 +123,12 @@ const Packages = () => {
         .pkg-col:hover .pkg-badge,
         .pkg-col:focus-within .pkg-badge {
           transform: scale(1.08) translateY(-2px);
-          box-shadow: 0 6px 24px 0 rgba(236, 72, 153, 0.12);
+          box-shadow: 0 6px 24px 0 rgba(180, 83, 9, 0.12);
         }
         .pkg-col:hover .pkg-btn,
         .pkg-col:focus-within .pkg-btn {
           transform: scale(1.05) translateY(-1px);
-          box-shadow: 0 4px 16px 0 rgba(236, 72, 153, 0.10);
+          box-shadow: 0 4px 16px 0 rgba(180, 83, 9, 0.10);
         }
       `}</style>
 
@@ -138,12 +138,12 @@ const Packages = () => {
         className="max-w-6xl mx-auto text-center mb-12 mt-16"
       >
         <h1
-          className="text-4xl md:text-5xl font-light mb-4 tracking-tight"
+          className="text-4xl md:text-5xl font-light mb-4 tracking-tight text-amber-900"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
           Photography Packages
         </h1>
-        <p className="text-gray-600 max-w-2xl mx-auto font-light text-lg">
+        <p className="text-amber-700 max-w-2xl mx-auto font-light text-lg">
           Compare our packages and choose the perfect fit for your shoot.
         </p>
       </div>
@@ -153,11 +153,11 @@ const Packages = () => {
         <table className="min-w-full border-separate border-spacing-y-2">
           <thead>
             <tr>
-              <th className="text-left text-sm font-medium text-gray-500 p-3"></th>
+              <th className="text-left text-sm font-medium text-amber-600 p-3"></th>
               {packages.map((pkg, idx) => (
                 <th
                   key={idx}
-                  className="text-center text-base font-semibold text-gray-800 bg-gradient-to-r from-pink-100 to-purple-100 rounded-t-2xl px-6 py-4 pkg-col"
+                  className="text-center text-base font-semibold text-amber-900 bg-gradient-to-r from-amber-100 to-yellow-100 rounded-t-2xl px-6 py-4 pkg-col border border-amber-200"
                   style={{ fontFamily: "'Playfair Display', serif" }}
                   tabIndex={0}
                 >
@@ -170,10 +170,10 @@ const Packages = () => {
           <tbody>
             {/* Price Row */}
             <tr>
-              <td className="text-sm font-medium text-gray-700 p-3">Price</td>
+              <td className="text-sm font-medium text-amber-800 p-3">Price</td>
               {packages.map((pkg, idx) => (
-                <td key={idx} className="text-center p-3 pkg-col">
-                  <span className="inline-block bg-gradient-to-r from-pink-400 to-purple-400 text-white text-base font-semibold rounded-full px-5 py-2 shadow-sm pkg-badge">
+                <td key={idx} className="text-center p-3 pkg-col border-l border-r border-amber-200">
+                  <span className="inline-block bg-gradient-to-r from-amber-500 to-yellow-600 text-white text-base font-semibold rounded-full px-5 py-2 shadow-sm pkg-badge">
                     {pkg.price}
                   </span>
                 </td>
@@ -182,13 +182,13 @@ const Packages = () => {
 
             {/* Description Row */}
             <tr>
-              <td className="text-sm font-medium text-gray-700 p-3">
+              <td className="text-sm font-medium text-amber-800 p-3">
                 Description
               </td>
               {packages.map((pkg, idx) => (
                 <td
                   key={idx}
-                  className="text-center p-3 text-gray-500 italic text-sm pkg-col"
+                  className="text-center p-3 text-amber-700 italic text-sm pkg-col border-l border-r border-amber-200"
                 >
                   {pkg.description}
                 </td>
@@ -198,13 +198,13 @@ const Packages = () => {
             {/* Inclusions Rows */}
             {allInclusions.map((inc, i) => (
               <tr key={i}>
-                <td className="text-sm text-gray-700 p-3">{inc}</td>
+                <td className="text-sm text-amber-800 p-3">{inc}</td>
                 {packages.map((pkg, idx) => (
-                  <td key={idx} className="text-center p-3 pkg-col">
+                  <td key={idx} className="text-center p-3 pkg-col border-l border-r border-amber-200">
                     {pkg.inclusions?.includes(inc) ? (
-                      <span className="inline-block w-4 h-4 rounded-full bg-pink-400 mx-auto transition-all duration-200"></span>
+                      <span className="inline-block w-4 h-4 rounded-full bg-amber-500 mx-auto transition-all duration-200"></span>
                     ) : (
-                      <span className="inline-block w-4 h-4 rounded-full bg-gray-200 mx-auto transition-all duration-200"></span>
+                      <span className="inline-block w-4 h-4 rounded-full bg-stone-300 mx-auto transition-all duration-200"></span>
                     )}
                   </td>
                 ))}
@@ -215,11 +215,11 @@ const Packages = () => {
             <tr>
               <td></td>
               {packages.map((pkg, idx) => (
-                <td key={idx} className="text-center p-3 pkg-col">
+                <td key={idx} className="text-center p-3 pkg-col border-l border-r border-b border-amber-200 rounded-b-2xl">
                   {/* Modal wraps each Book Now button */}
                   <Modal
                     trigger={
-                      <Button className="rounded-full px-7 py-2 bg-pink-500 hover:bg-pink-600 text-white text-sm font-medium shadow-md transition-transform duration-200 hover:scale-105 pkg-btn">
+                      <Button className="rounded-full px-7 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium shadow-md transition-transform duration-200 hover:scale-105 pkg-btn">
                         Book Now
                       </Button>
                     }
@@ -227,8 +227,8 @@ const Packages = () => {
                       <div className="flex items-center space-x-2">
                         <span className="text-2xl">📸</span>
                         <div>
-                          <span className="text-xl font-semibold">Book "{pkg.title}"</span>
-                          <div className="text-sm text-muted-foreground font-normal">
+                          <span className="text-xl font-semibold text-amber-900">Book "{pkg.title}"</span>
+                          <div className="text-sm text-amber-600 font-normal">
                             Starting at {pkg.price}
                           </div>
                         </div>

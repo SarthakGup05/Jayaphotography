@@ -117,7 +117,7 @@ const ServicePage = () => {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundImage: `url('/bg/lavender.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundColor: '' }}>
+    <div className="min-h-screen" style={{ backgroundColor: `#D3D3FF`, }}>
       {/* Hero Section - Remains unchanged */}
       <section className="relative flex flex-col items-center justify-center py-16 px-4 overflow-hidden mt-16" style={{ backgroundColor: '#FAF0DC' }}>
         <div className="absolute inset-0 bg-white/30 pointer-events-none" />
@@ -164,24 +164,24 @@ const ServicePage = () => {
           {/* Left Side - Description */}
           <div className="space-y-6">
             <div className="space-y-4">
-              <span className="inline-block px-4 py-2 bg-white/20 rounded-full text-xs text-white font-light border border-white/30">
+              <span className="inline-block px-4 py-2 bg-white/20 rounded-full text-xs text-black font-light border border-white/30">
                 {serviceData.subtitle}
               </span>
               
               <h2
-                className="text-3xl md:text-4xl font-thin text-white"
+                className="text-3xl md:text-4xl font-thin text-black"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
                 {serviceData.title}
               </h2>
               
-              <p className="text-base md:text-lg font-light text-white/90 leading-relaxed">
+              <p className="text-base md:text-lg font-light text-black leading-relaxed">
                 {serviceData.description}
               </p>
 
               {/* Duration Display */}
               {serviceData.duration && (
-                <div className="flex items-center gap-2 text-sm text-white/80">
+                <div className="flex items-center gap-2 text-sm text-black">
                   <Camera className="w-4 h-4" />
                   <span>Session Duration: {serviceData.duration}</span>
                 </div>
@@ -191,16 +191,16 @@ const ServicePage = () => {
             {/* Features List */}
             {serviceData.features && serviceData.features.length > 0 && (
               <div>
-                <h3 className="text-xl font-light text-white mb-4">
+                <h3 className="text-xl font-light text-black mb-4">
                   What's Included
                 </h3>
                 <ul className="space-y-3">
                   {serviceData.features.map((feature, idx) => (
                     <li
                       key={idx}
-                      className="flex items-center gap-3 text-white/90 font-light"
+                      className="flex items-center gap-3 text-black font-light"
                     >
-                      <ChevronRight className="w-4 h-4 text-white/70 flex-shrink-0" />
+                      <ChevronRight className="w-4 h-4 text-shadow-black flex-shrink-0" />
                       <span>{feature}</span>
                     </li>
                   ))}
@@ -308,7 +308,7 @@ const ServicePage = () => {
           {/* Bottom CTA Button with Modal - Updated with white background */}
           <Modal
             trigger={
-              <button className="bg-white text-purple-700 font-medium px-10 py-4 rounded-xl hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+              <button className="bg-white text-black font-medium px-10 py-4 rounded-xl hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
                 Schedule Your Session
               </button>
             }

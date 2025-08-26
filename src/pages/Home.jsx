@@ -1,7 +1,4 @@
 import CTASection from "@/components/CtaSec";
-import FeaturedStories from "@/components/FeaturedSec";
-import FeaturedGalleryStory from "@/components/FeaturedSec";
-import GalleryShowcase from "@/components/Gallery";
 import Hero from "@/components/Hero";
 import JayaAbout from "@/components/Jayaabout";
 import PhotographyPortfolio from "@/components/PhotographyPortfolio";
@@ -9,7 +6,8 @@ import Testimonial from "@/components/Testimonials";
 import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import ReviewForm from "@/components/Reviewform";
+import Services from "@/components/Services";
+
 
 const Home = () => {
   const heroRef = useRef();
@@ -58,18 +56,20 @@ const Home = () => {
       <div ref={heroRef}>
         <Hero />
       </div>
-      <div ref={aboutRef}>
-        <JayaAbout />
-      </div>
       <div ref={portfolioRef}>
         <PhotographyPortfolio />
       </div>
+       <div ref={featuredRef}>
+        <Services/>
+      </div>
+      <div ref={aboutRef}>
+        <JayaAbout />
+      </div>
+     
       <div ref={testimonialRef}>
         <Testimonial />
       </div>
-      <div ref={featuredRef}>
-        <ReviewForm />
-      </div>
+     
       {/* <div><GalleryShowcase/></div> */}
       <div ref={ctaRef}>
         <CTASection />

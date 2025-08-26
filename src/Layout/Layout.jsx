@@ -2,6 +2,8 @@ import React from "react";
 import Nav from "./Nav";
 import Footer from "./Footer";
 import { Outlet } from "react-router-dom";
+import FloatingModal from "./FloatingModal";
+import ReviewForm from "@/components/Reviewform";
 
 const Layout = () => {
   return (
@@ -11,6 +13,9 @@ const Layout = () => {
         <Outlet />
       </main>
       <Footer />
+         <FloatingModal buttonText="⭐ Leave a Review">
+        <ReviewForm />
+      </FloatingModal>
     </div>
   );
 };
