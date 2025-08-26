@@ -170,7 +170,7 @@ const ServicePage = () => {
               
               <h2
                 className="text-3xl md:text-4xl font-thin text-black"
-                style={{ fontFamily: "'Playfair Display', serif" }}
+              
               >
                 {serviceData.title}
               </h2>

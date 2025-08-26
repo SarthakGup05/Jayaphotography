@@ -139,7 +139,6 @@ const Packages = () => {
       >
         <h1
           className="text-4xl md:text-5xl font-light mb-4 tracking-tight text-amber-900"
-          style={{ fontFamily: "'Playfair Display', serif" }}
         >
           Photography Packages
         </h1>
