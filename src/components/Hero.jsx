@@ -121,11 +121,11 @@ const Hero = () => {
 
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="slide-content relative">
+            <div className="slide-content relative mt-8 w-full h-full">
               {/* Background Image */}
               <div
                 className={`slide-bg absolute inset-0 bg-cover bg-center bg-no-repeat ${
-                  isMobile ? 'h-[600px]' : 'h-[750px]'
+                  isMobile ? 'h-[600px]' : 'h-[700px]'
                 }`}
                 style={{ backgroundImage: `url(${slide.mediaUrl})` }}
                 data-swiper-parallax="-40%"
@@ -163,7 +163,7 @@ const Hero = () => {
         @media (max-width: 768px) {
           .hero-container {
             max-width: 450px;
-            height: 650px !important;
+            height: 500px !important;
             margin: 0 auto;
             border-radius: 12px;
             overflow: hidden;
