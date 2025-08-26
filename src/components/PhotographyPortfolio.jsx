@@ -117,12 +117,12 @@ const PhotographyPortfolio = () => {
             <Camera className="w-5 h-5 text-black" />
           </div>
           
-          <h1 className="text-3xl md:text-4xl font-light text-black mb-6 tracking-tight leading-relaxed">
+          <h1 className="text-3xl md:text-4xl font-semibold text-black mb-6 tracking-tight leading-relaxed">
             Capturing Life's<br />
             Beautiful Moments
           </h1>
           
-          <p className="text-gray-700 max-w-md mx-auto text-base font-light leading-relaxed">
+          <p className="text-gray-700 max-w-md mx-auto text-base font-medium leading-relaxed">
             A curated selection of our finest work showcasing newborn, maternity, 
             and fashion photography.
           </p>
@@ -205,7 +205,7 @@ const PhotographyPortfolio = () => {
               onClick={() => navigate("/gallery")}
               className="group flex items-center gap-2 text-black hover:gap-3 transition-all duration-200"
             >
-              <span className="font-light">View Complete Gallery</span>
+              <span className="font-bold">View Complete Gallery</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" />
             </button>
             
@@ -213,7 +213,7 @@ const PhotographyPortfolio = () => {
             
             <button
               onClick={() => navigate("/contact")}
-              className="text-black font-light hover:text-gray-600 transition-colors duration-200 border-b border-transparent hover:border-gray-300"
+              className="text-black font-bold hover:text-gray-600 transition-colors duration-200 border-b border-transparent hover:border-gray-300"
             >
               Book a Session
             </button>
@@ -221,7 +221,7 @@ const PhotographyPortfolio = () => {
           
           {/* Minimal stats */}
           <div className="pt-8 border-t border-gray-200/50 mt-12">
-            <div className="flex items-center justify-center gap-8 text-xs text-gray-500 font-light">
+            <div className="flex items-center justify-center gap-8 text-xs text-gray-500 font-medeium">
               <span>{portfolioItems.length} Featured Works</span>
               <span>•</span>
               <span>{[...new Set(portfolioItems.map(item => item.category))].length} Categories</span>

@@ -4,10 +4,13 @@
 /* Set global font families */
 body {
   font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  font-size: medium;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Raleway', sans-serif;
+  font-weight: 600;
 }
 
 /* Custom LightGallery Styles */

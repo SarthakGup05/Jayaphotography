@@ -112,7 +112,7 @@ const Services = () => {
               Our Services
             </span>
           </div>
-          <h2 className="text-5xl font-thin text-gray-800 mb-6 leading-tight">
+          <h2 className="text-5xl text-gray-800 mb-6 leading-tight font-medium">
             Capturing Life's
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600 font-light">
               Most Precious Moments
@@ -196,7 +196,7 @@ const Services = () => {
                     
                     {/* Content */}
                     <div className="absolute bottom-6 left-6 right-6 text-white">
-                      <h3 className="text-2xl font-light mb-2 group-hover:text-pink-200 transition-colors duration-300 leading-tight">
+                      <h3 className="text-2xl font-medium mb-2 group-hover:text-amber-200 transition-colors duration-300 leading-tight">
                         {service.title}
                       </h3>
                       {service.subtitle && (

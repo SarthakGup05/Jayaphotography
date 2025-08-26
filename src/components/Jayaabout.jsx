@@ -44,7 +44,7 @@ const JayaAbout = () => {
 
             {/* Right - Content */}
             <div>
-              <h2 className="text-4xl font-thin text-black mb-8">About Jaya</h2>
+              <h2 className="text-3xl text-black mb-8 font-semibold">About Jaya</h2>
               <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
                 <p>
                   With a Masters in Photography and over 10 years of experience,

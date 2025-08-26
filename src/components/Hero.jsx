@@ -125,7 +125,7 @@ const Hero = () => {
               {/* Background Image */}
               <div
                 className={`slide-bg absolute inset-0 bg-cover bg-center bg-no-repeat ${
-                  isMobile ? 'h-[500px]' : 'h-[820px]'
+                  isMobile ? 'h-[600px]' : 'h-[750px]'
                 }`}
                 style={{ backgroundImage: `url(${slide.mediaUrl})` }}
                 data-swiper-parallax="-40%"
@@ -163,7 +163,7 @@ const Hero = () => {
         @media (max-width: 768px) {
           .hero-container {
             max-width: 450px;
-            height: 500px !important;
+            height: 650px !important;
             margin: 0 auto;
             border-radius: 12px;
             overflow: hidden;
