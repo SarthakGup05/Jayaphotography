@@ -218,7 +218,7 @@ const Packages = () => {
                   {/* Modal wraps each Book Now button */}
                   <Modal
                     trigger={
-                      <Button className="rounded-full px-7 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium shadow-md transition-transform duration-200 hover:scale-105 pkg-btn">
+                      <Button className="rounded-full cursor-pointer px-7 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium shadow-md transition-transform duration-200 hover:scale-105 pkg-btn">
                         Book Now
                       </Button>
                     }

@@ -75,7 +75,7 @@ const Nav = () => {
         
         const serviceItems = response.data.map(service => ({
           name: service.title,
-          href: `/services/${service.slug}`,
+          href: `/service/${service.slug}`,
         
         }));
         
@@ -166,7 +166,7 @@ const Nav = () => {
     },
     { 
       name: "Contact Us", 
-      href: "/contact", 
+      href: "/contact-us", 
       icon: <Phone className="w-4 h-4" /> 
     },
   ];

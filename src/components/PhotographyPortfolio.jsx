@@ -113,12 +113,12 @@ const PhotographyPortfolio = () => {
       <div className="max-w-6xl mx-auto">
         {/* Minimal Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-black/5 mb-8">
+          {/* <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-black/5 mb-8">
             <Camera className="w-5 h-5 text-black" />
           </div>
-          
-          <h1 className="text-3xl md:text-4xl font-semibold text-black mb-6 tracking-tight leading-relaxed">
-            Capturing Life's<br />
+           */}
+          <h1 className="text-3xl md:text-4xl font-semibold text-black mb-2 tracking-tight leading-relaxed">
+            Capturing Life's
             Beautiful Moments
           </h1>
           
@@ -199,11 +199,11 @@ const PhotographyPortfolio = () => {
         )}
 
         {/* Minimal Call to Action */}
-        <div className="text-center mt-16 space-y-4">
+        <div className="text-center mt-16 space-y-4 cursor-pointer">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
             <button
               onClick={() => navigate("/gallery")}
-              className="group flex items-center gap-2 text-black hover:gap-3 transition-all duration-200"
+              className="group flex items-center gap-2 text-black hover:gap-3 transition-all duration-200 cursor-pointer"
             >
               <span className="font-bold">View Complete Gallery</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" />
@@ -213,14 +213,14 @@ const PhotographyPortfolio = () => {
             
             <button
               onClick={() => navigate("/contact")}
-              className="text-black font-bold hover:text-gray-600 transition-colors duration-200 border-b border-transparent hover:border-gray-300"
+              className="text-black font-bold hover:text-gray-600 transition-colors cursor-pointer duration-200 border-b border-transparent hover:border-gray-300"
             >
               Book a Session
             </button>
           </div>
           
           {/* Minimal stats */}
-          <div className="pt-8 border-t border-gray-200/50 mt-12">
+          {/* <div className="pt-8 border-t border-gray-200/50 mt-12">
             <div className="flex items-center justify-center gap-8 text-xs text-gray-500 font-medeium">
               <span>{portfolioItems.length} Featured Works</span>
               <span>•</span>
@@ -228,7 +228,7 @@ const PhotographyPortfolio = () => {
               <span>•</span>
               <span>Professional Studio</span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

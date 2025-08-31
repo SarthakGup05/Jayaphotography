@@ -373,7 +373,7 @@ const CTASection = () => {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full bg-gradient-to-r from-amber-600 to-yellow-600 text-white font-semibold py-4 px-8 rounded-xl hover:from-amber-700 hover:to-yellow-700 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  className="cursor-pointer w-full bg-gradient-to-r from-amber-600 to-yellow-600 text-white font-semibold py-4 px-8 rounded-xl hover:from-amber-700 hover:to-yellow-700 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
                   <span className="flex items-center justify-center gap-2">
                     {submitting ? (

@@ -380,7 +380,6 @@ const Gallery = () => {
               lgThumbnail,
               lgZoom,
               lgFullscreen,
-              lgShare,
               lgAutoplay,
               lgPager,
               lgRotate,
@@ -521,7 +520,7 @@ const Gallery = () => {
             
             <Modal
               trigger={
-                <Button className="rounded-full px-10 py-6 bg-gradient-to-r from-white to-gray-100 hover:from-gray-100 hover:to-white text-purple-700 font-semibold shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:scale-110 text-lg">
+                <Button className=" cursor-pointer rounded-full px-10 py-6 bg-gradient-to-r from-white to-gray-100 hover:from-gray-100 hover:to-white text-purple-700 font-semibold shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:scale-110 text-lg">
                   <span className="flex items-center gap-3">
                     <Camera className="w-6 h-6" />
                     Book Your Session

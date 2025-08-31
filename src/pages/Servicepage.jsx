@@ -211,7 +211,7 @@ const ServicePage = () => {
             {/* CTA Button with Modal - Updated with white background */}
             <Modal
               trigger={
-                <button className="group bg-white text-purple-700 font-medium px-8 py-4 rounded-xl hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+                <button className="group bg-white text-purple-700 font-medium px-8 py-4 rounded-xl hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer">
                   <span className="flex items-center gap-2">
                     <span>Book This Session</span>
                     <Camera className="w-5 h-5 group-hover:rotate-12 transition-transform" />
@@ -308,7 +308,7 @@ const ServicePage = () => {
           {/* Bottom CTA Button with Modal - Updated with white background */}
           <Modal
             trigger={
-              <button className="bg-white text-black font-medium px-10 py-4 rounded-xl hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+              <button className="bg-white text-black font-medium px-10 py-4 rounded-xl hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer">
                 Schedule Your Session
               </button>
             }

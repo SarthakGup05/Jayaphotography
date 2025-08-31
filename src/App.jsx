@@ -44,9 +44,9 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
               <Route path="/about-jaya" element={<About />} />
-              <Route path="/contact" element={<ContactUsPage />} />
+              <Route path="/contact-us" element={<ContactUsPage />} />
               <Route path="/packages" element={<Packages />} />
-              <Route path="/services/:slug" element={<ServicePage />} />
+              <Route path="/service/:slug" element={<ServicePage />} />
               <Route path="/gallery" element={<Gallery />} />
               {/* 404 Catch-all route - MUST be last */}
               <Route path="*" element={<Unavailable />} />

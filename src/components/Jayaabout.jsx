@@ -20,7 +20,7 @@ const JayaAbout = () => {
                     alt="Jaya - Professional Photographer"
                     className="w-full h-full object-cover"
                   />
-                  
+
                   {/* Subtle gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent"></div>
                 </div>
@@ -37,32 +37,43 @@ const JayaAbout = () => {
               <div className="text-gray-600 text-xs uppercase tracking-wider font-medium">
                 Photographer
               </div>
-              
+
               <h1 className="text-black">About Jaya</h1>
-              
-              <div className="space-y-4 text-gray-700">
+
+              <div className="space-y-4 text-gray-700 text-2xl leading-relaxed font-semibold">
                 <p>
-                  With a Masters in Photography and over 10 years of experience,
-                  I specialize in capturing the intimate moments of motherhood
-                  and the pure joy of new life.
+                  Itwas 2012, and I had just moved to Lucknow from Kanpur to
+                  study. Since I had some time on my hands, I enrolled myself
+                  for a photography workshop, and that was the beginning of the
+                  most adventurous part of my life. Lots of criticism, some
+                  motivation and a few hundred shoots later, here I am - single
+                  handedly running a photography business.
                 </p>
                 <p>
-                  Based in Lucknow, I believe every session should tell a unique
-                  story. My approach combines artistic vision with genuine
-                  emotion to create timeless photographs you'll treasure
-                  forever.
+                  I soon dropped out of biotech and enrolled in Bachelor in
+                  visual arts, finishing it with masters in photography. By the
+                  time I was 25, I had already shot successful campaigns for few
+                  reputed colleges, and was travelling all over the country for
+                  work. Yes, I dropped it all to pursue my passion of
+                  photography. As much as it may sound like a cliche, this
+                  happening to me in reality was unnerving. For the first couple
+                  of years, my mind was constantly wondering if I've made the
+                  right choice, will I be financially sustainable and so much
+                  more. But when I pick up my camera and start creating
+                  beautiful images, I feel like the most powerful person and
+                  absolutely unstoppable.
                 </p>
               </div>
 
               {/* Action buttons */}
-              <div className="flex gap-4 pt-4">
+              <div className="flex gap-4 pt-4 cursor-pointer">
                 <Link to="/gallery">
-                  <button className="button px-6 py-3 bg-black text-white hover:bg-gray-800 transition-all duration-300 rounded-lg shadow-lg hover:shadow-xl">
+                  <button className="button cursor-pointer px-6 py-3 bg-black text-white hover:bg-gray-800 transition-all duration-300 rounded-lg shadow-lg hover:shadow-xl">
                     View Portfolio
                   </button>
                 </Link>
                 <Link to="/contact">
-                  <button className="button px-6 py-3 border-2 border-black text-black hover:bg-black hover:text-white transition-all duration-300 rounded-lg">
+                  <button className="button cursor-pointer px-6 py-3 border-2 border-black text-black hover:bg-black hover:text-white transition-all duration-300 rounded-lg">
                     Book Session
                   </button>
                 </Link>
@@ -83,7 +94,9 @@ const JayaAbout = () => {
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-lg font-light text-black mb-1">Masters</div>
+                  <div className="text-lg font-light text-black mb-1">
+                    Masters
+                  </div>
                   <div className="text-xs text-gray-600 uppercase tracking-wide">
                     Degree
                   </div>
