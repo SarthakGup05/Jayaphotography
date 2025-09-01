@@ -14,7 +14,7 @@ import {
   Home,
   Image,
   Phone,
-  MessageCircle
+  PhoneCall  // Replace MessageCircle with PhoneCall for WhatsApp
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import axiosInstance from "../lib/axiosinstance";
@@ -46,11 +46,6 @@ const Nav = () => {
           href: "/about-jaya", 
           description: "Learn about our photographer" 
         },
-        // { 
-        //   name: "Studio Tour", 
-        //   href: "/studio", 
-        //   description: "Virtual tour of our facilities" 
-        // },
       ],
     },
     { 
@@ -76,14 +71,12 @@ const Nav = () => {
         const serviceItems = response.data.map(service => ({
           name: service.title,
           href: `/service/${service.slug}`,
-        
         }));
         
         setPhotographyServices(serviceItems);
       } catch (error) {
         console.error("Error fetching photography services:", error);
         
-        // Enhanced fallback services
         setPhotographyServices([
           { 
             name: "Baby Photography", 
@@ -121,7 +114,6 @@ const Nav = () => {
       const scrollPosition = window.scrollY;
       setScrolled(scrollPosition > 20);
       
-      // Close dropdowns on scroll
       if (scrollPosition > 50) {
         setOpenDropdown(null);
       }
@@ -218,48 +210,36 @@ const Nav = () => {
               <span className="text-xs text-gray-600 mt-1">{item.description}</span>
             )}
           </div>
-          <div className="flex flex-col items-end">
-            {item.duration && (
-              <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                {item.duration}
-              </span>
-            )}
-            {item.price && (
-              <span className="text-xs text-green-600 font-semibold mt-1">
-                From ${item.price}
-              </span>
-            )}
-          </div>
         </div>
         <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-purple-400 to-pink-400 transform scale-y-0 group-hover/item:scale-y-100 transition-transform duration-300 origin-top rounded-r-full"></div>
       </Link>
     ));
   };
 
-  // Social media links
-const socialLinks = [
-  { 
-    icon: Facebook, 
-    href: "https://www.facebook.com/jayaagnihotriphotography/", 
-    color: "hover:text-blue-600", 
-    bg: "hover:bg-blue-100",
-    label: "Facebook"
-  },
-  { 
-    icon: Instagram, 
-    href: "https://www.instagram.com/jayaagnihotriphotography/", 
-    color: "hover:text-pink-600", 
-    bg: "hover:bg-pink-100",
-    label: "Instagram" 
-  },
-  { 
-    icon: MessageCircle, 
-    href: "https://wa.me/919335391320", // Replace with your WhatsApp number
-    color: "hover:text-green-600", 
-    bg: "hover:bg-green-100",
-    label: "WhatsApp"
-  },
-]
+  // Updated social media links with PhoneCall for WhatsApp
+  const socialLinks = [
+    { 
+      icon: Facebook, 
+      href: "https://www.facebook.com/jayaagnihotriphotography/", 
+      color: "hover:text-blue-600", 
+      bg: "hover:bg-blue-100",
+      label: "Facebook"
+    },
+    { 
+      icon: Instagram, 
+      href: "https://www.instagram.com/jayaagnihotriphotography/", 
+      color: "hover:text-pink-600", 
+      bg: "hover:bg-pink-100",
+      label: "Instagram" 
+    },
+    { 
+      icon: PhoneCall, // Using PhoneCall instead of MessageCircle for WhatsApp
+      href: "https://wa.me/919335391320",
+      color: "hover:text-green-600", 
+      bg: "hover:bg-green-100",
+      label: "WhatsApp"
+    },
+  ];
 
   // Get current page indicator
   const isCurrentPage = (href) => {
@@ -270,11 +250,11 @@ const socialLinks = [
     <nav 
       className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${
         scrolled 
-          ? 'shadow-xl border-b border-gray-300' 
-          : 'shadow-lg border-b border-gray-200'
+          ? 'shadow-xl border-b border-purple-200' 
+          : 'shadow-lg border-b border-purple-100'
       }`}
       style={{ 
-        backgroundColor: scrolled ? 'rgba(250, 240, 220, 0.95)' : '#FAF0DC',
+        backgroundColor: scrolled ? '#f3e6fa' : '#F0E7E5',
         backdropFilter: scrolled ? 'blur(10px)' : 'none'
       }}
     >
@@ -304,7 +284,7 @@ const socialLinks = [
           </Link>
         </div>
 
-        {/* Desktop Navigation - Keeping original beige styling */}
+        {/* Desktop Navigation */}
         <div className="hidden md:flex gap-1 items-center">
           {navLinks.map((link, idx) =>
             link.dropdown ? (
@@ -337,7 +317,6 @@ const socialLinks = [
                     ? "opacity-100 translate-y-0 scale-100 pointer-events-auto" 
                     : "opacity-0 -translate-y-2 scale-95 pointer-events-none"
                 }`}>
-                  {/* Services header */}
                   {link.name === "Photography" && !link.loading && link.dropdown.length > 0 && (
                     <div className="px-4 py-3 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-pink-50 rounded-t-2xl">
                       <span className="text-sm text-black flex items-center gap-2 font-semibold">
@@ -372,9 +351,9 @@ const socialLinks = [
           )}
         </div>
 
-        {/* Social Icons - Keeping original styling */}
+        {/* Social Icons with WhatsApp */}
         <div className="hidden md:flex gap-2 ml-6 items-center">
-          {socialLinks.map(({ icon: Icon, href, color, bg }, idx) => (
+          {socialLinks.map(({ icon: Icon, href, color, bg, label }, idx) => (
             <a
               key={href}
               href={href}
@@ -382,6 +361,7 @@ const socialLinks = [
               rel="noopener noreferrer"
               className={`p-2 rounded-full text-gray-700 ${color} ${bg} transition-all duration-300 transform hover:scale-110 hover:shadow-lg relative group overflow-hidden`}
               style={{ animationDelay: `${idx * 100}ms` }}
+              title={label}
             >
               <Icon size={20} className="relative z-10" />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
@@ -389,7 +369,7 @@ const socialLinks = [
           ))}
         </div>
 
-        {/* Mobile Menu Button - Keeping original styling */}
+        {/* Mobile Menu Button */}
         <button
           className="md:hidden p-2 rounded-full text-black hover:text-gray-800 hover:bg-white/60 transition-all duration-300 focus:outline-none transform hover:scale-110 relative overflow-hidden group"
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -414,13 +394,13 @@ const socialLinks = [
         </button>
       </div>
 
-      {/* Mobile Navigation - Keeping original beige styling */}
+      {/* Mobile Navigation */}
       <div className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${
         mobileOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
       }`}>
         <div 
-          className="backdrop-blur-sm border-t border-gray-300 px-4 pb-6 pt-4 space-y-2"
-          style={{ backgroundColor: 'rgba(250, 240, 220, 0.98)' }}
+          className="backdrop-blur-sm border-t border-purple-200 px-4 pb-6 pt-4 space-y-2"
+          style={{ backgroundColor: 'rgba(243, 230, 250, 0.98)' }}
         >
           {navLinks.map((link, idx) =>
             link.dropdown ? (
@@ -472,18 +452,6 @@ const socialLinks = [
                               )}
                               {item.name}
                             </span>
-                            <div className="flex flex-col items-end">
-                              {item.duration && (
-                                <span className="text-xs text-gray-600">
-                                  {item.duration}
-                                </span>
-                              )}
-                              {item.price && (
-                                <span className="text-xs text-green-600 font-semibold">
-                                  ${item.price}
-                                </span>
-                              )}
-                            </div>
                           </div>
                           {item.description && (
                             <p className="text-xs text-gray-600 mt-1">{item.description}</p>
@@ -513,11 +481,11 @@ const socialLinks = [
             )
           )}
           
-          {/* Mobile Social Icons - Keeping original styling */}
+          {/* Mobile Social Icons with WhatsApp */}
           <div className={`flex gap-3 mt-6 px-4 justify-center transform transition-all duration-500 ${
             mobileOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
           }`} style={{ transitionDelay: '600ms' }}>
-            {socialLinks.map(({ icon: Icon, href, color, bg }, idx) => (
+            {socialLinks.map(({ icon: Icon, href, color, bg, label }, idx) => (
               <a
                 key={href}
                 href={href}
@@ -525,6 +493,7 @@ const socialLinks = [
                 rel="noopener noreferrer"
                 className={`p-3 rounded-full text-gray-700 ${color} ${bg} transition-all duration-300 transform hover:scale-110 hover:shadow-lg`}
                 style={{ animationDelay: `${idx * 100}ms` }}
+                title={label}
               >
                 <Icon size={20} />
               </a>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Camera, Filter, Grid, Heart, Eye, Calendar, Tag, ArrowUp } from "lucide-react";
+import { Camera, Filter, Grid, Heart, Eye, Calendar, Tag, ArrowUp, Sparkles, Image as ImageIcon } from "lucide-react";
 import LightGallery from "lightgallery/react";
 import { toast } from "react-hot-toast";
 
@@ -38,6 +38,7 @@ const Gallery = () => {
   const [sortBy, setSortBy] = useState("newest");
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(0);
+  const [favorites, setFavorites] = useState(new Set());
 
   const lightGalleryRef = useRef(null);
 
@@ -149,12 +150,11 @@ const Gallery = () => {
     }
 
     setFilteredImages(filtered);
-    setImagesLoaded(0); // Reset loaded counter when filters change
+    setImagesLoaded(0);
   };
 
   const handleCategoryChange = (category) => {
     setActiveCategory(category);
-    // Add smooth scroll to gallery section
     const gallerySection = document.querySelector('#gallery-section');
     if (gallerySection) {
       gallerySection.scrollIntoView({ behavior: 'smooth' });
@@ -181,23 +181,35 @@ const Gallery = () => {
     setImagesLoaded(prev => prev + 1);
   };
 
-  // Enhanced masonry heights for more variation
+  const toggleFavorite = (imageId, event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const newFavorites = new Set(favorites);
+    if (newFavorites.has(imageId)) {
+      newFavorites.delete(imageId);
+    } else {
+      newFavorites.add(imageId);
+    }
+    setFavorites(newFavorites);
+  };
+
   const getMasonryHeight = (index) => {
-    const heights = [280, 320, 240, 360, 300, 380, 260, 340];
+    const heights = [300, 350, 260, 380, 320, 400, 280, 360];
     return heights[index % heights.length];
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#9575CD' }}>
-        <div className="flex flex-col items-center gap-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f3e6fa] via-white to-[#f3e6fa]/70">
+        <div className="flex flex-col items-center gap-6 text-center">
           <div className="relative">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
-            <Camera className="absolute inset-0 m-auto w-6 h-6 text-white animate-pulse" />
+            <div className="w-20 h-20 border-4 border-purple-300 border-t-purple-600 rounded-full animate-spin"></div>
+            <Camera className="absolute inset-0 m-auto w-8 h-8 text-purple-600 animate-pulse" />
           </div>
-          <p className="text-white font-light animate-pulse">
-            Loading beautiful memories...
-          </p>
+          <div>
+            <h3 className="text-2xl font-semibold text-gray-800 mb-2">Loading Gallery</h3>
+            <p className="text-gray-600 animate-pulse">Preparing beautiful moments for you...</p>
+          </div>
         </div>
       </div>
     );
@@ -205,16 +217,16 @@ const Gallery = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#9575CD' }}>
-        <div className="text-center">
-          <Camera className="w-16 h-16 text-white mx-auto mb-4 animate-bounce" />
-          <h2 className="text-2xl font-light text-white mb-2">
-            Gallery Unavailable
-          </h2>
-          <p className="text-white/80 mb-4">{error}</p>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f3e6fa] via-white to-[#f3e6fa]/70">
+        <div className="text-center max-w-md">
+          <div className="mb-6 p-4 bg-white rounded-full shadow-lg inline-block">
+            <Camera className="w-16 h-16 text-gray-400" />
+          </div>
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">Gallery Unavailable</h2>
+          <p className="text-gray-600 mb-6">{error}</p>
           <button
             onClick={fetchGalleryImages}
-            className="bg-white text-purple-700 font-medium px-6 py-3 rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:scale-105"
+            className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold px-8 py-3 rounded-full hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
           >
             Try Again
           </button>
@@ -224,56 +236,71 @@ const Gallery = () => {
   }
 
   return (
-    <div className="min-h-screen relative" style={{ backgroundColor: `#D3D3FF`, }}>
-      {/* Animated Background Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-purple-600/10 to-pink-500/20 pointer-events-none"></div>
-      
-      {/* Hero Section with enhanced animations */}
-      <section className="relative py-20 px-4 overflow-hidden mt-16" style={{ backgroundColor: 'rgba(250, 240, 220, 0.95)' }}>
-        <div className="absolute inset-0 bg-white/10 pointer-events-none" />
-        
-        {/* Floating elements for decoration */}
-        <div className="absolute top-10 left-10 w-20 h-20 bg-purple-300/20 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute bottom-10 right-10 w-32 h-32 bg-pink-300/20 rounded-full blur-2xl animate-pulse delay-1000"></div>
-        
-        <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <span className="inline-flex items-center gap-2 bg-white/70 backdrop-blur-sm px-6 py-3 rounded-full border border-gray-300 text-sm text-black font-light tracking-wide mb-8 hover:bg-white/80 transition-all duration-300 transform hover:scale-105">
-            <Camera className="w-5 h-5" />
-            Professional Portfolio
-          </span>
-          <h1
-            className="text-5xl md:text-7xl font-light text-black tracking-tight mb-8 animate-fade-in"
-            style={{ fontFamily: "Raleway, sans-serif" }}
-          >
-            Photography{" "}
-            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent font-medium">
+    <div className="min-h-screen bg-gradient-to-br from-[#f3e6fa] via-white to-[#f3e6fa]/50">
+      {/* Floating Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-32 h-32 bg-purple-200/30 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-40 h-40 bg-pink-200/25 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-32 left-1/3 w-36 h-36 bg-blue-200/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
+      </div>
+
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-16 px-4 overflow-hidden">
+        <div className="max-w-6xl mx-auto text-center relative z-10">
+          {/* Decorative Badge */}
+          {/* <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg border border-purple-100 mb-8 hover:shadow-xl transition-all duration-300">
+            <Sparkles className="w-5 h-5 text-purple-500" />
+            <span className="text-sm font-medium text-gray-700 tracking-wide">Professional Photography Portfolio</span>
+          </div> */}
+
+          {/* Main Heading */}
+          <h1 className="text-6xl md:text-8xl font-light text-gray-800 mb-6 tracking-tight">
+            Our{" "}
+            <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-800 bg-clip-text text-transparent font-medium">
               Gallery
             </span>
           </h1>
-          <p className="text-xl md:text-2xl font-light text-gray-700 max-w-3xl mx-auto leading-relaxed">
-            Discover our collection of captured moments, each telling a unique
-            story of love, joy, and life's most precious memories.
+
+          {/* Subtitle */}
+          <p className="text-xl md:text-2xl font-light text-gray-600 max-w-4xl mx-auto leading-relaxed mb-8">
+            Explore our curated collection of captured moments, where every image tells a story of love, joy, and life's most treasured memories.
           </p>
+
+          {/* Stats */}
+          {/* <div className="flex justify-center gap-8 mb-12">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-600">{images.length}+</div>
+              <div className="text-sm text-gray-500 font-medium">Beautiful Photos</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-pink-600">{categories.length}+</div>
+              <div className="text-sm text-gray-500 font-medium">Categories</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-600">100+</div>
+              <div className="text-sm text-gray-500 font-medium">Happy Clients</div>
+            </div>
+          </div> */}
         </div>
       </section>
 
       {/* Enhanced Filter Controls */}
-      <section className="max-w-7xl mx-auto px-4 py-12 relative z-10">
-        <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-6 border border-white/20 shadow-2xl">
+      <section className="max-w-7xl mx-auto px-4 py-8 relative z-10">
+        <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/50">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            {/* Category Filters with enhanced styling */}
+            {/* Category Filters */}
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={() => handleCategoryChange("all")}
-                className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 transform hover:scale-105 ${
+                className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
                   activeCategory === "all"
-                    ? "bg-white text-purple-700 shadow-xl ring-2 ring-purple-300"
-                    : "bg-white/20 text-white hover:bg-white/30 border border-white/30 hover:border-white/50"
+                    ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-xl ring-4 ring-purple-200"
+                    : "bg-white/80 text-gray-700 hover:bg-white border border-gray-200 hover:border-purple-300 hover:text-purple-600"
                 }`}
               >
                 <span className="flex items-center gap-2">
                   <Grid className="w-4 h-4" />
-                  All ({images.length})
+                  All Photos ({images.length})
                 </span>
               </button>
               {categories.map((category) => {
@@ -282,10 +309,10 @@ const Gallery = () => {
                   <button
                     key={category}
                     onClick={() => handleCategoryChange(category)}
-                    className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 capitalize transform hover:scale-105 ${
+                    className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 capitalize transform hover:scale-105 ${
                       activeCategory === category
-                        ? "bg-white text-purple-700 shadow-xl ring-2 ring-purple-300"
-                        : "bg-white/20 text-white hover:bg-white/30 border border-white/30 hover:border-white/50"
+                        ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-xl ring-4 ring-purple-200"
+                        : "bg-white/80 text-gray-700 hover:bg-white border border-gray-200 hover:border-purple-300 hover:text-purple-600"
                     }`}
                   >
                     {category} ({count})
@@ -294,28 +321,28 @@ const Gallery = () => {
               })}
             </div>
 
-            {/* Enhanced View Controls */}
+            {/* View Controls */}
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3">
-                <Filter className="w-5 h-5 text-black" />
+                <Filter className="w-5 h-5 text-gray-600" />
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl px-4 py-3 text-sm text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/30 transition-all duration-300"
+                  className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300"
                 >
-                  <option value="newest" className="text-purple-700 bg-white">Latest First</option>
-                  <option value="title" className="text-purple-700 bg-white">Alphabetical</option>
-                  <option value="category" className="text-purple-700 bg-white">By Category</option>
+                  <option value="newest">Latest First</option>
+                  <option value="title">Alphabetical</option>
+                  <option value="category">By Category</option>
                 </select>
               </div>
 
-              <div className="flex bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-1">
+              <div className="flex bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl p-1">
                 <button
                   onClick={() => setViewMode("masonry")}
                   className={`p-3 rounded-lg transition-all duration-300 transform hover:scale-105 ${
                     viewMode === "masonry"
-                      ? "bg-white text-purple-700 shadow-lg"
-                      : "text-white hover:text-white hover:bg-white/20"
+                      ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg"
+                      : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
                   }`}
                   title="Masonry Layout"
                 >
@@ -325,8 +352,8 @@ const Gallery = () => {
                   onClick={() => setViewMode("grid")}
                   className={`p-3 rounded-lg transition-all duration-300 transform hover:scale-105 ${
                     viewMode === "grid"
-                      ? "bg-white text-purple-700 shadow-lg"
-                      : "text-white hover:text-white hover:bg-white/20"
+                      ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg"
+                      : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
                   }`}
                   title="Grid Layout"
                 >
@@ -338,38 +365,33 @@ const Gallery = () => {
             </div>
           </div>
 
-          {/* Enhanced Results Info */}
+          {/* Results Info */}
           <div className="mt-6 text-center">
-            <p className="text-white font-light text-lg">
-              Showing{" "}
-              <span className="font-semibold bg-white/20 px-3 py-1 rounded-full">
-                {filteredImages.length}
-              </span>{" "}
-              {filteredImages.length === 1 ? "image" : "images"}
-              {activeCategory !== "all" && (
-                <span>
-                  {" "}in{" "}
-                  <span className="font-medium capitalize bg-white/20 px-3 py-1 rounded-full ml-2">
-                    {activeCategory}
-                  </span>{" "}
-                  category
-                </span>
-              )}
-            </p>
+            <div className="inline-flex items-center gap-2 bg-purple-50 px-6 py-3 rounded-full border border-purple-100">
+              <ImageIcon className="w-5 h-5 text-purple-600" />
+              <p className="text-gray-700 font-medium">
+                Showing {filteredImages.length} {filteredImages.length === 1 ? "image" : "images"}
+                {activeCategory !== "all" && (
+                  <span className="text-purple-600 font-semibold"> in {activeCategory}</span>
+                )}
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Enhanced Gallery Section */}
+      {/* Gallery Section */}
       <section id="gallery-section" className="max-w-7xl mx-auto px-4 pb-16 relative z-10">
         {filteredImages.length === 0 ? (
-          <div className="text-center py-20 bg-white/10 backdrop-blur-lg rounded-3xl border border-white/20">
-            <Camera className="w-20 h-20 text-white/60 mx-auto mb-6 animate-bounce" />
-            <h3 className="text-2xl font-light text-white mb-4">No images found</h3>
-            <p className="text-white/70 text-lg">
+          <div className="text-center py-20 bg-white/70 backdrop-blur-xl rounded-3xl border border-white/50 shadow-xl">
+            <div className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-full inline-block mb-6">
+              <Camera className="w-16 h-16 text-purple-400" />
+            </div>
+            <h3 className="text-3xl font-bold text-gray-800 mb-4">No Images Found</h3>
+            <p className="text-gray-600 text-lg max-w-md mx-auto">
               {activeCategory !== "all"
-                ? `No images found in the ${activeCategory} category.`
-                : "No images available at the moment. Please check back later."}
+                ? `No images found in the ${activeCategory} category. Try browsing other categories.`
+                : "No images available at the moment. Please check back later for new content."}
             </p>
           </div>
         ) : (
@@ -423,13 +445,13 @@ const Gallery = () => {
                   data-src={image.src}
                   data-sub-html={`
                     <div class="lg-sub-html">
-                      <h4 style="margin-bottom: 8px; font-size: 18px; font-weight: 600;">${
+                      <h4 style="margin-bottom: 8px; font-size: 20px; font-weight: 600; color: #fff;">${
                         image.title
                       }</h4>
-                      <p style="margin-bottom: 8px; opacity: 0.9;">${
+                      <p style="margin-bottom: 12px; opacity: 0.9; color: #fff;">${
                         image.description || ""
                       }</p>
-                      <div style="display: flex; align-items: center; gap: 16px; font-size: 14px; opacity: 0.8;">
+                      <div style="display: flex; align-items: center; gap: 16px; font-size: 14px; opacity: 0.8; color: #fff;">
                         <span>📷 ${image.category}</span>
                         <span>📅 ${formatDate(image.date || image.createdAt)}</span>
                       </div>
@@ -438,27 +460,38 @@ const Gallery = () => {
                   data-exthumbimage={image.thumb}
                   href={image.src}
                   style={{
-                    animationDelay: `${index * 100}ms`,
+                    animationDelay: `${index * 50}ms`,
                   }}
                 >
-                  <div className="relative overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 bg-white/95 backdrop-blur-sm border border-white/20 group-hover:border-white/40">
-                    {/* Enhanced Featured Badge */}
+                  <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 bg-white group-hover:shadow-purple-200/50">
+                    {/* Featured Badge */}
                     {image.featured && (
                       <div className="absolute top-4 left-4 z-20">
-                        <span className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black text-xs px-4 py-2 rounded-full font-semibold shadow-lg animate-pulse flex items-center gap-1">
+                        <span className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs px-3 py-1 rounded-full font-bold shadow-lg flex items-center gap-1">
                           ⭐ Featured
                         </span>
                       </div>
                     )}
 
-                    {/* Love/Heart Icon */}
-                   
+                    {/* Favorite Button */}
+                    <button
+                      onClick={(e) => toggleFavorite(image.id, e)}
+                      className="absolute top-4 right-4 z-20 p-2 bg-white/80 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110"
+                    >
+                      <Heart 
+                        className={`w-4 h-4 transition-all duration-200 ${
+                          favorites.has(image.id) 
+                            ? 'text-red-500 fill-red-500' 
+                            : 'text-gray-600 hover:text-red-500'
+                        }`} 
+                      />
+                    </button>
 
                     <div className="relative overflow-hidden">
                       <img
                         src={image.thumb}
                         alt={image.alt}
-                        className={`w-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110 ${
+                        className={`w-full object-cover transition-all duration-700 group-hover:scale-110 ${
                           viewMode === "masonry" ? "h-auto" : "h-80"
                         }`}
                         style={
@@ -475,18 +508,22 @@ const Gallery = () => {
                         }}
                       />
                       
-                      {/* Enhanced Gradient Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      {/* Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                      {/* Enhanced Center Eye Icon */}
-                      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
-                        <div className="bg-white/95 backdrop-blur-sm rounded-full p-4 transform scale-0 group-hover:scale-100 transition-transform duration-500 delay-200 shadow-2xl">
-                          <Eye className="w-8 h-8 text-purple-700" />
+                      {/* View Icon */}
+                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
+                        <div className="bg-white/95 backdrop-blur-sm rounded-full p-3 transform scale-0 group-hover:scale-100 transition-transform duration-500 delay-100 shadow-xl">
+                          <Eye className="w-6 h-6 text-purple-600" />
                         </div>
                       </div>
                     </div>
 
-                  
+                    {/* Image Info */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <h4 className="font-semibold text-lg mb-1">{image.title}</h4>
+                      <p className="text-sm opacity-90 capitalize">{image.category}</p>
+                    </div>
                   </div>
                 </a>
               ))}
@@ -495,35 +532,35 @@ const Gallery = () => {
         )}
       </section>
 
-      {/* Enhanced Call to Action */}
+      {/* Call to Action */}
       <section className="max-w-5xl mx-auto px-4 pb-20 relative z-10">
-        <div className="text-center py-16 bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-xl rounded-3xl border border-white/30 shadow-2xl relative overflow-hidden">
-          {/* Decorative elements */}
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500"></div>
-          <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-purple-400/30 to-pink-400/30 rounded-full blur-2xl"></div>
-          <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-br from-blue-400/30 to-purple-400/30 rounded-full blur-2xl"></div>
+        <div className="text-center py-16 bg-gradient-to-br from-white/80 via-white/90 to-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/50 relative overflow-hidden">
+          {/* Decorative Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-pink-50/50"></div>
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600"></div>
           
           <div className="relative z-10">
-            <div className="mb-6">
-              <Camera className="w-16 h-16 text-white mx-auto mb-4 animate-bounce" />
+            <div className="mb-8">
+              <div className="inline-flex p-6 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full shadow-lg mb-4">
+                <Camera className="w-12 h-12 text-purple-600" />
+              </div>
             </div>
-            <h3
-              className="text-3xl md:text-4xl font-light text-white mb-6"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
+            
+            <h3 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
               Love What You See?
             </h3>
-            <p className="text-lg font-light text-white/90 mb-10 max-w-3xl mx-auto leading-relaxed">
-              Ready to create your own beautiful memories? Let's discuss your
-              photography needs and create something amazing together.
+            
+            <p className="text-xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">
+              Ready to create your own beautiful memories? Let's discuss your photography vision and bring it to life with our professional expertise.
             </p>
             
             <Modal
               trigger={
-                <Button className=" cursor-pointer rounded-full px-10 py-6 bg-gradient-to-r from-white to-gray-100 hover:from-gray-100 hover:to-white text-purple-700 font-semibold shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:scale-110 text-lg">
+                <Button className="cursor-pointer rounded-full px-12 py-6 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 hover:from-purple-600 hover:via-pink-600 hover:to-purple-700 text-white font-bold shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:scale-110 text-lg border-0">
                   <span className="flex items-center gap-3">
                     <Camera className="w-6 h-6" />
-                    Book Your Session
+                    Start Your Session
+                    <Sparkles className="w-5 h-5" />
                   </span>
                 </Button>
               }
@@ -531,23 +568,25 @@ const Gallery = () => {
                 <div className="flex items-center space-x-3">
                   <span className="text-3xl">📸</span>
                   <div>
-                    <span className="text-2xl font-semibold">Book Your Photography Session</span>
-                    <div className="text-sm text-muted-foreground font-normal">
-                      Let's create beautiful memories together
+                    <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                      Book Your Dream Session
+                    </span>
+                    <div className="text-sm text-gray-600 font-normal">
+                      Let's create something beautiful together
                     </div>
                   </div>
                 </div>
               }
-              description="Inspired by our gallery? Fill in your details below and we'll help you create your own stunning photography session tailored to your vision."
+              description="Inspired by our gallery? Share your vision with us and we'll craft a personalized photography experience that captures your unique story perfectly."
               className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto"
             >
               {({ close }) => (
                 <ContactForm
                   initialData={{
                     serviceType: activeCategory !== "all" ? activeCategory : "",
-                    message: `Hi! I've been browsing your gallery${activeCategory !== "all" ? ` and I'm particularly interested in your ${activeCategory} photography` : ""}. I'd love to discuss booking a session. Please let me know about your packages and availability.`
+                    message: `Hello! I've been exploring your beautiful gallery${activeCategory !== "all" ? ` and I'm particularly drawn to your ${activeCategory} photography` : ""}. I'd love to discuss creating something similar for myself. Could we talk about your packages and availability?`
                   }}
-                  submitButtonText="Send Inquiry"
+                  submitButtonText="Send My Inquiry"
                   onSubmit={async (formData) => {
                     await handleBookingSubmit(formData);
                     close();
@@ -564,12 +603,41 @@ const Gallery = () => {
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-20 right-8 z-50 bg-white/90 backdrop-blur-sm hover:bg-white text-purple-700 p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-110 border border-purple-200"
+          className="fixed bottom-20 right-8 z-50 p-4 bg-white/95 backdrop-blur-sm hover:bg-white text-purple-600 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-110 border border-purple-100"
           aria-label="Scroll to top"
         >
           <ArrowUp className="w-6 h-6" />
         </button>
       )}
+
+      {/* Custom Styles */}
+      <style jsx global>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .gallery-item {
+          animation: fadeInUp 0.6s ease-out;
+          animation-fill-mode: both;
+        }
+        
+        /* Custom LightGallery styling */
+        .lg-outer .lg-thumb-outer {
+          background: linear-gradient(135deg, #f3e6fa 0%, #e8d5ff 100%);
+        }
+        
+        .lg-outer .lg-toolbar {
+          background: linear-gradient(135deg, rgba(243, 230, 250, 0.95) 0%, rgba(232, 213, 255, 0.95) 100%);
+          backdrop-filter: blur(10px);
+        }
+      `}</style>
     </div>
   );
 };

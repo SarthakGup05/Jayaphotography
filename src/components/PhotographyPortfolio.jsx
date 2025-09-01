@@ -109,7 +109,7 @@ const PhotographyPortfolio = () => {
   }
 
   return (
-    <div className="py-20 px-4" style={{ backgroundColor: '#FAF0DC' }}>
+    <div className="py-20 px-4" style={{ backgroundColor: '#F0E7E5' }}>
       <div className="max-w-6xl mx-auto">
         {/* Minimal Header */}
         <div className="text-center mb-16">

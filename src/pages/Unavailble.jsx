@@ -1,70 +1,106 @@
 import React from 'react'
+import { Camera, Home, ArrowLeft, Sparkles, AlertCircle } from 'lucide-react'
 
 const Unavailable = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center px-4 mt-20 relative overflow-hidden">
-      <div className="max-w-2xl mx-auto text-center">
-        {/* Camera Icon */}
-        <div className="mb-8 mt-10">
-          <div className="relative inline-block">
-            <div className="w-32 h-24 bg-gray-300 rounded-lg shadow-lg mx-auto relative">
-              {/* Camera body */}
-              <div className="absolute top-2 left-4 w-6 h-4 bg-gray-400 rounded"></div>
-              <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center">
-                <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center">
-                  <div className="w-8 h-8 bg-gray-600 rounded-full"></div>
-                </div>
+    <div className="min-h-screen bg-gradient-to-br from-[#f3e6fa] via-white to-[#F0E7E5] flex items-center justify-center px-4 mt-20 relative overflow-hidden">
+      {/* Subtle Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-24 h-24 bg-purple-200/10 rounded-full blur-2xl animate-pulse"></div>
+        <div className="absolute bottom-32 right-20 w-32 h-32 bg-pink-200/8 rounded-full blur-2xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/3 w-20 h-20 bg-blue-200/6 rounded-full blur-xl animate-pulse delay-2000"></div>
+      </div>
+
+      <div className="max-w-2xl mx-auto text-center relative z-10">
+        {/* Enhanced Camera Icon */}
+        <div className="mb-8">
+          <div className="relative inline-block group">
+           
+            
+            {/* Error indicator */}
+            {/* <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-40 h-1 bg-red-400 transform rotate-45 opacity-80 rounded-full shadow-lg"></div>
+              <div className="absolute">
+                <AlertCircle className="w-8 h-8 text-red-500 bg-white rounded-full p-1 shadow-lg" />
               </div>
-              {/* Flash */}
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-8 h-6 bg-gray-200 rounded-t-lg"></div>
-            </div>
-            {/* Broken/crossed out effect */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-40 h-1 bg-red-500 transform rotate-45 opacity-80"></div>
-            </div>
+            </div> */}
           </div>
         </div>
 
-        {/* Error Message */}
-        <div className="space-y-4 mb-8">
-          <h1 className="text-6xl font-bold text-white mb-2">404</h1>
-          <h2 className="text-3xl font-semibold text-gray-200 mb-4">
-            Page Not Found
-          </h2>
-          <p className="text-lg text-gray-300 max-w-md mx-auto leading-relaxed">
-            Oops! The page you're looking for seems to be out of focus. 
-            It might have been moved, deleted, or never existed in our website.
-          </p>
+        {/* Enhanced Error Content */}
+        <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/50 mb-8">
+          <div className="space-y-6">
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <span className="text-6xl font-bold text-gray-800">4</span>
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full flex items-center justify-center">
+                <AlertCircle className="w-8 h-8 text-red-600" />
+              </div>
+              <span className="text-6xl font-bold text-gray-800">4</span>
+            </div>
+            
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+              Page Not Found
+            </h2>
+            
+            <p className="text-lg text-gray-600 max-w-md mx-auto leading-relaxed">
+              Oops! The page you're looking for seems to be out of focus. 
+              It might have been moved, deleted, or never existed.
+            </p>
+          </div>
         </div>
 
-        {/* Photography-themed message */}
-        <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 mb-8 border border-gray-700">
-          <p className="text-gray-300 italic">
+        {/* Photography Quote */}
+        <div className="bg-gradient-to-r from-purple-50 to-pink-50 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-purple-100/50 shadow-md">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <Sparkles className="w-5 h-5 text-purple-500" />
+            <span className="text-sm font-medium text-purple-700 uppercase tracking-wide">Photography Wisdom</span>
+            <Sparkles className="w-5 h-5 text-purple-500" />
+          </div>
+          <p className="text-gray-700 italic text-lg">
             "Sometimes the most beautiful shots are the ones we never captured."
           </p>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button 
             onClick={() => window.history.back()}
-            className="px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            className="flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 hover:from-purple-600 hover:via-pink-600 hover:to-purple-700 text-white font-semibold rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
           >
-            Go Back
+            <ArrowLeft className="w-5 h-5" />
+            <span>Go Back</span>
           </button>
+          
           <button 
             onClick={() => window.location.href = '/'}
-            className="px-8 py-3 bg-transparent border-2 border-gray-300 hover:border-white text-gray-300 hover:text-white font-medium rounded-lg transition-all duration-300 hover:bg-white/10"
+            className="flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-purple-200 hover:border-purple-300 text-purple-600 hover:text-purple-700 font-semibold rounded-2xl transition-all duration-300 hover:bg-purple-50 transform hover:scale-105"
           >
-            Return to Home
+            <Home className="w-5 h-5" />
+            <span>Return Home</span>
           </button>
         </div>
 
-        {/* Decorative Elements */}
-        <div className="absolute top-10 left-10 w-2 h-2 bg-white/20 rounded-full animate-pulse"></div>
-        <div className="absolute top-20 right-20 w-1 h-1 bg-white/30 rounded-full animate-pulse delay-1000"></div>
-        <div className="absolute bottom-20 left-20 w-1.5 h-1.5 bg-white/25 rounded-full animate-pulse delay-500"></div>
-        <div className="absolute bottom-40 right-10 w-1 h-1 bg-white/20 rounded-full animate-pulse delay-700"></div>
+        {/* Additional Help */}
+        {/* <div className="mt-12 text-center">
+          <p className="text-sm text-gray-500 mb-4">Need help finding something specific?</p>
+          <div className="flex flex-wrap justify-center gap-4 text-sm">
+            <a href="/" className="text-purple-600 hover:text-purple-700 hover:underline transition-colors duration-200">
+              Homepage
+            </a>
+            <span className="text-gray-300">•</span>
+            <a href="/services" className="text-purple-600 hover:text-purple-700 hover:underline transition-colors duration-200">
+              Services
+            </a>
+            <span className="text-gray-300">•</span>
+            <a href="/gallery" className="text-purple-600 hover:text-purple-700 hover:underline transition-colors duration-200">
+              Gallery
+            </a>
+            <span className="text-gray-300">•</span>
+            <a href="/contact" className="text-purple-600 hover:text-purple-700 hover:underline transition-colors duration-200">
+              Contact
+            </a>
+          </div>
+        </div> */}
       </div>
     </div>
   )

@@ -32,7 +32,7 @@ const Testimonials = () => {
   return (
     <section
       className="min-h-screen flex items-center justify-center px-4 py-20"
-      style={{ backgroundColor: "#D3D3FF" }} // Beige base
+      style={{ backgroundColor: "#f3e6fa" }} // Beige base
     >
       <div className="w-full max-w-4xl text-center">
         {/* Heading */}

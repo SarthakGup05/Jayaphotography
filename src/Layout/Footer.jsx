@@ -41,11 +41,11 @@ const Footer = () => {
   };
 
   const handleServiceClick = (service) => {
-    navigate(`/services/${service.slug}`);
+    navigate(`/service/${service.slug}`);
   };
 
   const handleContactClick = () => {
-    navigate("/contact");
+    navigate("/contact-us");
   };
 
   const handleGalleryClick = () => {
@@ -231,9 +231,9 @@ const Footer = () => {
             <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
               
               <div className="flex items-center space-x-2 text-sm text-gray-400">
-                <span>© 2025 jaya photography. Made with</span>
-                <Heart className="w-3 h-3 text-red-400 fill-current" />
-                <span>by Digital Nawab</span>
+                <span>© 2025 jaya photography.</span>
+                {/* <Heart className="w-3 h-3 text-red-400 fill-current" />
+                <span>by Digital Nawab</span> */}
               </div>
 {/* 
               <div className="flex items-center space-x-6 text-xs text-gray-400">

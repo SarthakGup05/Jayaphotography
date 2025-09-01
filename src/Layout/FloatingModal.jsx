@@ -8,26 +8,16 @@ const FloatingModal = ({ buttonText = " Leave a Review", children }) => {
   const overlayRef = useRef(null);
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
-  const sparkleRefs = useRef([]);
 
   useEffect(() => {
     if (buttonRef.current) {
-      // Enhanced button animation with glow effect
+      // Subtle button animation
       gsap.to(buttonRef.current, {
-        scale: 1.05,
+        scale: 1.02,
         repeat: -1,
         yoyo: true,
-        duration: 2,
+        duration: 2.5,
         ease: "power2.inOut",
-      });
-      
-      // Add glow animation
-      gsap.to(buttonRef.current, {
-        boxShadow: "0 0 30px rgba(255, 165, 0, 0.6)",
-        repeat: -1,
-        yoyo: true,
-        duration: 1.5,
-        ease: "power1.inOut",
       });
     }
   }, []);
@@ -45,11 +35,11 @@ const FloatingModal = ({ buttonText = " Leave a Review", children }) => {
         }
       );
       
-      // Modal entrance - simplified to avoid interference
+      // Modal entrance
       gsap.fromTo(
         modalRef.current,
         { 
-          y: 50, 
+          y: 40, 
           opacity: 0, 
           scale: 0.95
         },
@@ -58,36 +48,9 @@ const FloatingModal = ({ buttonText = " Leave a Review", children }) => {
           opacity: 1,
           scale: 1,
           duration: 0.4,
-          ease: "power2.out",
+          ease: "power3.out",
         }
       );
-
-      // Sparkle animations - made non-intrusive
-      sparkleRefs.current.forEach((sparkle, index) => {
-        if (sparkle) {
-          gsap.fromTo(
-            sparkle,
-            { scale: 0, opacity: 0 },
-            {
-              scale: 1,
-              opacity: 0.6,
-              duration: 0.5,
-              delay: index * 0.1,
-              ease: "power2.out",
-            }
-          );
-          
-          // Gentle continuous animation
-          gsap.to(sparkle, {
-            scale: 1.1,
-            repeat: -1,
-            yoyo: true,
-            duration: 2,
-            delay: index * 0.3,
-            ease: "power1.inOut",
-          });
-        }
-      });
     }
   }, [open]);
 
@@ -116,16 +79,16 @@ const FloatingModal = ({ buttonText = " Leave a Review", children }) => {
 
   return (
     <>
-      {/* Add custom scrollbar styles to global CSS */}
+      {/* Custom scrollbar and form styles */}
       <style dangerouslySetInnerHTML={{
         __html: `
           .modal-custom-scrollbar {
             scrollbar-width: thin;
-            scrollbar-color: rgba(255, 165, 0, 0.3) transparent;
+            scrollbar-color: rgba(168, 85, 247, 0.2) transparent;
           }
           
           .modal-custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
+            width: 4px;
           }
           
           .modal-custom-scrollbar::-webkit-scrollbar-track {
@@ -133,12 +96,12 @@ const FloatingModal = ({ buttonText = " Leave a Review", children }) => {
           }
           
           .modal-custom-scrollbar::-webkit-scrollbar-thumb {
-            background: linear-gradient(to bottom, #fbbf24, #f97316);
-            border-radius: 3px;
+            background: rgba(168, 85, 247, 0.3);
+            border-radius: 2px;
           }
           
           .modal-custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(to bottom, #f59e0b, #ea580c);
+            background: rgba(168, 85, 247, 0.5);
           }
 
           /* Ensure form elements are interactive */
@@ -152,24 +115,20 @@ const FloatingModal = ({ buttonText = " Leave a Review", children }) => {
       <button
         ref={buttonRef}
         onClick={() => setOpen(true)}
-        className="fixed bottom-8 right-8 z-50 group"
+        className="fixed bottom-8 right-8 z-50 group cursor-pointer"
       >
         <div className="relative">
-          {/* Main button with gradient and enhanced styling */}
-          <div className="bg-gradient-to-br from-yellow-400 via-orange-500 to-pink-500 text-white px-3 py-3.5 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 font-bold text-sm uppercase tracking-wider border border-white/20 backdrop-blur-sm">
+          {/* Main button */}
+          <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 hover:from-purple-600 hover:via-pink-600 hover:to-purple-700 text-white px-5 py-3 rounded-2xl transition-all duration-300 font-semibold text-sm shadow-lg hover:shadow-xl transform hover:scale-105">
             <div className="flex items-center gap-2">
-              <Star className="w-5 h-5 animate-pulse" />
+              <Star className="w-4 h-4" />
               <span>{buttonText}</span>
               <Sparkles className="w-4 h-4" />
             </div>
-            
-            {/* Shimmer effect */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
           </div>
           
-          {/* Pulsing ring effect */}
-          <div className="absolute inset-0 rounded-2xl border-2 border-yellow-400/50 animate-ping opacity-20"></div>
-          <div className="absolute inset-0 rounded-2xl border border-orange-300/30 animate-pulse"></div>
+          {/* Subtle pulsing ring */}
+          <div className="absolute inset-0 rounded-2xl border-2 border-purple-400/30 animate-pulse opacity-60"></div>
         </div>
       </button>
 
@@ -180,66 +139,49 @@ const FloatingModal = ({ buttonText = " Leave a Review", children }) => {
           onClick={handleBackdropClick}
           className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
           style={{
-            background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 100%)',
+            background: 'linear-gradient(135deg, rgba(243, 230, 250, 0.8) 0%, rgba(240, 231, 229, 0.8) 100%)',
             backdropFilter: 'blur(8px)'
           }}
         >
-          {/* Floating sparkles - made non-interactive */}
-          {[...Array(6)].map((_, index) => (
-            <div
-              key={index}
-              ref={el => sparkleRefs.current[index] = el}
-              className="absolute pointer-events-none select-none"
-              style={{
-                left: `${20 + Math.random() * 60}%`,
-                top: `${20 + Math.random() * 60}%`,
-                zIndex: 1
-              }}
-            >
-              <Sparkles className="w-6 h-6 text-yellow-300 opacity-40" />
-            </div>
-          ))}
-
           <div
             ref={modalRef}
-            onClick={(e) => e.stopPropagation()} // Prevent modal from closing when clicking inside
-            className="relative w-full max-w-2xl h-[90vh] max-h-[700px] rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-2xl h-[90vh] max-h-[700px] rounded-3xl overflow-hidden flex flex-col shadow-2xl border border-white/30"
             style={{
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.95) 100%)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255,255,255,0.3)',
-              zIndex: 10
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%)',
+              backdropFilter: 'blur(20px)'
             }}
           >
             {/* Decorative top gradient */}
-            <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-yellow-400 via-orange-500 to-pink-500"></div>
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600"></div>
             
-            {/* Animated background pattern - made more subtle */}
-            <div className="absolute inset-0 opacity-3 pointer-events-none">
-              <div className="absolute top-4 left-4 w-32 h-32 bg-yellow-300 rounded-full blur-3xl animate-pulse"></div>
-              <div className="absolute bottom-4 right-4 w-40 h-40 bg-pink-300 rounded-full blur-3xl animate-pulse delay-1000"></div>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-orange-300 rounded-full blur-3xl animate-pulse delay-500"></div>
-            </div>
-
             {/* Enhanced close button */}
             <button
               onClick={closeModal}
               className="absolute top-4 right-4 z-20 group"
             >
-              <div className="bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-lg border border-gray-200/50 hover:bg-white hover:scale-110 transition-all duration-200">
-                <X size={20} className="text-gray-600 group-hover:text-gray-800" />
+              <div className="bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-md border border-gray-200/50 hover:bg-white hover:scale-110 transition-all duration-200">
+                <X size={18} className="text-gray-600 group-hover:text-gray-800" />
               </div>
             </button>
 
-            {/* Fixed Header */}
-            <div className="flex-shrink-0 p-6 pb-4 text-center relative z-10">
-              <h2 className="text-3xl font-bold mb-3 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+            {/* Enhanced Header */}
+            <div className="flex-shrink-0 p-6 pb-4 text-center relative">
+              <div className="mb-4">
+                <div className="inline-flex p-3 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full shadow-md">
+                  <Sparkles className="w-6 h-6 text-purple-600" />
+                </div>
+              </div>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">
                 Share Your Experience
               </h2>
+              <p className="text-gray-600 text-sm">
+                We'd love to hear about your photography session
+              </p>
             </div>
 
-            {/* Scrollable Content Area - Enhanced for form interaction */}
-            <div className="flex-1 overflow-hidden px-6 relative z-10">
+            {/* Enhanced Scrollable Content Area */}
+            <div className="flex-1 overflow-hidden px-6 relative">
               <div className="h-full overflow-y-auto pr-2 modal-custom-scrollbar">
                 <div className="pb-6 modal-form-container">
                   {children}
@@ -247,8 +189,10 @@ const FloatingModal = ({ buttonText = " Leave a Review", children }) => {
               </div>
             </div>
 
-            {/* Bottom gradient decoration */}
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 via-orange-500 to-pink-500 opacity-50 pointer-events-none"></div>
+            {/* Decorative bottom element */}
+            <div className="flex-shrink-0 h-8 bg-gradient-to-r from-purple-50 via-pink-50 to-purple-50 relative">
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-purple-200 via-pink-200 to-purple-200"></div>
+            </div>
           </div>
         </div>
       )}
