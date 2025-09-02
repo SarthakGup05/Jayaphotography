@@ -1,4 +1,4 @@
-// components/ui/contact-form.jsx
+// components/ui/contact-us-form.jsx
 import React, { useState, useEffect } from "react";
 import { User, Mail, Phone, Camera, MessageCircle, Send, Loader2 } from "lucide-react";
 import axiosInstance from "../lib/axiosinstance";

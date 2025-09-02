@@ -117,7 +117,7 @@ const PhotographyPortfolio = () => {
             <Camera className="w-5 h-5 text-black" />
           </div>
            */}
-          <h1 className="text-3xl md:text-4xl font-semibold text-black mb-2 tracking-tight leading-relaxed">
+          <h1 className="text-3xl md:text-4xl font-bold text-black mb-2 tracking-tight leading-relaxed">
             Capturing Life's
             Beautiful Moments
           </h1>
@@ -212,7 +212,7 @@ const PhotographyPortfolio = () => {
             <div className="w-px h-6 bg-gray-300 hidden sm:block"></div>
             
             <button
-              onClick={() => navigate("/contact")}
+              onClick={() => navigate("/contact-us")}
               className="text-black font-bold hover:text-gray-600 transition-colors cursor-pointer duration-200 border-b border-transparent hover:border-gray-300"
             >
               Book a Session

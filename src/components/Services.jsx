@@ -110,7 +110,7 @@ const Services = () => {
               Our Services
             </span>
           </div>
-          <h2 className="text-5xl text-gray-800 mb-6 leading-tight font-medium">
+          <h2 className="text-5xl text-gray-800 mb-6 leading-tight font-bold">
             Capturing Life's
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600 font-light">
               Most Precious Moments

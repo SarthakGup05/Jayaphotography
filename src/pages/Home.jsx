@@ -22,7 +22,7 @@ const Home = () => {
     const sections = [
       { ref: heroRef, delay: 0 },
       { ref: aboutRef, delay: 0.1 },
-      { ref: portfolioRef, delay: 0.2 },
+      { ref: portfolioRef, delay: 0},
       { ref: testimonialRef, delay: 0.3 },
       { ref: featuredRef, delay: 0.4 },
       { ref: ctaRef, delay: 0.5 },

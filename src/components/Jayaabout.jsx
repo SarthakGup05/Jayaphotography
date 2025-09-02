@@ -72,7 +72,7 @@ const JayaAbout = () => {
                     View Portfolio
                   </button>
                 </Link>
-                <Link to="/contact">
+                <Link to="/contact-us">
                   <button className="button cursor-pointer px-6 py-3 border-2 border-black text-black hover:bg-black hover:text-white transition-all duration-300 rounded-lg">
                     Book Session
                   </button>

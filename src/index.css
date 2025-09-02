@@ -27,8 +27,8 @@
 }
 
 @font-face {
-  font-family: "Raleway";
-  src: url("/fonts/Raleway-SemiBold.ttf") format("truetype");
+  font-family: "Papyrus";
+  src: url("./fonts/papyrus.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
 }
@@ -46,40 +46,40 @@ body {
   background-color: var(--background);
 }
 
-/* Minimal headings for photography focus */
+/* Papyrus headings for distinctive typography */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Raleway", sans-serif;
-  font-weight: 400;
+  font-family: "Papyrus", serif;
+  font-weight: 700;
   letter-spacing: 0.3px;
   line-height: 1.2;
   margin-bottom: 0.5em;
   text-transform: none;
 }
 
-/* Hero title - subtle and elegant */
+/* Hero title - distinctive Papyrus style */
 h1 {
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
-  font-weight: 300;
+  font-size: 2.5rem;
+  font-weight: 600;
   letter-spacing: 0.5px;
   line-height: 1.1;
 }
 
-/* Section headings - minimal */
+/* Section headings - Papyrus elegance */
 h2 {
-  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-  font-weight: 400;
+  font-size: 1.5rem;
+  font-weight: 600;
   letter-spacing: 0.4px;
 }
 
 h3 {
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 1.2rem;
+  font-weight: 600;
   letter-spacing: 0.3px;
 }
 
 h4, h5, h6 {
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 1.2rem;
+  font-weight: 600;
   letter-spacing: 0.2px;
 }
 

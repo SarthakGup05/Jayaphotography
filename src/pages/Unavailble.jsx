@@ -96,7 +96,7 @@ const Unavailable = () => {
               Gallery
             </a>
             <span className="text-gray-300">•</span>
-            <a href="/contact" className="text-purple-600 hover:text-purple-700 hover:underline transition-colors duration-200">
+            <a href="/contact-us" className="text-purple-600 hover:text-purple-700 hover:underline transition-colors duration-200">
               Contact
             </a>
           </div>
