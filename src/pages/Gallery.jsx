@@ -2,6 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { Camera, Filter, Grid, Heart, Eye, Calendar, Tag, ArrowUp, Sparkles, Image as ImageIcon } from "lucide-react";
 import LightGallery from "lightgallery/react";
 import { toast } from "react-hot-toast";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
 // Import lightGallery styles
 import "lightgallery/css/lightgallery.css";
@@ -40,7 +45,157 @@ const Gallery = () => {
   const [imagesLoaded, setImagesLoaded] = useState(0);
   const [favorites, setFavorites] = useState(new Set());
 
+  const containerRef = useRef(null);
   const lightGalleryRef = useRef(null);
+
+  // GSAP Animations
+  useEffect(() => {
+    if (loading || error) return;
+
+    let ctx = gsap.context(() => {
+      // Set initial states for scroll-triggered elements
+      gsap.set(['.hero-content', '.filter-section', '.gallery-item', '.cta-section'], {
+        autoAlpha: 0,
+        y: 50
+      });
+
+      // Hero section fast entrance
+      gsap.fromTo('.hero-content',
+        {
+          autoAlpha: 0,
+          y: 60,
+          scale: 0.9
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.hero-content',
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+
+      // Filter section slide up
+      gsap.fromTo('.filter-section',
+        {
+          autoAlpha: 0,
+          y: 40
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.6,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '.filter-section',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+
+      // Gallery items staggered animation
+      gsap.utils.toArray('.gallery-item').forEach((item, index) => {
+        gsap.fromTo(item,
+          {
+            autoAlpha: 0,
+            y: 30,
+            scale: 0.9
+          },
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.5,
+            ease: 'power2.out',
+            delay: Math.min(index * 0.05, 1), // Cap delay at 1s
+            scrollTrigger: {
+              trigger: item,
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+      });
+
+      // CTA section entrance
+      gsap.fromTo('.cta-section',
+        {
+          autoAlpha: 0,
+          y: 50,
+          scale: 0.95
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.7,
+          ease: 'back.out(1.7)',
+          scrollTrigger: {
+            trigger: '.cta-section',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+
+      // Floating background elements
+      gsap.fromTo('.floating-bg',
+        {
+          autoAlpha: 0,
+          scale: 0.5
+        },
+        {
+          autoAlpha: 1,
+          scale: 1,
+          duration: 1,
+          ease: 'power2.out',
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: '.hero-content',
+            start: 'top 90%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+
+    }, containerRef);
+
+    return () => {
+      ctx.revert();
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, [loading, error, filteredImages]);
+
+  // Fast hover animations for gallery items
+  useEffect(() => {
+    if (loading || error) return;
+
+    const galleryItems = gsap.utils.toArray('.gallery-item');
+    galleryItems.forEach(item => {
+      const hoverTl = gsap.timeline({ paused: true });
+      hoverTl
+        .to(item, {
+          scale: 1.05,
+          duration: 0.3,
+          ease: 'power2.out'
+        })
+        .to(item.querySelector('img'), {
+          scale: 1.1,
+          duration: 0.3,
+          ease: 'power2.out'
+        }, 0);
+
+      item.addEventListener('mouseenter', () => hoverTl.play());
+      item.addEventListener('mouseleave', () => hoverTl.reverse());
+    });
+
+  }, [filteredImages, loading, error]);
 
   useEffect(() => {
     fetchGalleryImages();
@@ -236,23 +391,17 @@ const Gallery = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f3e6fa] via-white to-[#f3e6fa]/50">
+    <div ref={containerRef} className="min-h-screen bg-gradient-to-br from-[#f3e6fa] via-white to-[#f3e6fa]/50">
       {/* Floating Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-purple-200/30 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-40 h-40 bg-pink-200/25 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute bottom-32 left-1/3 w-36 h-36 bg-blue-200/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
+        <div className="floating-bg absolute top-20 left-10 w-32 h-32 bg-purple-200/30 rounded-full blur-3xl animate-pulse"></div>
+        <div className="floating-bg absolute top-40 right-20 w-40 h-40 bg-pink-200/25 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="floating-bg absolute bottom-32 left-1/3 w-36 h-36 bg-blue-200/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
       </div>
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-16 px-4 overflow-hidden">
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          {/* Decorative Badge */}
-          {/* <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg border border-purple-100 mb-8 hover:shadow-xl transition-all duration-300">
-            <Sparkles className="w-5 h-5 text-purple-500" />
-            <span className="text-sm font-medium text-gray-700 tracking-wide">Professional Photography Portfolio</span>
-          </div> */}
-
+        <div className="hero-content max-w-6xl mx-auto text-center relative z-10">
           {/* Main Heading */}
           <h1 className="text-6xl md:text-8xl font-light text-gray-800 mb-6 tracking-tight">
             Our{" "}
@@ -265,27 +414,11 @@ const Gallery = () => {
           <p className="text-xl md:text-2xl font-light text-gray-600 max-w-4xl mx-auto leading-relaxed mb-8">
             Explore our curated collection of captured moments, where every image tells a story of love, joy, and life's most treasured memories.
           </p>
-
-          {/* Stats */}
-          {/* <div className="flex justify-center gap-8 mb-12">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600">{images.length}+</div>
-              <div className="text-sm text-gray-500 font-medium">Beautiful Photos</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-pink-600">{categories.length}+</div>
-              <div className="text-sm text-gray-500 font-medium">Categories</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600">100+</div>
-              <div className="text-sm text-gray-500 font-medium">Happy Clients</div>
-            </div>
-          </div> */}
         </div>
       </section>
 
       {/* Enhanced Filter Controls */}
-      <section className="max-w-7xl mx-auto px-4 py-8 relative z-10">
+      <section className="filter-section max-w-7xl mx-auto px-4 py-8 relative z-10">
         <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/50">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             {/* Category Filters */}
@@ -433,7 +566,7 @@ const Gallery = () => {
               className={
                 viewMode === "masonry"
                   ? "columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-0"
-                  : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                  : "grid grid-cols-1 sm:grid-cols-2 lg:columns-3 xl:grid-cols-4 gap-6"
               }
             >
               {filteredImages.map((image, index) => (
@@ -441,7 +574,7 @@ const Gallery = () => {
                   key={image.id}
                   className={`gallery-item group cursor-pointer block ${
                     viewMode === "masonry" ? "mb-6 break-inside-avoid" : ""
-                  } transform hover:scale-[1.03] transition-all duration-500 hover:z-10 relative`}
+                  } transition-all duration-300 hover:z-10 relative`}
                   data-src={image.src}
                   data-sub-html={`
                     <div class="lg-sub-html">
@@ -459,11 +592,8 @@ const Gallery = () => {
                   `}
                   data-exthumbimage={image.thumb}
                   href={image.src}
-                  style={{
-                    animationDelay: `${index * 50}ms`,
-                  }}
                 >
-                  <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 bg-white group-hover:shadow-purple-200/50">
+                  <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 bg-white group-hover:shadow-purple-200/50">
                     {/* Featured Badge */}
                     {image.featured && (
                       <div className="absolute top-4 left-4 z-20">
@@ -491,7 +621,7 @@ const Gallery = () => {
                       <img
                         src={image.thumb}
                         alt={image.alt}
-                        className={`w-full object-cover transition-all duration-700 group-hover:scale-110 ${
+                        className={`w-full object-cover transition-all duration-500 group-hover:scale-110 ${
                           viewMode === "masonry" ? "h-auto" : "h-80"
                         }`}
                         style={
@@ -509,18 +639,18 @@ const Gallery = () => {
                       />
                       
                       {/* Gradient Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                       {/* View Icon */}
-                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
-                        <div className="bg-white/95 backdrop-blur-sm rounded-full p-3 transform scale-0 group-hover:scale-100 transition-transform duration-500 delay-100 shadow-xl">
+                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                        <div className="bg-white/95 backdrop-blur-sm rounded-full p-3 transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-100 shadow-xl">
                           <Eye className="w-6 h-6 text-purple-600" />
                         </div>
                       </div>
                     </div>
 
                     {/* Image Info */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                       <h4 className="font-semibold text-lg mb-1">{image.title}</h4>
                       <p className="text-sm opacity-90 capitalize">{image.category}</p>
                     </div>
@@ -533,7 +663,7 @@ const Gallery = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="max-w-5xl mx-auto px-4 pb-20 relative z-10">
+      <section className="cta-section max-w-5xl mx-auto px-4 pb-20 relative z-10">
         <div className="text-center py-16 bg-gradient-to-br from-white/80 via-white/90 to-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/50 relative overflow-hidden">
           {/* Decorative Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-pink-50/50"></div>
@@ -612,23 +742,6 @@ const Gallery = () => {
 
       {/* Custom Styles */}
       <style jsx global>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .gallery-item {
-          animation: fadeInUp 0.6s ease-out;
-          animation-fill-mode: both;
-        }
-        
-        /* Custom LightGallery styling */
         .lg-outer .lg-thumb-outer {
           background: linear-gradient(135deg, #f3e6fa 0%, #e8d5ff 100%);
         }

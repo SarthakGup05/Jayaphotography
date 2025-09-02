@@ -42,27 +42,19 @@ const JayaAbout = () => {
 
               <div className="space-y-4 text-gray-700 text-2xl leading-relaxed font-semibold">
                 <p>
-                  Itwas 2012, and I had just moved to Lucknow from Kanpur to
-                  study. Since I had some time on my hands, I enrolled myself
-                  for a photography workshop, and that was the beginning of the
-                  most adventurous part of my life. Lots of criticism, some
-                  motivation and a few hundred shoots later, here I am - single
-                  handedly running a photography business.
+                  Hi, I’m Jaya Agnihotri. My journey in photography began in
+                  college with fashion, food, and product shoots. But my heart
+                  always belonged to babies—I’ve loved them since childhood and
+                  share a special connection with them. In 2018, I followed my
+                  passion and started baby and maternity photography. Since
+                  then, I’ve captured over 500 beautiful stories, creating
+                  artistic setups, styling themes, and helping moms feel
+                  confident and radiant. I have done my Masters in Photography,
+                  which has strengthened my vision and creativity. For me, every
+                  shoot is about love, artistry, and celebrating life’s most
+                  precious moments.
                 </p>
-                <p>
-                  I soon dropped out of biotech and enrolled in Bachelor in
-                  visual arts, finishing it with masters in photography. By the
-                  time I was 25, I had already shot successful campaigns for few
-                  reputed colleges, and was travelling all over the country for
-                  work. Yes, I dropped it all to pursue my passion of
-                  photography. As much as it may sound like a cliche, this
-                  happening to me in reality was unnerving. For the first couple
-                  of years, my mind was constantly wondering if I've made the
-                  right choice, will I be financially sustainable and so much
-                  more. But when I pick up my camera and start creating
-                  beautiful images, I feel like the most powerful person and
-                  absolutely unstoppable.
-                </p>
+               
               </div>
 
               {/* Action buttons */}

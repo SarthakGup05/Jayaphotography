@@ -8,7 +8,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Services from "@/components/Services";
 
-
 const Home = () => {
   const heroRef = useRef();
   const aboutRef = useRef();
@@ -22,7 +21,7 @@ const Home = () => {
     const sections = [
       { ref: heroRef, delay: 0 },
       { ref: aboutRef, delay: 0.1 },
-      { ref: portfolioRef, delay: 0},
+      { ref: portfolioRef, delay: 0 },
       { ref: testimonialRef, delay: 0.3 },
       { ref: featuredRef, delay: 0.4 },
       { ref: ctaRef, delay: 0.5 },
@@ -53,27 +52,18 @@ const Home = () => {
   }, []);
   return (
     <>
-      <div ref={heroRef}>
-        <Hero />
-      </div>
-      <div ref={portfolioRef}>
-        <PhotographyPortfolio />
-      </div>
-       <div ref={featuredRef}>
-        <Services/>
-      </div>
-      <div ref={aboutRef}>
-        <JayaAbout />
-      </div>
-     
-      <div ref={testimonialRef}>
-        <Testimonial />
-      </div>
-     
+      <Hero />
+
+      <PhotographyPortfolio />
+
+      <Services />
+
+      <JayaAbout />
+
+      <Testimonial />
+
       {/* <div><GalleryShowcase/></div> */}
-      <div ref={ctaRef}>
-        <CTASection />
-      </div>
+      <CTASection />
     </>
   );
 };
