@@ -9,7 +9,7 @@ import Loader from './components/ui/Loader'
 // Import all your existing pages
 import About from './pages/About'
 import Home from './pages/Home'
-import ContactUsPage from './pages/contactus'
+import ContactUsPage from './pages/Contactus'
 import Packages from './pages/Packages'
 import ServicePage from './pages/Servicepage'
 import Gallery from './pages/Gallery'
