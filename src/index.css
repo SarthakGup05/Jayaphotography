@@ -58,8 +58,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Hero title - distinctive Papyrus style */
 h1 {
-  font-size: 2.5rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 500;
   letter-spacing: 0.5px;
   line-height: 1.1;
 }
