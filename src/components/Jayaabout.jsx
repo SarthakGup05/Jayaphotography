@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const JayaAbout = () => {
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black mt-20">
       {/* About Section with Side-by-Side Layout */}
       <div className="py-16 bg-[#F0E7E5]">
         <div className="max-w-6xl mx-auto px-6">
@@ -16,7 +16,7 @@ const JayaAbout = () => {
                 {/* Main Image */}
                 <div className="w-80 h-[500px] rounded-lg overflow-hidden shadow-lg">
                   <img
-                    src="https://img.freepik.com/free-photo/western-female-photographer-exploring-city-udaipur-india_53876-65361.jpg"
+                    src="/bg/1.jpg"
                     alt="Jaya - Professional Photographer"
                     className="w-full h-full object-cover"
                   />

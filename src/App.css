@@ -1,36 +1,155 @@
-/* ==============================
-   Raleway Font Definitions
-   ============================== */
+/* ===========================
+   Load Raleway Font Family
+   =========================== */
 @font-face {
-  font-family: 'Raleway';
-  src: url('/fonts/Raleway-Regular.woff2') format('woff2'),
-       url('/fonts/Raleway-Regular.woff') format('woff');
+  font-family: "Raleway";
+  src: url("/fonts/Raleway-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Raleway";
+  src: url("/fonts/Raleway-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Raleway';
-  src: url('/fonts/Raleway-Medium.woff2') format('woff2'),
-       url('/fonts/Raleway-Medium.woff') format('woff');
+  font-family: "Raleway";
+  src: url("/fonts/Raleway-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 
+/* ===========================
+   Load Belista Script Font
+   =========================== */
 @font-face {
-  font-family: 'Raleway';
-  src: url('/fonts/Raleway-SemiBold.woff2') format('woff2'),
-       url('/fonts/Raleway-SemiBold.woff') format('woff');
-  font-weight: 600;
+  font-family: "Belista Script";
+  src: url("/fonts/Belista.ttf") format("truetype");
+  font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
-@font-face {
-  font-family: 'Raleway';
-  src: url('/fonts/Raleway-Bold.woff2') format('woff2'),
-       url('/fonts/Raleway-Bold.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
+/* ===========================
+   Minimal Photography Typography
+   =========================== */
+body {
+  font-family: "Raleway", system-ui, -apple-system, sans-serif;
+  font-weight: 300;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  letter-spacing: 0.2px;
+  color: var(--foreground);
+  background-color: var(--background);
+}
+
+/* Belista script headings - elegant handwritten style */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Belista Script", cursive;
+  font-weight: normal;
+  letter-spacing: 0.1px;
+  line-height: 1.4;
+  margin-bottom: 0.6em;
+  text-transform: none;
+}
+
+/* Hero title - elegant script */
+h1 {
+  font-size: 3rem;
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+}
+
+/* Section headings - flowing script */
+h2 {
+  font-size: 2.2rem;
+  letter-spacing: 0.1px;
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 1.8rem;
+  letter-spacing: 0.1px;
+  line-height: 1.3;
+}
+
+h4, h5, h6 {
+  font-size: 1.4rem;
+  letter-spacing: 0.05px;
+  line-height: 1.4;
+}
+
+/* Body text - clean and readable */
+p {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  margin-bottom: 1em;
+}
+
+/* Photo captions - subtle */
+.caption, 
+.photo-caption,
+figcaption {
+  font-size: 0.75rem;
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: 0.1px;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+/* Navigation - clean minimal */
+nav, .nav {
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+/* Buttons - minimal photography style */
+button, .button {
+  font-family: "Raleway", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Small text elements */
+small, .small {
+  font-size: 0.7rem;
+  font-weight: 300;
+}
+
+/* Gallery metadata */
+.meta, .metadata {
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+  line-height: 1.4;
+}
+
+/* Quote/testimonial styling */
+blockquote {
+  font-size: 0.9rem;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.6;
+  letter-spacing: 0.2px;
+}
+
+/* Links - subtle */
+a {
+  font-weight: 400;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+a:hover {
+  opacity: 0.7;
 }
 
 /* ==============================
@@ -38,7 +157,7 @@
    ============================== */
 .lg-custom-gallery .lg-outer {
   background-color: rgba(0, 0, 0, 0.95);
-  font-family: 'Raleway', sans-serif; /* ✅ Default font */
+  font-family: "Raleway", sans-serif;
 }
 
 .lg-custom-gallery .lg-toolbar {
@@ -47,7 +166,7 @@
 
 .lg-custom-gallery .lg-counter {
   color: #fff;
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   font-weight: 300;
   font-size: 16px;
 }
@@ -55,16 +174,18 @@
 .lg-custom-gallery .lg-sub-html {
   background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
   padding: 40px 40px 20px;
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
+/* LightGallery headings with Belista Script font */
 .lg-custom-gallery .lg-sub-html h4 {
   color: #fff;
   font-size: 24px;
-  font-weight: 500;
+  font-weight: normal;
   margin-bottom: 10px;
   line-height: 1.3;
-  font-family: 'Raleway', sans-serif;
+  font-family: "Belista Script", cursive;
+  letter-spacing: 0.1px;
 }
 
 .lg-custom-gallery .lg-sub-html p {
@@ -72,7 +193,7 @@
   font-size: 16px;
   line-height: 1.5;
   margin-bottom: 8px;
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
 .lg-custom-gallery .featured-badge {
@@ -84,7 +205,7 @@
   font-weight: 600;
   display: inline-block;
   margin-top: 10px;
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
 .lg-custom-gallery .lg-thumb-outer {
@@ -104,10 +225,23 @@
   }
 
   .lg-custom-gallery .lg-sub-html h4 {
-    font-size: 18px;
+    font-size: 20px;
   }
 
   .lg-custom-gallery .lg-sub-html p {
     font-size: 14px;
+  }
+
+  /* Responsive heading sizes */
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
   }
 }

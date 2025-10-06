@@ -7,6 +7,8 @@ import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Services from "@/components/Services";
+import ReelCarousel from "@/components/Reelvideo";
+import VideoCarousel from "@/components/Reelvideo";
 
 const Home = () => {
   const heroRef = useRef();
@@ -57,6 +59,7 @@ const Home = () => {
       <PhotographyPortfolio />
 
       <Services />
+      {/* <VideoCarousel /> */}
 
       <JayaAbout />
 
