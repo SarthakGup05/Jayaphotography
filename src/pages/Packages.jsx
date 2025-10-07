@@ -34,28 +34,45 @@ const Packages = () => {
     fetchPackages();
   }, []);
 
-  useEffect(() => {
-    if (!loading) {
-      gsap.fromTo(
-        headingRef.current,
-        { opacity: 0, y: -30 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }
-      );
-      gsap.fromTo(
-        cardsRef.current.children,
-        { opacity: 0, y: 40, rotateY: -15 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          rotateY: 0, 
-          duration: 0.8, 
-          stagger: 0.2, 
-          delay: 0.3, 
-          ease: "power3.out" 
+ useEffect(() => {
+  if (!loading) {
+    (async () => {
+      try {
+        const gsapModule = await import("gsap");
+        const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+        const gsap = gsapModule.default;
+        gsap.registerPlugin(ScrollTrigger);
+
+        if (headingRef.current) {
+          gsap.fromTo(
+            headingRef.current,
+            { opacity: 0, y: -30 },
+            { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }
+          );
         }
-      );
-    }
-  }, [loading]);
+
+        if (cardsRef.current) {
+          gsap.fromTo(
+            cardsRef.current.children,
+            { opacity: 0, y: 40, rotateY: -15 },
+            {
+              opacity: 1,
+              y: 0,
+              rotateY: 0,
+              duration: 0.8,
+              stagger: 0.2,
+              delay: 0.3,
+              ease: "power3.out",
+            }
+          );
+        }
+      } catch (error) {
+        console.warn("GSAP failed to load:", error);
+      }
+    })();
+  }
+}, [loading]);
+
 
   const handleBookingSubmit = async (formData, packageData) => {
     try {

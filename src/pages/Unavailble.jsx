@@ -1,5 +1,6 @@
 import React from 'react'
 import { Camera, Home, ArrowLeft, Sparkles, AlertCircle } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Unavailable = () => {
   return (
@@ -72,11 +73,13 @@ const Unavailable = () => {
           </button>
           
           <button 
-            onClick={() => window.location.href = '/'}
+            onClick={() => window.history.back()}
             className="flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-purple-200 hover:border-purple-300 text-purple-600 hover:text-purple-700 font-semibold rounded-2xl transition-all duration-300 hover:bg-purple-50 transform hover:scale-105"
           >
-            <Home className="w-5 h-5" />
-            <span>Return Home</span>
+            <Link to="/" className="flex items-center gap-2">
+              <Home className="w-5 h-5" />
+              <span>Return Home</span>
+            </Link>
           </button>
         </div>
 
@@ -84,21 +87,21 @@ const Unavailable = () => {
         {/* <div className="mt-12 text-center">
           <p className="text-sm text-gray-500 mb-4">Need help finding something specific?</p>
           <div className="flex flex-wrap justify-center gap-4 text-sm">
-            <a href="/" className="text-purple-600 hover:text-purple-700 hover:underline transition-colors duration-200">
+            <Link to="/" className="text-purple-600 hover:text-purple-700 hover:underline transition-colors duration-200">
               Homepage
-            </a>
+            </Link>
             <span className="text-gray-300">•</span>
-            <a href="/services" className="text-purple-600 hover:text-purple-700 hover:underline transition-colors duration-200">
+            <Link to="/services" className="text-purple-600 hover:text-purple-700 hover:underline transition-colors duration-200">
               Services
-            </a>
+            </Link>
             <span className="text-gray-300">•</span>
-            <a href="/gallery" className="text-purple-600 hover:text-purple-700 hover:underline transition-colors duration-200">
+            <Link to="/gallery" className="text-purple-600 hover:text-purple-700 hover:underline transition-colors duration-200">
               Gallery
-            </a>
+            </Link>
             <span className="text-gray-300">•</span>
-            <a href="/contact-us" className="text-purple-600 hover:text-purple-700 hover:underline transition-colors duration-200">
+            <Link to="/contact-us" className="text-purple-600 hover:text-purple-700 hover:underline transition-colors duration-200">
               Contact
-            </a>
+            </Link>
           </div>
         </div> */}
       </div>

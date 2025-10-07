@@ -42,8 +42,8 @@ const Nav = () => {
       icon: <User className="w-4 h-4" />,
       dropdown: [
         { 
-          name: "About Jaya Agnihotri", 
-          href: "/about-jaya", 
+          name: "About Us", 
+          href: "/about-us", 
           description: "Learn about our photographer" 
         },
       ],

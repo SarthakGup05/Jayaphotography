@@ -3,11 +3,6 @@ import { Camera, Loader2, AlertCircle, ArrowRight } from "lucide-react";
 import { toast } from "react-hot-toast";
 import axiosInstance from "../lib/axiosinstance";
 import { useNavigate } from "react-router-dom";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-// Register ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
 
 // LightGallery imports
 import LightGallery from 'lightgallery/react';
@@ -31,6 +26,7 @@ const PhotographyPortfolio = () => {
   const [portfolioItems, setPortfolioItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [imagesLoaded, setImagesLoaded] = useState(new Set());
 
   const navigate = useNavigate();
   const containerRef = useRef(null);
@@ -39,163 +35,134 @@ const PhotographyPortfolio = () => {
     fetchPortfolioImages();
   }, []);
 
-  // GSAP Scroll Animation Setup
+  // ✅ GSAP Scroll Animation Setup (Lazy-loaded) - Uses CSS transforms to avoid CLS
   useEffect(() => {
     if (loading || error) return;
 
-    let ctx = gsap.context(() => {
-      // Set initial states for all elements
-      gsap.set(['.header-content', '.gallery-item', '.cta-content'], {
-        autoAlpha: 0,
-        y: 60
-      });
+    (async () => {
+      try {
+        const gsapModule = await import("gsap");
+        const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+        const gsap = gsapModule.default;
+        gsap.registerPlugin(ScrollTrigger);
 
-      // Header animation on scroll
-      gsap.fromTo('.header-content', 
-        {
-          autoAlpha: 0,
-          y: 80,
-          scale: 0.9
-        },
-        {
-          autoAlpha: 1,
-          y: 0,
-          scale: 1,
-          duration: 1.2,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.header-content',
-            start: 'top 85%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none none'
-          }
-        }
-      );
+        let ctx = gsap.context(() => {
+          // ✅ Use opacity and transform (no autoAlpha/y for initial state to prevent CLS)
+          gsap.set([".header-content", ".gallery-item", ".cta-content"], {
+            opacity: 1, // Start visible to prevent CLS
+          });
 
-      // Individual gallery item animations with stagger
-      gsap.utils.toArray('.gallery-item').forEach((item, index) => {
-        gsap.fromTo(item,
-          {
-            autoAlpha: 0,
-            y: 100,
-            scale: 0.8,
-            rotation: -10
-          },
-          {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            rotation: 0,
-            duration: 0.8,
-            ease: 'back.out(1.7)',
-            scrollTrigger: {
-              trigger: item,
-              start: 'top 80%',
-              end: 'bottom 20%',
-              toggleActions: 'play none none reverse',
-            },
-            delay: index * 0.1 // Stagger delay based on index
-          }
-        );
-      });
-
-      // CTA section animation
-      gsap.fromTo('.cta-content',
-        {
-          autoAlpha: 0,
-          y: 60,
-          scale: 0.95
-        },
-        {
-          autoAlpha: 1,
-          y: 0,
-          scale: 1,
-          duration: 1.2,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.cta-content',
-            start: 'top 85%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none none'
-          }
-        }
-      );
-
-      // Enhanced hover animations for gallery items
-      gsap.utils.toArray('.gallery-item').forEach(item => {
-        const img = item.querySelector('img');
-        const overlay = item.querySelector('.hover-overlay');
-        const indicator = item.querySelector('.hover-indicator');
-
-        const hoverTl = gsap.timeline({ paused: true });
-        hoverTl
-          .to(img, { 
-            scale: 1.15, 
-            rotation: 2,
-            duration: 0.4, 
-            ease: "power2.out" 
-          })
-          .to(overlay, { 
-            autoAlpha: 1, 
-            duration: 0.3, 
-            ease: "power2.out" 
-          }, 0)
-          .fromTo(indicator, 
-            { scale: 0, rotation: -180, autoAlpha: 0 },
-            { 
-              scale: 1, 
-              rotation: 0, 
-              autoAlpha: 1,
-              duration: 0.5, 
-              ease: "back.out(2)" 
-            }, 
-            0.1
+          // Header animation - only opacity and scale (no layout shifts)
+          gsap.fromTo(
+            ".header-content",
+            { opacity: 0, scale: 0.95 },
+            {
+              opacity: 1,
+              scale: 1,
+              duration: 0.8,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: ".header-content",
+                start: "top 85%",
+                toggleActions: "play none none none",
+              },
+            }
           );
 
-        item.addEventListener('mouseenter', () => hoverTl.play());
-        item.addEventListener('mouseleave', () => hoverTl.reverse());
-      });
+          // Gallery items with stagger - CSS transforms only
+          gsap.utils.toArray(".gallery-item").forEach((item, index) => {
+            gsap.fromTo(
+              item,
+              { opacity: 0, scale: 0.95 },
+              {
+                opacity: 1,
+                scale: 1,
+                duration: 0.6,
+                ease: "power2.out",
+                scrollTrigger: {
+                  trigger: item,
+                  start: "top 85%",
+                  toggleActions: "play none none reverse",
+                },
+                delay: index * 0.05,
+              }
+            );
+          });
 
-      // Button hover animations
-      gsap.utils.toArray('.animated-button').forEach(button => {
-        const hoverTl = gsap.timeline({ paused: true });
-        const arrow = button.querySelector('.arrow');
-        
-        hoverTl
-          .to(button, { 
-            scale: 1.05, 
-            duration: 0.3, 
-            ease: "power2.out" 
-          })
-          .to(arrow, { 
-            x: 8, 
-            rotation: 0,
-            duration: 0.3, 
-            ease: "power2.out" 
-          }, 0);
+          // CTA section
+          gsap.fromTo(
+            ".cta-content",
+            { opacity: 0, scale: 0.95 },
+            {
+              opacity: 1,
+              scale: 1,
+              duration: 0.8,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: ".cta-content",
+                start: "top 85%",
+                toggleActions: "play none none none",
+              },
+            }
+          );
 
-        button.addEventListener('mouseenter', () => hoverTl.play());
-        button.addEventListener('mouseleave', () => hoverTl.reverse());
-      });
+          // Gallery hover animations - CSS transforms only
+          gsap.utils.toArray(".gallery-item").forEach((item) => {
+            const img = item.querySelector("img");
+            const overlay = item.querySelector(".hover-overlay");
+            const indicator = item.querySelector(".hover-indicator");
 
-      // Parallax background effect
-      gsap.to('.parallax-bg', {
-        yPercent: -30,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1
-        }
-      });
+            const hoverTl = gsap.timeline({ paused: true });
+            hoverTl
+              .to(img, {
+                scale: 1.1,
+                duration: 0.4,
+                ease: "power2.out",
+              })
+              .to(
+                overlay,
+                { opacity: 1, duration: 0.3, ease: "power2.out" },
+                0
+              )
+              .fromTo(
+                indicator,
+                { scale: 0, opacity: 0 },
+                {
+                  scale: 1,
+                  opacity: 1,
+                  duration: 0.4,
+                  ease: "back.out(1.7)",
+                },
+                0.1
+              );
 
-    }, containerRef);
+            item.addEventListener("mouseenter", () => hoverTl.play());
+            item.addEventListener("mouseleave", () => hoverTl.reverse());
+          });
 
-    return () => {
-      ctx.revert();
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
+          // Button hover animations
+          gsap.utils.toArray(".animated-button").forEach((button) => {
+            const arrow = button.querySelector(".arrow");
+            if (!arrow) return;
+            
+            const hoverTl = gsap.timeline({ paused: true });
+            hoverTl
+              .to(button, { scale: 1.05, duration: 0.3, ease: "power2.out" })
+              .to(arrow, { x: 8, duration: 0.3, ease: "power2.out" }, 0);
+
+            button.addEventListener("mouseenter", () => hoverTl.play());
+            button.addEventListener("mouseleave", () => hoverTl.reverse());
+          });
+        }, containerRef);
+
+        return () => {
+          ctx.revert();
+          ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+        };
+      } catch (error) {
+        console.warn("GSAP failed to load:", error);
+      }
+    })();
   }, [loading, error, portfolioItems]);
 
   const fetchPortfolioImages = async () => {
@@ -241,15 +208,31 @@ const PhotographyPortfolio = () => {
     }
   };
 
-  // Loading state
+  const handleImageLoad = (id) => {
+    setImagesLoaded(prev => new Set([...prev, id]));
+  };
+
+  // Loading state with reserved space
   if (loading) {
     return (
-      <div className="min-h-screen py-20 px-4 flex items-center justify-center" style={{ backgroundColor: '#FAF0DC' }}>
-        <div className="text-center">
-          <div className="loading-pulse">
-            <Loader2 className="w-8 h-8 animate-spin text-black mx-auto mb-4" />
+      <div className="min-h-screen py-20 px-4" style={{ backgroundColor: '#FAF0DC' }}>
+        <div className="max-w-6xl mx-auto">
+          {/* Header Skeleton */}
+          <div className="text-center mb-16">
+            <div className="h-12 w-64 bg-gray-200 rounded mx-auto mb-4 animate-pulse"></div>
+            <div className="h-4 w-96 bg-gray-200 rounded mx-auto animate-pulse"></div>
           </div>
-          <p className="text-black font-light text-sm animate-fade-in">Loading portfolio...</p>
+
+          {/* Gallery Skeleton - Reserved space with aspect ratio */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-2">
+            {[...Array(8)].map((_, i) => (
+              <div
+                key={i}
+                className="aspect-square bg-gray-200 rounded-lg animate-pulse"
+                style={{ aspectRatio: '1/1' }}
+              />
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -280,15 +263,14 @@ const PhotographyPortfolio = () => {
       className="relative py-20 px-4 overflow-hidden" 
       style={{ backgroundColor: '#F0E7E5' }}
     >
-      {/* Animated Parallax Background */}
-      <div className="parallax-bg absolute inset-0 opacity-5 pointer-events-none">
+      {/* Background decorations - no parallax to avoid CLS */}
+      <div className="absolute inset-0 opacity-5 pointer-events-none">
         <div className="absolute top-20 left-10 w-64 h-64 bg-black/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-48 h-48 bg-black/3 rounded-full blur-2xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-black/2 rounded-full blur-3xl"></div>
       </div>
 
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Header - Animates on scroll */}
+        {/* Header */}
         <div className="text-center mb-16">
           <div className="header-content">
             <h1 className="text-3xl md:text-4xl font-bold text-black mb-2 tracking-tight leading-relaxed">
@@ -306,7 +288,7 @@ const PhotographyPortfolio = () => {
           </div>
         </div>
 
-        {/* Portfolio Grid - Each item animates individually on scroll */}
+        {/* Portfolio Grid */}
         {portfolioItems.length > 0 ? (
           <LightGallery
             speed={400}
@@ -322,7 +304,8 @@ const PhotographyPortfolio = () => {
               {portfolioItems.map((item, index) => (
                 <div
                   key={item.id || index}
-                  className="gallery-item aspect-square group cursor-pointer overflow-hidden relative rounded-lg shadow-lg"
+                  className="gallery-item group cursor-pointer overflow-hidden relative rounded-lg shadow-lg"
+                  style={{ aspectRatio: '1/1' }} // ✅ Fixed aspect ratio prevents CLS
                   data-src={item.fullImage || item.image}
                   data-sub-html={`
                     <div class="text-center">
@@ -332,7 +315,7 @@ const PhotographyPortfolio = () => {
                   `}
                 >
                   {/* Hover overlay */}
-                  <div className="hover-overlay absolute inset-0 bg-black/0 transition-all duration-500 z-10" />
+                  <div className="hover-overlay absolute inset-0 bg-black/0 transition-opacity duration-500 z-10 opacity-0" />
                   
                   {/* Featured indicator */}
                   {item.featured && (
@@ -341,12 +324,22 @@ const PhotographyPortfolio = () => {
                     </div>
                   )}
 
-                  {/* Image */}
+                  {/* Skeleton loader */}
+                  {!imagesLoaded.has(item.id) && (
+                    <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+                  )}
+
+                  {/* Image with proper dimensions */}
                   <img
                     src={item.image}
                     alt={item.alt}
-                    className="w-full h-full object-cover transition-all duration-500"
-                    loading="lazy"
+                    width="400"
+                    height="400"
+                    className="w-full h-full object-cover transition-transform duration-500"
+                    loading={index < 4 ? "eager" : "lazy"} // ✅ First 4 images eager, rest lazy
+                    fetchpriority={index < 2 ? "high" : "auto"} // ✅ Prioritize first 2 images
+                    decoding={index < 4 ? "sync" : "async"}
+                    onLoad={() => handleImageLoad(item.id)}
                     onError={(e) => {
                       if (e.target.src !== item.fullImage && item.fullImage) {
                         e.target.src = item.fullImage;
@@ -354,6 +347,7 @@ const PhotographyPortfolio = () => {
                         e.target.closest('.gallery-item').style.display = 'none';
                       }
                     }}
+                    style={{ aspectRatio: '1/1' }} // ✅ Inline aspect ratio
                   />
 
                   {/* Hover indicator */}
@@ -377,7 +371,7 @@ const PhotographyPortfolio = () => {
           </div>
         )}
 
-        {/* Call to Action - Animates on scroll */}
+        {/* Call to Action */}
         <div className="text-center mt-16 space-y-4">
           <div className="cta-content">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
@@ -403,13 +397,15 @@ const PhotographyPortfolio = () => {
       </div>
 
       <style jsx>{`
-        .loading-pulse {
-          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        /* ✅ Ensure images maintain aspect ratio */
+        img {
+          max-width: 100%;
+          height: auto;
+          display: block;
         }
 
-        .animate-fade-in {
-          animation: fadeIn 1s ease-in-out 0.5s forwards;
-          opacity: 0;
+        .loading-pulse {
+          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
 
         @keyframes pulse {
@@ -418,14 +414,9 @@ const PhotographyPortfolio = () => {
             opacity: 1;
           }
           50% { 
-            transform: scale(1.1);
+            transform: scale(1.05);
             opacity: 0.8;
           }
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
         }
 
         .lg-minimal-gallery .lg-backdrop {
@@ -435,6 +426,11 @@ const PhotographyPortfolio = () => {
         .lg-minimal-gallery .lg-toolbar {
           background: rgba(0, 0, 0, 0.8);
           backdrop-filter: blur(10px);
+        }
+
+        /* ✅ Prevent layout shifts during image load */
+        .gallery-item {
+          contain: layout style paint;
         }
       `}</style>
     </div>

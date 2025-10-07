@@ -40,13 +40,17 @@ const Hero = () => {
       setLoading(true);
       setError(null);
       const { data } = await axiosInstance.get("/slider/get-sliders");
-      
+
       // Filter only active slides and sort by order
       const activeSlides = (data.data || data || [])
-        .filter(slide => slide.isActive)
+        .filter((slide) => slide.isActive)
         .sort((a, b) => (a.order || 0) - (b.order || 0));
-      
-      console.log(`📱 Loaded ${activeSlides.length} active slides for ${isMobile ? 'mobile' : 'desktop'}`);
+
+      console.log(
+        `📱 Loaded ${activeSlides.length} active slides for ${
+          isMobile ? "mobile" : "desktop"
+        }`
+      );
       setSlides(activeSlides);
     } catch (err) {
       setError("Failed to load slides. Please refresh the page.");
@@ -76,24 +80,42 @@ const Hero = () => {
 
   // Enhanced poster URL with mobile optimization
   const getPosterUrl = (slide) => {
-    if (slide.type === 'VIDEO' && slide.posterUrl) {
+    if (slide.type === "VIDEO" && slide.posterUrl) {
       return slide.posterUrl;
     }
-    // Fallback: use first frame of video or a placeholder
     return null;
   };
 
-  // Preload critical images for better performance
-  const preloadImages = () => {
-    slides.slice(0, 3).forEach(slide => { // Preload first 3 slides
-      const img = new Image();
-      img.src = getMediaUrl(slide);
-    });
-  };
-
+  // Preload ONLY the first slide for instant FCP
   useEffect(() => {
     if (slides.length > 0) {
-      preloadImages();
+      const firstSlide = slides[0];
+      const preloadLink = document.createElement("link");
+      preloadLink.rel = "preload";
+      preloadLink.as = firstSlide.type === "VIDEO" ? "video" : "image";
+      preloadLink.href = getMediaUrl(firstSlide);
+      preloadLink.fetchpriority = "high";
+      document.head.appendChild(preloadLink);
+
+      return () => {
+        if (document.head.contains(preloadLink)) {
+          document.head.removeChild(preloadLink);
+        }
+      };
+    }
+  }, [slides, isMobile]);
+
+  // Preload next 2 slides progressively after first paint
+  useEffect(() => {
+    if (slides.length > 1) {
+      const timer = setTimeout(() => {
+        slides.slice(1, 3).forEach((slide) => {
+          const img = new Image();
+          img.src = getMediaUrl(slide);
+        });
+      }, 1000); // Delay to prioritize first slide
+
+      return () => clearTimeout(timer);
     }
   }, [slides, isMobile]);
 
@@ -143,7 +165,9 @@ const Hero = () => {
       >
         <div className="text-center p-8">
           <div className="text-gray-600 text-lg mb-2">No slides available</div>
-          <div className="text-gray-500 text-sm">Please add some slides from the admin panel</div>
+          <div className="text-gray-500 text-sm">
+            Please add some slides from the admin panel
+          </div>
         </div>
       </div>
     );
@@ -153,7 +177,7 @@ const Hero = () => {
     <div className="hero-container relative overflow-hidden mx-auto">
       {/* Enhanced background blur effect */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10 z-[5] pointer-events-none"></div>
-      
+
       <Swiper
         modules={[Autoplay, Pagination, Parallax, EffectFade]}
         parallax={true}
@@ -176,11 +200,15 @@ const Hero = () => {
         }}
         loop={slides.length > 1}
         className="hero-swiper"
-        lazy={true} // Enable lazy loading
+        lazy={{
+          loadPrevNext: true,
+          loadPrevNextAmount: 1,
+          loadOnTransitionStart: true,
+        }}
         preloadImages={false}
         watchSlidesProgress={true}
         onSlideChange={(swiper) => {
-          // Preload next slide
+          // Preload next slide on transition
           const nextIndex = (swiper.activeIndex + 1) % slides.length;
           const nextSlide = slides[nextIndex];
           if (nextSlide) {
@@ -193,18 +221,20 @@ const Hero = () => {
           <SwiperSlide key={slide.id}>
             <div className="slide-content relative w-full h-full">
               {/* Media Content - Handle both images and videos */}
-              {slide.type === 'VIDEO' ? (
-                <VideoSlide 
+              {slide.type === "VIDEO" ? (
+                <VideoSlide
                   slide={slide}
                   isMobile={isMobile}
                   mediaUrl={getMediaUrl(slide)}
                   posterUrl={getPosterUrl(slide)}
+                  isFirst={index === 0}
                 />
               ) : (
-                <ImageSlide 
+                <ImageSlide
                   slide={slide}
                   isMobile={isMobile}
                   mediaUrl={getMediaUrl(slide)}
+                  isFirst={index === 0}
                 />
               )}
 
@@ -223,22 +253,31 @@ const Hero = () => {
               >
                 {/* Slide indicator - hidden on small mobile */}
                 <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-medium hidden sm:block">
-                  {String(index + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}
+                  {String(index + 1).padStart(2, "0")} /{" "}
+                  {String(slides.length).padStart(2, "0")}
                 </div>
 
                 {/* Media type indicator */}
                 <div className="absolute top-4 left-4 bg-black/30 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium flex items-center space-x-1">
-                  {slide.type === 'VIDEO' ? (
+                  {slide.type === "VIDEO" ? (
                     <>
-                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
+                      <svg
+                        className="w-3 h-3"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M8 5v14l11-7z" />
                       </svg>
                       <span className="hidden sm:inline">Video</span>
                     </>
                   ) : (
                     <>
-                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                      <svg
+                        className="w-3 h-3"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
                       </svg>
                       <span className="hidden sm:inline">Image</span>
                     </>
@@ -282,10 +321,10 @@ const Hero = () => {
                   )}
 
                   {/* Device-specific indicator for debugging */}
-                  {process.env.NODE_ENV === 'development' && (
+                  {process.env.NODE_ENV === "development" && (
                     <div className="absolute bottom-4 right-4 bg-black/50 backdrop-blur-sm rounded px-2 py-1 text-xs">
-                      {isMobile ? 'Mobile' : 'Desktop'} • {slide.type}
-                      {isMobile && slide.mobileMediaUrl && ' • Optimized'}
+                      {isMobile ? "Mobile" : "Desktop"} • {slide.type}
+                      {isMobile && slide.mobileMediaUrl && " • Optimized"}
                     </div>
                   )}
                 </div>
@@ -294,7 +333,7 @@ const Hero = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      
+
       <style jsx>{`
         .hero-container {
           width: 100%;
@@ -310,10 +349,11 @@ const Hero = () => {
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15),
-                        0 0 0 1px rgba(255, 255, 255, 0.1);
+              0 0 0 1px rgba(255, 255, 255, 0.1);
           }
 
-          .slide-bg, .slide-video {
+          .slide-bg,
+          .slide-video {
             aspect-ratio: 1 / 1;
           }
         }
@@ -329,7 +369,8 @@ const Hero = () => {
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
           }
 
-          .slide-bg, .slide-video {
+          .slide-bg,
+          .slide-video {
             aspect-ratio: 16 / 9;
           }
         }
@@ -349,7 +390,8 @@ const Hero = () => {
           position: relative;
         }
 
-        .slide-bg, .slide-video {
+        .slide-bg,
+        .slide-video {
           width: 100%;
           height: 100%;
           background-size: cover;
@@ -424,37 +466,41 @@ const Hero = () => {
         }
 
         /* Performance optimizations */
-        .slide-bg, .slide-video {
+        .slide-bg,
+        .slide-video {
           will-change: transform;
         }
 
         .hero-swiper .swiper-slide-active .slide-bg,
         .hero-swiper .swiper-slide-active .slide-video {
-          transform: scale(1.0);
+          transform: scale(1);
         }
       `}</style>
     </div>
   );
 };
 
-// Optimized image slide component
-const ImageSlide = ({ slide, isMobile, mediaUrl }) => (
-  <div
-    className="slide-bg absolute inset-0 bg-cover bg-center bg-no-repeat swiper-lazy"
+// Optimized image slide component with lazy loading
+const ImageSlide = ({ slide, isMobile, mediaUrl, isFirst }) => (
+  <img
+    src={mediaUrl}
+    alt={slide.title}
+    className="slide-bg absolute inset-0 object-cover"
     style={{
-      backgroundImage: `url(${mediaUrl})`,
       filter: "brightness(0.85) contrast(1.1) saturate(1.05)",
     }}
     data-swiper-parallax="-40%"
-    loading="lazy"
+    loading={isFirst ? "eager" : "lazy"}
+    fetchpriority={isFirst ? "high" : "auto"}
+    decoding={isFirst ? "sync" : "async"}
   />
 );
 
-// Enhanced video slide component with better mobile support
-const VideoSlide = ({ slide, isMobile, mediaUrl, posterUrl }) => (
+// Enhanced video slide component with better mobile support and lazy loading
+const VideoSlide = ({ slide, isMobile, mediaUrl, posterUrl, isFirst }) => (
   <>
     <video
-      className="slide-video absolute inset-0 swiper-lazy"
+      className="slide-video absolute inset-0"
       style={{
         filter: "brightness(0.85) contrast(1.1) saturate(1.05)",
       }}
@@ -464,14 +510,14 @@ const VideoSlide = ({ slide, isMobile, mediaUrl, posterUrl }) => (
       loop
       playsInline
       poster={posterUrl}
-      preload={isMobile ? "metadata" : "auto"} // Save bandwidth on mobile
+      preload={isFirst ? "auto" : "metadata"}
       onLoadStart={() => console.log(`🎥 Loading video: ${slide.title}`)}
       onCanPlay={() => console.log(`✅ Video ready: ${slide.title}`)}
       onError={(e) => console.error(`❌ Video error: ${slide.title}`, e)}
     >
       <source src={mediaUrl} type="video/mp4" />
       <source src={mediaUrl} type="video/webm" />
-      
+
       {/* Fallback to poster if video fails */}
       {posterUrl && (
         <div
@@ -483,7 +529,7 @@ const VideoSlide = ({ slide, isMobile, mediaUrl, posterUrl }) => (
         />
       )}
     </video>
-    
+
     {/* Enhanced gradient overlay for better text readability */}
     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/30"></div>
   </>

@@ -9,7 +9,7 @@ const AboutStorySection = () => {
           <div className="relative">
             <div className="relative overflow-hidden rounded-none shadow-2xl">
               <img 
-                src="/bg/2.jpg"
+                src="/bg/2.JPG"
                 alt="Female photographer with camera"
                 className="w-full h-[650px] object-cover object-center"
               />

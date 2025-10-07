@@ -1,0 +1,22 @@
+# =========================================
+# robots.txt for React SPA
+# =========================================
+
+User-agent: *
+
+# Block admin and backend routes (if any)
+Disallow: /admin/
+Disallow: /api/
+Disallow: /login/
+Disallow: /register/
+
+# Allow public pages
+Allow: /
+Allow: /about-us
+Allow: /contact-us
+Allow: /gallery
+Allow: /services
+Allow: /packages
+
+# Sitemap location
+Sitemap: https://jayaphotography.in/sitemap.xml
